@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "503877615121",
+    "project_id": "expenceapp-b6cad",
+    "storage_bucket": "expenceapp-b6cad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:503877615121:android:b3e1be1ff81fbe3c48fbb0",
+        "android_client_info": {
+          "package_name": "com.example.expence_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0x__7LoOUM94RkvbysQ3RZzOJo8HCuSk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
