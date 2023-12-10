@@ -1,26 +1,21 @@
-import 'dart:async';
-import 'package:expence_app/View/welcome_page.dart';
 import 'package:expence_app/const/colors.dart';
+import 'package:expence_app/controller/firebase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+class SplashPage extends StatefulWidget {
+  const SplashPage({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
+    FirebaseService().isLogin(context);
     super.initState();
-    Timer(
-        const Duration(seconds: 3),
-        () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => WelcomePage())));
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,3 +49,10 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
+
+
+    // Timer(
+    //     const Duration(seconds: 3),
+    //     () => Navigator.of(context).pushReplacement(MaterialPageRoute(
+    //         builder: (BuildContext context) => WelcomePage())));
+ 

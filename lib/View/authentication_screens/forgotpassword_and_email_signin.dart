@@ -1,12 +1,14 @@
 import 'package:expence_app/View/authentication_screens/login_page.dart';
-import 'package:expence_app/Widgets/custome_elevated_button.dart';
-import 'package:expence_app/Widgets/display_text.dart';
+import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
+import 'package:expence_app/View/Widgets/display_text.dart';
 import 'package:expence_app/const/colors.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordAndEmailSignin extends StatelessWidget {
+  // The email for which the password reset instructions were sent
   final String email;
 
+  // Constructor for the ForgotPasswordAndEmailSignin widget
   const ForgotPasswordAndEmailSignin({
     super.key,
     required this.email,
@@ -32,6 +34,7 @@ class ForgotPasswordAndEmailSignin extends StatelessWidget {
                 ),
               ),
             ),
+            // DisplayText widget with the confirmation message
             const DispalyText(
               title: 'Your email is on the way',
               textSize: 24,
@@ -40,11 +43,12 @@ class ForgotPasswordAndEmailSignin extends StatelessWidget {
             const SizedBox(
               height: 25,
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 30),
+            Padding(
+              padding: const EdgeInsets.only(left: 30),
+              // DisplayText widget with instructions for password reset
               child: DispalyText(
                 title:
-                    'Check your email  and follow the instructions to reset your password',
+                    'Check your $email  and follow the instructions to reset your password',
                 textSize: 16,
                 textFont: FontWeight.w500,
               ),
@@ -52,6 +56,7 @@ class ForgotPasswordAndEmailSignin extends StatelessWidget {
             const SizedBox(
               height: 190,
             ),
+            // CustomElevatedButton for navigating back to the login page
             CustomElevatedButton(
               onpressed: () {
                 Navigator.of(context).pushReplacement(

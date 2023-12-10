@@ -1,7 +1,7 @@
 // ignore_for_file: unused_local_variable, must_be_immutable, use_build_context_synchronously
 import 'package:expence_app/Model/email_otp.dart';
-import 'package:expence_app/Widgets/custome_elevated_button.dart';
-import 'package:expence_app/Widgets/display_text.dart';
+import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
+import 'package:expence_app/View/Widgets/display_text.dart';
 import 'package:expence_app/const/colors.dart';
 import 'package:expence_app/controller/firebase_service.dart';
 import 'package:expence_app/controller/provider/auh_provider.dart';

@@ -1,8 +1,8 @@
 // ignore_for_file: unused_field, unnecessary_null_comparison, unused_local_variable
 import 'package:expence_app/View/authentication_screens/forgot_password.dart';
 import 'package:expence_app/View/authentication_screens/signup_page.dart';
-import 'package:expence_app/Widgets/custom_textform_feild.dart';
-import 'package:expence_app/Widgets/custome_elevated_button.dart';
+import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
+import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
 import 'package:expence_app/const/colors.dart';
 import 'package:expence_app/controller/firebase_service.dart';
 import 'package:flutter/gestures.dart';
@@ -113,8 +113,11 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 CustomElevatedButton(
                   onpressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ForgotPasswordPage()));
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ForgotPasswordPage(),
+                      ),
+                    );
                   },
                   buttonText: 'Forgot Password?',
                   buttonColor: ksecondColor,

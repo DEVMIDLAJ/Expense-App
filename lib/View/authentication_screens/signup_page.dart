@@ -2,8 +2,8 @@
 import 'package:expence_app/Model/email_otp.dart';
 import 'package:expence_app/View/authentication_screens/login_page.dart';
 import 'package:expence_app/View/authentication_screens/verification_page.dart';
-import 'package:expence_app/Widgets/custom_textform_feild.dart';
-import 'package:expence_app/Widgets/custome_elevated_button.dart';
+import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
+import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
 import 'package:expence_app/const/colors.dart';
 import 'package:expence_app/controller/firebase_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';

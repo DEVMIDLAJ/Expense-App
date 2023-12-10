@@ -1,12 +1,12 @@
 import 'package:expence_app/View/splash_screen.dart';
 import 'package:expence_app/controller/provider/auh_provider.dart';
+import 'package:expence_app/controller/provider/transaction_provider.dart';
 import 'package:expence_app/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
-Future<void> main()async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
@@ -19,7 +19,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-       ChangeNotifierProvider(create: (context) => AuthProvider(),)
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => TransactionProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        home: const SplashScreen(),
+        home: const SplashPage(),
       ),
     );
   }

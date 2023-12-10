@@ -1,8 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:expence_app/View/authentication_screens/forgotpassword_and_email_signin.dart';
-import 'package:expence_app/Widgets/custom_textform_feild.dart';
-import 'package:expence_app/Widgets/custome_elevated_button.dart';
+import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
+import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
 import 'package:expence_app/const/colors.dart';
 import 'package:expence_app/controller/firebase_service.dart';
 import 'package:expence_app/controller/provider/auh_provider.dart';
@@ -19,9 +18,10 @@ class ResetPasswordPage extends StatelessWidget {
 
   final ResetPasswordController = TextEditingController();
   final ConformResetPasswordController = TextEditingController();
-
   //create formKey
   final _formKey = GlobalKey<FormState>();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +50,9 @@ class ResetPasswordPage extends StatelessWidget {
                 child: Column(
                   children: [
                     const SizedBox(
-                      height: 90,
+                      height: 120,
                     ),
-                    const SizedBox(
-                      height: 25,
-                    ),
+                    
                     CustomTextFormField(
                       controller: ResetPasswordController,
                       keybordType: TextInputType.text,
@@ -64,7 +62,7 @@ class ResetPasswordPage extends StatelessWidget {
                         onTap: () {
                           data.boolObscure();
                         },
-                        child: data.isLoading
+                        child: data.isObscure
                             ? const Icon(Icons.visibility)
                             : const Icon(Icons.visibility_off),
                       ),
@@ -89,7 +87,7 @@ class ResetPasswordPage extends StatelessWidget {
                         onTap: () {
                           data.boolObscure();
                         },
-                        child: data.isLoading
+                        child: data.isObscure
                             ? const Icon(Icons.visibility)
                             : const Icon(Icons.visibility_off),
                       ),
@@ -101,9 +99,6 @@ class ResetPasswordPage extends StatelessWidget {
                         } else if (!RegExp(r'^(?=.*[A-Za-z])(?=.*\d).+$')
                             .hasMatch(p0)) {
                           return 'Password must contain both letters and numbers';
-                        } else if (ResetPasswordController ==
-                            ConformResetPasswordController) {
-                          return 'Password does not match';
                         }
                         return null;
                       },
@@ -112,15 +107,12 @@ class ResetPasswordPage extends StatelessWidget {
                       height: 30,
                     ),
                     CustomElevatedButton(
-                      onpressed: () {
+                      onpressed: ()async {
                         if (_formKey.currentState!.validate() &&
                             ResetPasswordController.text ==
                                 ConformResetPasswordController.text) {
-                          FirebaseService().ForgotPassword(context, email,ResetPasswordController.text);
-
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  ForgotPasswordAndEmailSignin(email: email)));
+                         await FirebaseService().ForgotPassword(
+                              context, email,ResetPasswordController.text );
                         }
                       },
                       buttonText: 'Continue',
