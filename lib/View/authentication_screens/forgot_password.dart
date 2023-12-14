@@ -4,14 +4,15 @@ import 'package:expence_app/View/authentication_screens/resetpassword_page.dart'
 import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
 import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
 import 'package:expence_app/View/Widgets/display_text.dart';
-import 'package:expence_app/Utils/colors.dart';
+import 'package:expence_app/const/colors.dart';
 import 'package:expence_app/controller/provider/auh_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   // TextEditingController for the email input field
-  final TextEditingController ForgotPasswordEmailController = TextEditingController();
+  final TextEditingController ForgotPasswordEmailController =
+      TextEditingController();
 
   // GlobalKey for the form to perform form-related operations
   final _formKey = GlobalKey<FormState>();
@@ -21,6 +22,7 @@ class ForgotPasswordPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Consumer<AuthProvider>(
       builder: (context, data, _) {
         return Scaffold(
@@ -43,8 +45,8 @@ class ForgotPasswordPage extends StatelessWidget {
                 key: _formKey,
                 child: Column(
                   children: [
-                    const SizedBox(
-                      height: 90,
+                     SizedBox(
+                      height: size.height * 0.1,
                     ),
                     // DisplayText widget with welcome message
                     const DispalyText(
@@ -53,8 +55,8 @@ class ForgotPasswordPage extends StatelessWidget {
                       textSize: 24,
                       textFont: FontWeight.w600,
                     ),
-                    const SizedBox(
-                      height: 25,
+                     SizedBox(
+                      height: size.height * 0.02,
                     ),
                     // CustomTextFormField for email input
                     CustomTextFormField(
@@ -73,8 +75,8 @@ class ForgotPasswordPage extends StatelessWidget {
                       },
                       obscureText: false,
                     ),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: size.height * 0.01,
                     ),
                     // CustomElevatedButton for the Continue button
                     CustomElevatedButton(

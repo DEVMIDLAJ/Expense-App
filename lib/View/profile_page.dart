@@ -3,7 +3,7 @@
 import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
 import 'package:expence_app/View/Widgets/display_text.dart';
 import 'package:expence_app/View/Widgets/profile_url_display.dart';
-import 'package:expence_app/Utils/colors.dart';
+import 'package:expence_app/const/colors.dart';
 import 'package:expence_app/controller/firebase_service.dart';
 import 'package:flutter/material.dart';
 
@@ -13,12 +13,13 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         body: Column(
           children: [
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: size.height * 0.02,
             ),
             ListTile(
               leading: ProfileUrlDisplay(
@@ -49,8 +50,8 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
             ),
-            const SizedBox(
-              height: 25,
+             SizedBox(
+              height: size.height * 0.03,
             ),
             profileOptions(
               'assets/wallet-3.png',

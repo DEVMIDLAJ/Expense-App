@@ -1,4 +1,4 @@
-import 'package:expence_app/Utils/colors.dart';
+import 'package:expence_app/const/colors.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -7,11 +7,13 @@ class LineChartHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+        Size size = MediaQuery.of(context).size;
+
     return Stack(
       children: [
         SizedBox(
-          height: 169,
-          width: 374,
+          height: size.height * 0.22,
+          width: size.width,
           child: LineChart(
             LineChartData(
               minX: 1,

@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable
-
-import 'package:expence_app/Utils/colors.dart';
+import 'package:expence_app/const/colors.dart';
 import 'package:flutter/material.dart';
 
 class ProfileUrlDisplay extends StatelessWidget {

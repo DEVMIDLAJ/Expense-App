@@ -1,7 +1,8 @@
 import 'package:expence_app/View/expence_add_page.dart';
 import 'package:expence_app/View/income_add_page.dart';
-import 'package:expence_app/View/transaction_add_page.dart';
-import 'package:expence_app/Utils/colors.dart';
+import 'package:expence_app/View/transaction_page.dart';
+import 'package:expence_app/const/colors.dart';
+
 import 'package:fab_circular_menu_plus/fab_circular_menu_plus.dart';
 import 'package:flutter/material.dart';
 
@@ -12,10 +13,11 @@ class CustomFloatingActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return FabCircularMenuPlus(
       fabColor: kfirstColor,
       ringDiameter: 220,
-      ringWidth: 10,
+      ringWidth: size.width * 0.01,
       ringColor: Colors.transparent,
       fabOpenIcon: const Icon(
         Icons.add,
@@ -30,18 +32,18 @@ class CustomFloatingActionButton extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       children: [
         FabIconWidget(
-          buttonColor: Colors.green,
+          buttonColor: incomeColor,
           buttonImage: 'assets/income.png',
           buttonAction: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const IncomePage(),
+                builder: (context) => IncomePage(),
               ),
             );
           },
         ),
         FabIconWidget(
-          buttonColor: Colors.blue,
+          buttonColor: transactionColor,
           buttonImage: 'assets/currency-exchange.png',
           buttonAction: () {
             Navigator.of(context).push(
@@ -52,7 +54,7 @@ class CustomFloatingActionButton extends StatelessWidget {
           },
         ),
         FabIconWidget(
-          buttonColor: Colors.red,
+          buttonColor: expenseColor,
           buttonImage: 'assets/expense.png',
           buttonAction: () {
             Navigator.of(context).push(

@@ -7,9 +7,10 @@ class Attachment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return SizedBox(
-      height: 45,
-      width: 375,
+      height: size.height * 0.06,
+      width: size.width,
       child: DottedBorder(
         dashPattern: const [5, 3],
         strokeWidth: 0.5,
@@ -29,7 +30,9 @@ class Attachment extends StatelessWidget {
               ),
               const Text(
                 '     Add attachment',
-                style: TextStyle(fontSize: 17),
+                style: TextStyle(
+                  fontSize: 17,
+                ),
               )
             ],
           ),

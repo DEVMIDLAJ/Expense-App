@@ -1,16 +1,13 @@
 // ignore_for_file: must_be_immutable
-
-import 'package:expence_app/Utils/colors.dart';
+import 'package:expence_app/const/colors.dart';
 import 'package:expence_app/controller/provider/auh_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CustumBottomNavigationBar extends StatelessWidget {
- // final void Function(int) buttonAction;
 
   const CustumBottomNavigationBar({
     super.key,
-    // required this.buttonAction,
   });
 
   @override
@@ -66,44 +63,5 @@ class CustumBottomNavigationBar extends StatelessWidget {
         );
       },
     );
-    // BottomAppBar(
-    //   height: 75,
-    //   child: Column(
-    //     children: [
-    //       Row(
-    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //         children: [
-    //           GestureDetector(
-    //             onTap: () => buttonAction(0),
-    //             child: const Image(
-    //               image: AssetImage('assets/home.png'),
-    //             ),
-    //           ),
-    //           GestureDetector(
-    //             onTap: () => buttonAction(1),
-    //             child: const Image(
-    //               image: AssetImage('assets/transaction.png'),
-    //             ),
-    //           ),
-    //           const SizedBox(
-    //             width: 5,
-    //           ),
-    //           GestureDetector(
-    //             onTap: () => buttonAction(2),
-    //             child: const Image(
-    //               image: AssetImage('assets/pie chart.png'),
-    //             ),
-    //           ),
-    //           GestureDetector(
-    //             onTap: () => buttonAction(3),
-    //             child: const Image(
-    //               image: AssetImage('assets/user.png'),
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ],
-    //   ),
-    // );
   }
 }

@@ -1,5 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, unnecessary_null_comparison, unused_local_variable
-
+// ignore_for_file: non_constant_identifier_names, unnecessary_null_comparison, unused_local_variable, must_be_immutable
 import 'package:expence_app/Model/transaction_datails_model.dart';
 import 'package:expence_app/View/main_page.dart';
 import 'package:expence_app/View/Widgets/attachment.dart';
@@ -7,7 +6,7 @@ import 'package:expence_app/View/Widgets/custom_drop_down_button.dart';
 import 'package:expence_app/View/Widgets/custom_snackbar.dart';
 import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
 import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
-import 'package:expence_app/Utils/colors.dart';
+import 'package:expence_app/const/colors.dart';
 import 'package:expence_app/controller/provider/auh_provider.dart';
 import 'package:expence_app/controller/provider/transaction_provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,7 +15,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ExpensePage extends StatelessWidget {
-   ExpensePage({
+  ExpensePage({
     super.key,
   });
   final TextEditingController ExpenseController = TextEditingController();
@@ -29,6 +28,7 @@ class ExpensePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     AuthProvider expenseProvider = Provider.of<AuthProvider>(context);
     TransactionProvider expenseTransactionProvider =
         Provider.of<TransactionProvider>(context);
@@ -51,14 +51,14 @@ class ExpensePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 35,
+             SizedBox(
+              height: size.height * 0.03,
             ),
-            const Padding(
+             Padding(
               padding: EdgeInsets.only(
-                left: 20,
+                left: size.width * 0.08,
               ),
-              child: Text(
+              child:const Text(
                 'How Much?',
                 style: TextStyle(
                   color: kWhite,
@@ -67,7 +67,7 @@ class ExpensePage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding:  EdgeInsets.symmetric(horizontal: size.width * 0.04),
               child: CustomTextFormField(
                 controller: ExpenseController,
                 keybordType: TextInputType.number,
@@ -89,7 +89,7 @@ class ExpensePage extends StatelessWidget {
               ),
             ),
             Container(
-              height: 500,
+              height: size.height * 0.65,
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 15),
               decoration: const BoxDecoration(
@@ -137,29 +137,27 @@ class ExpensePage extends StatelessWidget {
                     },
                   ),
                   const Attachment(),
-                  Consumer<AuthProvider>(
-                    builder: (context,data,_) {
-                      return SizedBox(
-                        height: 45,
-                        width: 400,
-                        child: ListTile(
-                          title: const Text('Repeat'),
-                          subtitle: const Text('Repeat Transaction'),
-                          trailing: CupertinoSwitch(
-                            thumbColor: kWhite,
-                            trackColor: Colors.black38,
-                            activeColor: kfirstColor,
-                            value: data.isChecked,
-                            onChanged: (value) {
-                             data.boolChecked();
-                            },
-                          ),
+                  Consumer<AuthProvider>(builder: (context, data, _) {
+                    return SizedBox(
+                      height: size.height * 0.05,
+                      width: size.width,
+                      child: ListTile(
+                        title: const Text('Repeat'),
+                        subtitle: const Text('Repeat Transaction'),
+                        trailing: CupertinoSwitch(
+                          thumbColor: kWhite,
+                          trackColor: Colors.black38,
+                          activeColor: kfirstColor,
+                          value: data.isChecked,
+                          onChanged: (value) {
+                            data.boolChecked();
+                          },
                         ),
-                      );
-                    }
-                  ),
-                  const SizedBox(
-                    height: 10,
+                      ),
+                    );
+                  },),
+                   SizedBox(
+                    height: size.height * 0.01,
                   ),
                   CustomElevatedButton(
                     onpressed: () {
@@ -198,8 +196,8 @@ class ExpensePage extends StatelessWidget {
                     buttonColor: kfirstColor,
                     textColor: kWhite,
                   ),
-                  const SizedBox(
-                    height: 10,
+                   SizedBox(
+                    height: size.height * 0.01,
                   ),
                 ],
               ),

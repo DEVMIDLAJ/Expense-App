@@ -8,14 +8,14 @@ import 'package:expence_app/View/Widgets/display_text.dart';
 import 'package:expence_app/View/Widgets/income_expence_status_card.dart';
 import 'package:expence_app/View/Widgets/line_chart.dart';
 import 'package:expence_app/View/transaction_history_page.dart';
-import 'package:expence_app/Utils/colors.dart';
+import 'package:expence_app/const/colors.dart';
 import 'package:expence_app/controller/provider/transaction_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
-   HomePage({super.key});
+  HomePage({super.key});
 
   // default selected dropdown
   String dropdownvalue = 'January';
@@ -38,6 +38,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     var homeTransactionProvider = Provider.of<TransactionProvider>(context);
 
     return DefaultTabController(
@@ -60,13 +61,13 @@ class HomePage extends StatelessWidget {
               },
             ),
           ),
-          actions: const [
-            Icon(
+          actions: [
+            const Icon(
               Icons.notifications,
               color: kfirstColor,
             ),
             SizedBox(
-              width: 15,
+              width: size.width * 0.05,
             ),
           ],
           // appbar dropdown button
@@ -85,7 +86,7 @@ class HomePage extends StatelessWidget {
               'November',
               'December',
             ],
-            buttonWidth: 110,
+            buttonWidth: size.width * 0.3,
             hasBorder: false,
             onValueChanged: (newvalue) {},
           ),
@@ -191,9 +192,9 @@ class HomePage extends StatelessWidget {
                     ],
                   ),
                   homeTransactionProvider.transactionDetailsList.isEmpty
-                      ? const SizedBox(
-                          height: 170,
-                          child: Center(
+                      ? SizedBox(
+                          height: size.height * 0.23,
+                          child: const Center(
                             child: DispalyText(
                               title: 'No transactions available.',
                               textSize: 16,
@@ -203,7 +204,7 @@ class HomePage extends StatelessWidget {
                           ),
                         )
                       : SizedBox(
-                          height: 170,
+                          height: size.height * 0.23,
                           width: double.infinity,
                           child: ListView.separated(
                             itemCount: homeTransactionProvider
@@ -213,8 +214,8 @@ class HomePage extends StatelessWidget {
                                 : homeTransactionProvider
                                     .transactionDetailsList.length,
                             separatorBuilder: (context, index) {
-                              return const SizedBox(
-                                height: 10,
+                              return SizedBox(
+                                height: size.height * 0.01,
                               );
                             },
                             itemBuilder: (context, index) {
@@ -229,8 +230,8 @@ class HomePage extends StatelessWidget {
 
                               return ListTile(
                                 leading: Container(
-                                  height: 50,
-                                  width: 50,
+                                  height: size.height * 0.06,
+                                  width: size.width * 0.15,
                                   decoration: BoxDecoration(
                                     color: Colors.grey.shade200,
                                     borderRadius: BorderRadius.circular(15),

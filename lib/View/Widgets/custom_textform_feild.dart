@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:expence_app/Utils/colors.dart';
+import 'package:expence_app/const/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -46,6 +46,7 @@ class CustomTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Column(
       children: [
         SizedBox(
@@ -108,8 +109,8 @@ class CustomTextFormField extends StatelessWidget {
             validator: textValidator,
           ),
         ),
-        const SizedBox(
-          height: 17,
+         SizedBox(
+          height: size.height * 0.03,
         ),
       ],
     );

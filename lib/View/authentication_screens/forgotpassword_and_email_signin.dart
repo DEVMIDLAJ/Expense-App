@@ -1,7 +1,7 @@
 import 'package:expence_app/View/authentication_screens/login_page.dart';
 import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
 import 'package:expence_app/View/Widgets/display_text.dart';
-import 'package:expence_app/Utils/colors.dart';
+import 'package:expence_app/const/colors.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordAndEmailSignin extends StatelessWidget {
@@ -16,19 +16,20 @@ class ForgotPasswordAndEmailSignin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+        Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 35,
+             SizedBox(
+              height: size.height * 0.1,
             ),
-            const SizedBox(
-              width: 312,
-              height: 312,
-              child: ClipRRect(
+             SizedBox(
+              width: size.width * 1,
+              height: size.height * 0.4,
+              child:const ClipRRect(
                 child: Image(
                   image: AssetImage('assets/Illustration4.png'),
                 ),
@@ -40,8 +41,8 @@ class ForgotPasswordAndEmailSignin extends StatelessWidget {
               textSize: 24,
               textFont: FontWeight.w600,
             ),
-            const SizedBox(
-              height: 25,
+             SizedBox(
+              height: size.height * 0.03,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 30),
@@ -53,8 +54,8 @@ class ForgotPasswordAndEmailSignin extends StatelessWidget {
                 textFont: FontWeight.w500,
               ),
             ),
-            const SizedBox(
-              height: 190,
+             SizedBox(
+              height: size.height * 0.25,
             ),
             // CustomElevatedButton for navigating back to the login page
             CustomElevatedButton(

@@ -2,11 +2,11 @@ import 'package:expence_app/View/main_page.dart';
 import 'package:expence_app/View/Widgets/attachment.dart';
 import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
 import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
-import 'package:expence_app/Utils/colors.dart';
+import 'package:expence_app/const/colors.dart';
 import 'package:flutter/material.dart';
 
 class TransactionPage extends StatelessWidget {
-   TransactionPage({
+  TransactionPage({
     super.key,
   });
 
@@ -20,6 +20,7 @@ class TransactionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: transactionColor,
       appBar: AppBar(
@@ -37,14 +38,14 @@ class TransactionPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 135,
+             SizedBox(
+              height: size.height * 0.14,
             ),
-            const Padding(
+             Padding(
               padding: EdgeInsets.only(
-                left: 20,
+                left: size.width * 0.08,
               ),
-              child: Text(
+              child:const Text(
                 'How Much?',
                 style: TextStyle(
                   color: Colors.white70,
@@ -53,7 +54,7 @@ class TransactionPage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding:  EdgeInsets.symmetric(horizontal: size.width * 0.04),
               child: CustomTextFormField(
                 controller: transferController,
                 keybordType: TextInputType.number,
@@ -75,9 +76,9 @@ class TransactionPage extends StatelessWidget {
               ),
             ),
             Container(
-              height: 400,
+              height: size.height * 0.53,
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding:  EdgeInsets.symmetric(horizontal: size.width * 0.04),
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(30),
@@ -91,8 +92,8 @@ class TransactionPage extends StatelessWidget {
                   Stack(
                     children: [
                       Positioned(
-                        left: 145,
-                        top: 8,
+                        left: size.width * 0.4,
+                        top: size.height * 0.01,
                         child: CircleAvatar(
                           radius: 25,
                           backgroundColor: Colors.grey.shade200,
@@ -105,7 +106,7 @@ class TransactionPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           CustomTextFormField(
-                            textfieldWidth: 160,
+                            textfieldWidth: size.width * 0.45,
                             controller: fromController,
                             keybordType: TextInputType.text,
                             hintText: 'From',
@@ -115,7 +116,7 @@ class TransactionPage extends StatelessWidget {
                             obscureText: false,
                           ),
                           CustomTextFormField(
-                            textfieldWidth: 160,
+                            textfieldWidth: size.width * 0.45,
                             controller: toController,
                             keybordType: TextInputType.text,
                             hintText: '  To',
@@ -163,7 +164,7 @@ class TransactionPage extends StatelessWidget {
                           : Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>  MainPage(),
+                                builder: (context) =>const MainPage(),
                               ),
                             );
                     },

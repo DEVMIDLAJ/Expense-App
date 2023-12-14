@@ -1,5 +1,5 @@
 import 'package:expence_app/View/Widgets/display_text.dart';
-import 'package:expence_app/Utils/colors.dart';
+import 'package:expence_app/const/colors.dart';
 import 'package:flutter/material.dart';
 
 class IncomeAndExpenseStatusCard extends StatelessWidget {
@@ -18,47 +18,51 @@ class IncomeAndExpenseStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 80,
-      width: 160,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20), color: statusCardColor),
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: Container(
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                color: kWhite,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Image.asset(
-                statusImage,
-                color: statusCardColor,
+        Size size = MediaQuery.of(context).size;
+
+    return Flexible(
+      child: Container(
+        height: size.height * 0.1,
+        width: size.width * 0.45,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20), color: statusCardColor),
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: Container(
+                height: size.height * 0.07,
+                width: size.width * 0.14,
+                decoration: BoxDecoration(
+                  color: kWhite,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Image.asset(
+                  statusImage,
+                  color: statusCardColor,
+                ),
               ),
             ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              DispalyText(
-                title: statusName,
-                textColor: Colors.white,
-                textSize: 16,
-                textFont: FontWeight.w500,
-              ),
-              DispalyText(
-                title: statusAmount,
-                textColor: Colors.white,
-                textSize: 25,
-                textFont: FontWeight.w500,
-              ),
-            ],
-          )
-        ],
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DispalyText(
+                  title: statusName,
+                  textColor: Colors.white,
+                  textSize: 16,
+                  textFont: FontWeight.w500,
+                ),
+                DispalyText(
+                  title: statusAmount,
+                  textColor: Colors.white,
+                  textSize: 25,
+                  textFont: FontWeight.w500,
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

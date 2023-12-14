@@ -1,9 +1,8 @@
-
 import 'package:expence_app/Model/transaction_datails_model.dart';
 import 'package:expence_app/View/Widgets/custom_drop_down_button.dart';
 import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
 import 'package:expence_app/View/Widgets/display_text.dart';
-import 'package:expence_app/Utils/colors.dart';
+import 'package:expence_app/const/colors.dart';
 import 'package:expence_app/controller/provider/transaction_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +14,9 @@ class TransactionHistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    Size size = MediaQuery.of(context).size;
+
     TransactionProvider transactionHistoryProvider =
         Provider.of<TransactionProvider>(context);
 
@@ -45,19 +47,19 @@ class TransactionHistoryPage extends StatelessWidget {
               'November',
               'December',
             ],
-            buttonWidth: 110,
+            buttonWidth: size.width * 0.3,
             hasBorder: false,
             onValueChanged: (newvalue) {},
           ),
-          actions: const [
+          actions:  [
             Padding(
-              padding: EdgeInsets.only(right: 25),
-              child: Icon(Icons.filter_list),
+              padding: EdgeInsets.only(right: size.width * 0.05),
+              child: const Icon(Icons.filter_list),
             ),
           ],
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding:  EdgeInsets.symmetric(horizontal: size.width * 0.04),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -66,8 +68,8 @@ class TransactionHistoryPage extends StatelessWidget {
                 keybordType: TextInputType.text,
                 hintText: 'See your financial report',
                 suffixIcon: const Icon(Icons.arrow_forward_ios),
-                textValidator: (p0) {
-                  return p0;
+                textValidator: (value) {
+                  return value;
                 },
                 obscureText: false,
               ),
@@ -100,8 +102,8 @@ class TransactionHistoryPage extends StatelessWidget {
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: transactions.length,
                                 separatorBuilder: (context, index) {
-                                  return const SizedBox(
-                                    height: 10,
+                                  return  SizedBox(
+                                    height: size.height * 0.01,
                                   );
                                 },
                                 itemBuilder: (context, index) {
@@ -115,8 +117,8 @@ class TransactionHistoryPage extends StatelessWidget {
 
                                   return ListTile(
                                     leading: Container(
-                                      height: 50,
-                                      width: 50,
+                                      height: size.height * 0.06,
+                                      width: size.width * 0.15,
                                       decoration: BoxDecoration(
                                         color: Colors.grey.shade200,
                                         borderRadius: BorderRadius.circular(15),

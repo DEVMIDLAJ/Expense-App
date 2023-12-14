@@ -5,7 +5,7 @@ import 'package:expence_app/Model/welcome_model.dart';
 import 'package:expence_app/View/authentication_screens/login_page.dart';
 import 'package:expence_app/View/authentication_screens/signup_page.dart';
 import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
-import 'package:expence_app/Utils/colors.dart';
+import 'package:expence_app/const/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -32,13 +32,14 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            const SizedBox(
-              height: 76,
+            SizedBox(
+              height: size.height * 0.15,
             ),
             CarouselSlider.builder(
               itemCount: WelcomeSectionList.length,
@@ -46,8 +47,8 @@ class WelcomePage extends StatelessWidget {
                 return Column(
                   children: [
                     SizedBox(
-                      width: 312,
-                      height: 312,
+                      width: size.width * 1,
+                      height: size.height * 0.4,
                       child: ClipRRect(
                         child: Image(
                           image: AssetImage(
@@ -65,9 +66,7 @@ class WelcomePage extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                
                     Text(
                       '${WelcomeSectionList[index].welcomeSubtitle},',
                       style: const TextStyle(
@@ -85,8 +84,8 @@ class WelcomePage extends StatelessWidget {
                 initialPage: 0,
               ),
             ),
-            const SizedBox(
-              height: 50,
+            SizedBox(
+              height: size.height * 0.07,
             ),
             CustomElevatedButton(
               onpressed: () => Navigator.of(context).push(
@@ -98,8 +97,8 @@ class WelcomePage extends StatelessWidget {
               buttonColor: kfirstColor,
               textColor: kWhite,
             ),
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: size.height * 0.02,
             ),
             CustomElevatedButton(
               onpressed: () => Navigator.of(context).push(
@@ -110,9 +109,6 @@ class WelcomePage extends StatelessWidget {
               buttonText: 'Login',
               buttonColor: ksecondColor,
               textColor: kfirstColor,
-            ),
-            const SizedBox(
-              height: 42,
             ),
           ],
         ),

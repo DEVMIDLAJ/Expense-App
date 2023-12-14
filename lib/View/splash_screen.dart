@@ -1,4 +1,4 @@
-import 'package:expence_app/Utils/colors.dart';
+import 'package:expence_app/const/colors.dart';
 import 'package:expence_app/controller/firebase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,17 +18,18 @@ class _SplashPageState extends State<SplashPage> {
   }
   @override
   Widget build(BuildContext context) {
+        Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: kfirstColor,
       body: Center(
         child: Stack(
           children: [
-            const Positioned(
+             Positioned(
               left: 25,
               child: SizedBox(
-                height: 90,
-                width: 90,
-                child: Image(
+                height: size.height/9,
+                width: size.width/4,
+                child:const Image(
                   image: AssetImage(
                     'assets/Ellipse 38.png',
                   ),

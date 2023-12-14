@@ -2,7 +2,7 @@
 
 import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
 import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
-import 'package:expence_app/Utils/colors.dart';
+import 'package:expence_app/const/colors.dart';
 import 'package:expence_app/controller/firebase_service.dart';
 import 'package:expence_app/controller/provider/auh_provider.dart';
 import 'package:flutter/material.dart';
@@ -21,10 +21,9 @@ class ResetPasswordPage extends StatelessWidget {
   //create formKey
   final _formKey = GlobalKey<FormState>();
 
-
-
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Consumer<AuthProvider>(
       builder: (context, data, _) {
         return Scaffold(
@@ -49,10 +48,9 @@ class ResetPasswordPage extends StatelessWidget {
                 key: _formKey,
                 child: Column(
                   children: [
-                    const SizedBox(
-                      height: 120,
+                    SizedBox(
+                      height: size.height * 0.2,
                     ),
-                    
                     CustomTextFormField(
                       controller: ResetPasswordController,
                       keybordType: TextInputType.text,
@@ -103,16 +101,16 @@ class ResetPasswordPage extends StatelessWidget {
                         return null;
                       },
                     ),
-                    const SizedBox(
-                      height: 30,
+                    SizedBox(
+                      height: size.height * 0.02,
                     ),
                     CustomElevatedButton(
-                      onpressed: ()async {
+                      onpressed: () async {
                         if (_formKey.currentState!.validate() &&
                             ResetPasswordController.text ==
                                 ConformResetPasswordController.text) {
-                         await FirebaseService().ForgotPassword(
-                              context, email,ResetPasswordController.text );
+                          await FirebaseService().ForgotPassword(
+                              context, email, ResetPasswordController.text);
                         }
                       },
                       buttonText: 'Continue',
