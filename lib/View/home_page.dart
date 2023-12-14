@@ -1,25 +1,25 @@
+// ignore_for_file: unused_local_variable, must_be_immutable
 
 import 'package:expence_app/Model/transaction_datails_model.dart';
+import 'package:expence_app/View/Widgets/custom_drop_down_button.dart';
+import 'package:expence_app/View/Widgets/profile_url_display.dart';
 import 'package:expence_app/View/profile_page.dart';
 import 'package:expence_app/View/Widgets/display_text.dart';
 import 'package:expence_app/View/Widgets/income_expence_status_card.dart';
 import 'package:expence_app/View/Widgets/line_chart.dart';
 import 'package:expence_app/View/transaction_history_page.dart';
-import 'package:expence_app/const/colors.dart';
-import 'package:expence_app/const/utils.dart';
+import 'package:expence_app/Utils/colors.dart';
 import 'package:expence_app/controller/provider/transaction_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
+class HomePage extends StatelessWidget {
+   HomePage({super.key});
 
-class _HomePageState extends State<HomePage> {
   // default selected dropdown
   String dropdownvalue = 'January';
+
   // appbar dropdown list
   List<String> month = [
     'January',
@@ -38,59 +38,64 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TransactionProvider>(builder: (context, data, _) {
-      return DefaultTabController(
-        length: 4,
-        child: Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            centerTitle: true,
-            leading: GestureDetector(
-              onTap: () {
+    var homeTransactionProvider = Provider.of<TransactionProvider>(context);
+
+    return DefaultTabController(
+      length: 4,
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          centerTitle: true,
+          leading: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 7),
+            child: ProfileUrlDisplay(
+              radiusOne: 15,
+              radiusTwo: 17,
+              buttonAction: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const ProfilePage(),
+                    builder: (context) => ProfilePage(),
                   ),
                 );
-              },
-              child: const Padding(
-                padding: EdgeInsets.only(left: 15, top: 10),
-                child: CircleAvatar(
-                  radius: 15,
-                  backgroundColor: kfirstColor,
-                  child: CircleAvatar(
-                    radius: 17,
-                  ),
-                ),
-              ),
-            ),
-            actions: const [
-              Icon(
-                Icons.notifications,
-                color: kfirstColor,
-              ),
-              SizedBox(
-                width: 15,
-              ),
-            ],
-            // appbar dropdown button
-            title: DropdownButton(
-              value: dropdownvalue,
-              icon: const Icon(Icons.keyboard_arrow_down),
-              items: month.map((String month) {
-                return DropdownMenuItem(
-                  value: month,
-                  child: Text(month),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  dropdownvalue = newValue!;
-                });
               },
             ),
           ),
-          body: SingleChildScrollView(
+          actions: const [
+            Icon(
+              Icons.notifications,
+              color: kfirstColor,
+            ),
+            SizedBox(
+              width: 15,
+            ),
+          ],
+          // appbar dropdown button
+          title: CustomDropDownButton(
+            listype: const [
+              'January',
+              'February',
+              'March',
+              'April',
+              'May',
+              'June',
+              'July',
+              'August',
+              'September',
+              'October',
+              'November',
+              'December',
+            ],
+            buttonWidth: 110,
+            hasBorder: false,
+            onValueChanged: (newvalue) {},
+          ),
+        ),
+        body: WillPopScope(
+          onWillPop: () async {
+            SystemNavigator.pop();
+            return true;
+          },
+          child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Column(
@@ -107,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   // mainbalence text
                   DispalyText(
-                    title: '\$${data.calculateIncomeExpenseBalance()}',
+                    title: '\$${homeTransactionProvider.mainBalance}',
                     textSize: 35,
                     textFont: FontWeight.bold,
                   ),
@@ -117,13 +122,15 @@ class _HomePageState extends State<HomePage> {
                       //income status card
                       IncomeAndExpenseStatusCard(
                         statusName: 'Income',
-                        statusAmount: '\$${data.calculateIncome()}',
+                        statusAmount:
+                            '\$${homeTransactionProvider.finalIncome}',
                         statusImage: 'assets/income.png',
                         statusCardColor: incomeColor,
                       ),
                       IncomeAndExpenseStatusCard(
                         statusName: 'Expense',
-                        statusAmount: '\$${data.calculateExpense()}',
+                        statusAmount:
+                            '\$${homeTransactionProvider.finalExpense}',
                         statusImage: 'assets/expense.png',
                         statusCardColor: expenseColor,
                       ),
@@ -174,7 +181,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => TransactionHistoryPage()));
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => TransactionHistoryPage()));
                         },
                         child: const Text(
                           'See All',
@@ -182,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-                  TransactionDetailsList.isEmpty
+                  homeTransactionProvider.transactionDetailsList.isEmpty
                       ? const SizedBox(
                           height: 170,
                           child: Center(
@@ -198,9 +206,12 @@ class _HomePageState extends State<HomePage> {
                           height: 170,
                           width: double.infinity,
                           child: ListView.separated(
-                            itemCount: TransactionDetailsList.length > 3
+                            itemCount: homeTransactionProvider
+                                        .transactionDetailsList.length >
+                                    3
                                 ? 3
-                                : TransactionDetailsList.length,
+                                : homeTransactionProvider
+                                    .transactionDetailsList.length,
                             separatorBuilder: (context, index) {
                               return const SizedBox(
                                 height: 10,
@@ -208,7 +219,9 @@ class _HomePageState extends State<HomePage> {
                             },
                             itemBuilder: (context, index) {
                               TransactionDetailsModel transaction =
-                                  TransactionDetailsList[index];
+                                  homeTransactionProvider
+                                      .transactionDetailsList.reversed
+                                      .toList()[index];
 
                               Color textColor = transaction.Status == 'Income'
                                   ? incomeColor
@@ -221,8 +234,9 @@ class _HomePageState extends State<HomePage> {
                                   decoration: BoxDecoration(
                                     color: Colors.grey.shade200,
                                     borderRadius: BorderRadius.circular(15),
-                                    image:  DecorationImage(
-                                      image: AssetImage('assets/${transaction.Category}.png'),
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                          'assets/${transaction.Category}.png'),
                                     ),
                                   ),
                                 ),
@@ -263,7 +277,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-      );
-    });
+      ),
+    );
   }
 }

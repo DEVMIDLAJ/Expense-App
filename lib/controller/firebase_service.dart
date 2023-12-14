@@ -105,7 +105,7 @@ class FirebaseService implements AuthMethod {
       // Navigate to the login page on successful sign-out
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (BuildContext context) => const LoginPage()),
+        MaterialPageRoute(builder: (BuildContext context) =>  LoginPage()),
         (route) => false, // This will clear the navigation stack
       );
     }).onError((error, stackTrace) {

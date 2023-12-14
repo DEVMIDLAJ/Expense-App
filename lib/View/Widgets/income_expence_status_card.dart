@@ -1,5 +1,5 @@
 import 'package:expence_app/View/Widgets/display_text.dart';
-import 'package:expence_app/const/colors.dart';
+import 'package:expence_app/Utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class IncomeAndExpenseStatusCard extends StatelessWidget {

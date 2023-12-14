@@ -2,7 +2,7 @@
 import 'package:expence_app/Model/email_otp.dart';
 import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
 import 'package:expence_app/View/Widgets/display_text.dart';
-import 'package:expence_app/const/colors.dart';
+import 'package:expence_app/Utils/colors.dart';
 import 'package:expence_app/controller/firebase_service.dart';
 import 'package:expence_app/controller/provider/auh_provider.dart';
 import 'package:flutter/material.dart';

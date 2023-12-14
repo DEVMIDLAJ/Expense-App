@@ -1,15 +1,16 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:expence_app/const/colors.dart';
+import 'package:expence_app/Utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final TextEditingController controller;
-  final TextInputType keybordType;
-  final String hintText;
+  final TextInputType? keybordType;
+  final String? hintText;
   final String? Function(String?)? textValidator;
   void Function()? buttonAction = () {};
+  String? helperText;
   double? textFontSize;
   Color? textFontColor;
   Widget? prefixIcon;
@@ -22,12 +23,13 @@ class CustomTextFormField extends StatelessWidget {
   bool obscureText;
   bool hasBorder; // New parameter to indicate whether the border is needed
 
-  CustomTextFormField({super.key, 
-    
+  CustomTextFormField({
+    super.key,
     required this.controller,
     required this.keybordType,
     required this.hintText,
     required this.textValidator,
+    this.helperText,
     this.buttonAction,
     this.textFontSize,
     this.textFontColor,
@@ -67,6 +69,11 @@ class CustomTextFormField extends StatelessWidget {
               hintStyle: GoogleFonts.inter(
                 fontSize: hintFontsize,
                 color: hintColor,
+              ),
+              helperText: helperText,
+              helperStyle: GoogleFonts.inter(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
               ),
               suffixIcon: suffixIcon,
               border: hasBorder

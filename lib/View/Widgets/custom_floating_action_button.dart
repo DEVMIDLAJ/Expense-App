@@ -1,7 +1,7 @@
-import 'package:expence_app/View/expence_page.dart';
-import 'package:expence_app/View/income_page.dart';
-import 'package:expence_app/View/transaction_page.dart';
-import 'package:expence_app/const/colors.dart';
+import 'package:expence_app/View/expence_add_page.dart';
+import 'package:expence_app/View/income_add_page.dart';
+import 'package:expence_app/View/transaction_add_page.dart';
+import 'package:expence_app/Utils/colors.dart';
 import 'package:fab_circular_menu_plus/fab_circular_menu_plus.dart';
 import 'package:flutter/material.dart';
 
@@ -46,7 +46,7 @@ class CustomFloatingActionButton extends StatelessWidget {
           buttonAction: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) =>  TransactionPage(),
+                builder: (context) => TransactionPage(),
               ),
             );
           },
@@ -57,7 +57,7 @@ class CustomFloatingActionButton extends StatelessWidget {
           buttonAction: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const ExpensePage(),
+                builder: (context) => ExpensePage(),
               ),
             );
           },
