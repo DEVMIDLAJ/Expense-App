@@ -1,10 +1,10 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:expence_app/View/authentication_screens/resetpassword_page.dart';
 import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
 import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
 import 'package:expence_app/View/Widgets/display_text.dart';
 import 'package:expence_app/const/colors.dart';
+import 'package:expence_app/controller/firebase_service.dart';
 import 'package:expence_app/controller/provider/auh_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +45,7 @@ class ForgotPasswordPage extends StatelessWidget {
                 key: _formKey,
                 child: Column(
                   children: [
-                     SizedBox(
+                    SizedBox(
                       height: size.height * 0.1,
                     ),
                     // DisplayText widget with welcome message
@@ -55,7 +55,7 @@ class ForgotPasswordPage extends StatelessWidget {
                       textSize: 24,
                       textFont: FontWeight.w600,
                     ),
-                     SizedBox(
+                    SizedBox(
                       height: size.height * 0.02,
                     ),
                     // CustomTextFormField for email input
@@ -80,13 +80,12 @@ class ForgotPasswordPage extends StatelessWidget {
                     ),
                     // CustomElevatedButton for the Continue button
                     CustomElevatedButton(
-                      onpressed: () {
+                      onpressed: () async {
+                        String email =
+                            ForgotPasswordEmailController.text.trim();
                         if (_formKey.currentState!.validate()) {
-                          // Navigate to the ResetPasswordPage with the provided email
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ResetPasswordPage(
-                                    email: ForgotPasswordEmailController.text,
-                                  )));
+                          await FirebaseService()
+                              .ForgotPassword(context, email);
                         }
                       },
                       buttonText: 'Continue',

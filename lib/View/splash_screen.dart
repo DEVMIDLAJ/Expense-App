@@ -16,20 +16,21 @@ class _SplashPageState extends State<SplashPage> {
     FirebaseService().isLogin(context);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-        Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: kfirstColor,
       body: Center(
         child: Stack(
           children: [
-             Positioned(
+            Positioned(
               left: 25,
               child: SizedBox(
-                height: size.height/9,
-                width: size.width/4,
-                child:const Image(
+                height: size.height / 9,
+                width: size.width / 4,
+                child: const Image(
                   image: AssetImage(
                     'assets/Ellipse 38.png',
                   ),
@@ -50,10 +51,3 @@ class _SplashPageState extends State<SplashPage> {
     );
   }
 }
-
-
-    // Timer(
-    //     const Duration(seconds: 3),
-    //     () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-    //         builder: (BuildContext context) => WelcomePage())));
- 

@@ -7,8 +7,8 @@ class AuthProvider with ChangeNotifier {
   // Flag to represent whether a checkbox is checked or not
   bool isChecked = false;
 
-  // Flag to control whether to show a number or not (assuming a PIN or similar)
-  bool isNumberShow = false;
+  // Flag to control whether to show password os obscured or not
+  bool isobscure1 = false;
 
   // Flag to represent the loading state of some asynchronous operation
   bool isLoading = false;
@@ -26,8 +26,8 @@ class AuthProvider with ChangeNotifier {
   }
 
   // Sets the visibility of a number (e.g., PIN digits)
-  void boolNumberShow(bool value) {
-    isNumberShow = value;
+  void boolObscure1() {
+    isobscure1 = !isobscure1;
     notifyListeners();
   }
 

@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'package:expence_app/View/authentication_screens/forgotpassword_and_email_signin.dart';
 import 'package:expence_app/View/authentication_screens/login_page.dart';
+import 'package:expence_app/View/authentication_screens/resetpassword_page.dart';
 import 'package:expence_app/View/main_page.dart';
 import 'package:expence_app/View/Widgets/custom_snackbar.dart';
 import 'package:expence_app/View/welcome_page.dart';
@@ -61,24 +62,37 @@ class FirebaseService implements AuthMethod {
 
   // Forgot password method
   @override
-  Future<void> ForgotPassword(
+  // ForgotPassword method in FirebaseService class
+  Future<void> ForgotPassword(BuildContext context, String email) async {
+    await _auth.sendPasswordResetEmail(email: email).then((value) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ResetPasswordPage(
+                  email: email,
+                )),
+      );
+      CustomSnackBar.show(context, 'check your email then set new password');
+    }).onError((error, stackTrace) {
+      //  Handle password reset failure
+      CustomSnackBar.show(context, 'Error: ${error.toString()}');
+    });
+  }
+
+// reset password methord
+  @override
+  Future<void> resetPassword(
       BuildContext context, String email, String newPassword) async {
-    User? user = _auth.currentUser;
-    if (user != null) {
-      await user.updatePassword(newPassword).then((value) {
-        // Show a success message on password update
-        CustomSnackBar.show(context, 'Password updated successfully');
-        // Navigate to the forgot password screen
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ForgotPasswordAndEmailSignin(email: email)));
-      }).onError((error, stackTrace) {
-        // Show an error message if password update fails
-        CustomSnackBar.show(context, 'Error: ${error.toString()}');
-      });
-    } else {
-      // Handle the case where the user is not signed in
-      CustomSnackBar.show(context, 'User not signed in');
-    }
+    await _auth
+        .signInWithEmailAndPassword(email: email, password: newPassword)
+        .then((value) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => ForgotPasswordAndEmailSignin(email: email),
+      ));
+      CustomSnackBar.show(context, 'Password reset successful');
+    }).onError((error, stackTrace) {
+      CustomSnackBar.show(context, 'Error: ${error.toString()}');
+    });
   }
 
   // Google sign-in method
@@ -105,7 +119,7 @@ class FirebaseService implements AuthMethod {
       // Navigate to the login page on successful sign-out
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (BuildContext context) =>  LoginPage()),
+        MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
         (route) => false, // This will clear the navigation stack
       );
     }).onError((error, stackTrace) {

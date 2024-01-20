@@ -55,7 +55,7 @@ class ForgotPasswordAndEmailSignin extends StatelessWidget {
               ),
             ),
              SizedBox(
-              height: size.height * 0.25,
+              height: size.height * 0.2,
             ),
             // CustomElevatedButton for navigating back to the login page
             CustomElevatedButton(

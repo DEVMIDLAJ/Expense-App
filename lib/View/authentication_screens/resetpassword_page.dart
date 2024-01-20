@@ -1,5 +1,6 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, must_be_immutable
 
+import 'package:expence_app/View/Widgets/custom_snackbar.dart';
 import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
 import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
 import 'package:expence_app/const/colors.dart';
@@ -16,10 +17,12 @@ class ResetPasswordPage extends StatelessWidget {
     required this.email,
   });
 
-  final ResetPasswordController = TextEditingController();
-  final ConformResetPasswordController = TextEditingController();
+  final TextEditingController resetPasswordController = TextEditingController();
+  final TextEditingController conformResetPasswordController = TextEditingController();
+  
   //create formKey
   final _formKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +55,7 @@ class ResetPasswordPage extends StatelessWidget {
                       height: size.height * 0.2,
                     ),
                     CustomTextFormField(
-                      controller: ResetPasswordController,
+                      controller: resetPasswordController,
                       keybordType: TextInputType.text,
                       hintText: 'NEW PASSWORD',
                       obscureText: !data.isObscure,
@@ -77,15 +80,15 @@ class ResetPasswordPage extends StatelessWidget {
                       },
                     ),
                     CustomTextFormField(
-                      controller: ConformResetPasswordController,
+                      controller: conformResetPasswordController,
                       keybordType: TextInputType.text,
                       hintText: 'RETYPE NEW PASSWORD',
-                      obscureText: !data.isObscure,
+                      obscureText: !data.isobscure1,
                       suffixIcon: GestureDetector(
                         onTap: () {
-                          data.boolObscure();
+                          data.boolObscure1();
                         },
-                        child: data.isObscure
+                        child: data.isobscure1
                             ? const Icon(Icons.visibility)
                             : const Icon(Icons.visibility_off),
                       ),
@@ -106,11 +109,20 @@ class ResetPasswordPage extends StatelessWidget {
                     ),
                     CustomElevatedButton(
                       onpressed: () async {
+                        String newPassword =
+                            resetPasswordController.text.trim();
                         if (_formKey.currentState!.validate() &&
-                            ResetPasswordController.text ==
-                                ConformResetPasswordController.text) {
-                          await FirebaseService().ForgotPassword(
-                              context, email, ResetPasswordController.text);
+                            resetPasswordController.text ==
+                                conformResetPasswordController.text) {
+                          await FirebaseService()
+                              .resetPassword(context, email, newPassword);
+                        } else if (resetPasswordController.text.isEmpty ||
+                            conformResetPasswordController.text.isEmpty) {
+                          CustomSnackBar.show(
+                              context, 'Please fill in both password fields');
+                        } else {
+                          CustomSnackBar.show(
+                              context, 'Passwords do not match');
                         }
                       },
                       buttonText: 'Continue',

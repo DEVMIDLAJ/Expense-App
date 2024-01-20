@@ -15,7 +15,10 @@ abstract class AuthMethod {
   Future<void> signInWithGoogle(String email, BuildContext context);
 
   // Method for resetting the user's password
-  Future<void> ForgotPassword(BuildContext context, String email, String newPassword);
+  Future<void> ForgotPassword(BuildContext context, String email);
+
+  // Methord for reset password 
+  Future<void> resetPassword(BuildContext context, String email, String newPassword);
 
   // Method for user sign-out
   Future<void> signOut(BuildContext context);
