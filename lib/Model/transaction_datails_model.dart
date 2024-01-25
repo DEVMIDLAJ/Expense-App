@@ -4,11 +4,11 @@
 class TransactionDetailsModel {
   // Attributes of the transaction
   // Amount of the transaction
-  final int? Amount;
+  late final int? Amount;
   // Category of the transaction (e.g., Salary, Expense)
-  final String? Category;
+  late final String? Category;
   // Description of the transaction
-  final String? Discription;
+  late final String? Discription;
   // Type of amount (e.g., Income, Expense)
   final String? AmountType;
   // Time of the transaction
@@ -17,8 +17,8 @@ class TransactionDetailsModel {
   final String? Status;
   // Date of transaction
   final String? Date;
-
-  var dateTime;
+  // transaction id
+  late final int? Id;
 
   // Constructor to initialize the attributes when creating an instance
   TransactionDetailsModel({
@@ -29,6 +29,7 @@ class TransactionDetailsModel {
     required this.Time,
     required this.Status,
     required this.Date,
+    required this.Id,
   });
 
   Map<String, dynamic> toMap() {
@@ -40,18 +41,19 @@ class TransactionDetailsModel {
       'Time': Time,
       'Status': Status,
       'Date': Date,
+      'Id': Id,
     };
   }
 
   factory TransactionDetailsModel.fromMap(Map<String, dynamic> map) {
     return TransactionDetailsModel(
-      Amount: map['Amount'],
-      Category: map['Category'],
-      Discription: map['Discription'],
-      AmountType: map['AmountType'],
-      Time: map['Time'],
-      Status: map['Status'],
-      Date: map['Date'],
-    );
+        Amount: map['Amount'],
+        Category: map['Category'],
+        Discription: map['Discription'],
+        AmountType: map['AmountType'],
+        Time: map['Time'],
+        Status: map['Status'],
+        Date: map['Date'],
+        Id: map['Id']);
   }
 }

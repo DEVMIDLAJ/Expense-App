@@ -51,14 +51,14 @@ class ExpensePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             SizedBox(
+            SizedBox(
               height: size.height * 0.03,
             ),
-             Padding(
+            Padding(
               padding: EdgeInsets.only(
                 left: size.width * 0.08,
               ),
-              child:const Text(
+              child: const Text(
                 'How Much?',
                 style: TextStyle(
                   color: kWhite,
@@ -67,7 +67,7 @@ class ExpensePage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding:  EdgeInsets.symmetric(horizontal: size.width * 0.04),
+              padding: EdgeInsets.symmetric(horizontal: size.width * 0.04),
               child: CustomTextFormField(
                 controller: ExpenseController,
                 keybordType: TextInputType.number,
@@ -137,26 +137,28 @@ class ExpensePage extends StatelessWidget {
                     },
                   ),
                   const Attachment(),
-                  Consumer<AuthProvider>(builder: (context, data, _) {
-                    return SizedBox(
-                      height: size.height * 0.05,
-                      width: size.width,
-                      child: ListTile(
-                        title: const Text('Repeat'),
-                        subtitle: const Text('Repeat Transaction'),
-                        trailing: CupertinoSwitch(
-                          thumbColor: kWhite,
-                          trackColor: Colors.black38,
-                          activeColor: kfirstColor,
-                          value: data.isChecked,
-                          onChanged: (value) {
-                            data.boolChecked();
-                          },
+                  Consumer<AuthProvider>(
+                    builder: (context, data, _) {
+                      return SizedBox(
+                        height: size.height * 0.05,
+                        width: size.width,
+                        child: ListTile(
+                          title: const Text('Repeat'),
+                          subtitle: const Text('Repeat Transaction'),
+                          trailing: CupertinoSwitch(
+                            thumbColor: kWhite,
+                            trackColor: Colors.black38,
+                            activeColor: kfirstColor,
+                            value: data.isChecked,
+                            onChanged: (value) {
+                              data.boolChecked();
+                            },
+                          ),
                         ),
-                      ),
-                    );
-                  },),
-                   SizedBox(
+                      );
+                    },
+                  ),
+                  SizedBox(
                     height: size.height * 0.01,
                   ),
                   CustomElevatedButton(
@@ -177,8 +179,9 @@ class ExpensePage extends StatelessWidget {
                           Time: DateFormat.jm().format(DateTime.now()),
                           Status: 'Expense',
                           Date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                          Id: DateTime.now().microsecondsSinceEpoch,
                         );
-
+                        print('${newTransaction.Id.toString()}.....Expence id');
                         expenseTransactionProvider.transactionDetailsList
                             .add(newTransaction);
                         expenseTransactionProvider
@@ -196,7 +199,7 @@ class ExpensePage extends StatelessWidget {
                     buttonColor: kfirstColor,
                     textColor: kWhite,
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: size.height * 0.01,
                   ),
                 ],

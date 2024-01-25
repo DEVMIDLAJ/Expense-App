@@ -1,5 +1,6 @@
+// ignore_for_file: unused_field, unused_local_variable, no_leading_underscores_for_local_identifiers, avoid_print
+
 import 'package:expence_app/Model/transaction_datails_model.dart';
-import 'package:expence_app/View/Widgets/custom_drop_down_button.dart';
 import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
 import 'package:expence_app/View/Widgets/display_text.dart';
 import 'package:expence_app/const/colors.dart';
@@ -11,47 +12,38 @@ class TransactionHistoryPage extends StatelessWidget {
   TransactionHistoryPage({super.key});
 
   final TextEditingController transactionController = TextEditingController();
+  final TextEditingController _titleEditController = TextEditingController();
+  final TextEditingController _subTitleEditController = TextEditingController();
+  final TextEditingController _amountEditController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-
     Size size = MediaQuery.of(context).size;
 
     TransactionProvider transactionHistoryProvider =
         Provider.of<TransactionProvider>(context);
 
+    List<TransactionDetailsModel> displayedTransactions =
+        transactionHistoryProvider.filteredTransactions.isNotEmpty
+            ? transactionHistoryProvider.filteredTransactions
+            : transactionHistoryProvider.transactionDetailsList.toList();
+
     // Group transactions by date
     Map<String, List<TransactionDetailsModel>> groupedTransactions =
-        transactionHistoryProvider.groupTransactionsByDate(
-            transactionHistoryProvider.transactionDetailsList.reversed
-                .toList());
-
+        transactionHistoryProvider
+            .groupTransactionsByDate(displayedTransactions.reversed.toList());
     // Extract date categories
     List<String> dateCategories = groupedTransactions.keys.toList();
 
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: CustomDropDownButton(
-            listype: const [
-              'January',
-              'February',
-              'March',
-              'April',
-              'May',
-              'June',
-              'July',
-              'August',
-              'September',
-              'October',
-              'November',
-              'December',
-            ],
-            buttonWidth: size.width * 0.3,
-            hasBorder: false,
-            onValueChanged: (newvalue) {},
+          title: const DispalyText(
+            title: "Transaction History",
+            textSize: 18,
+            textFont: FontWeight.bold,
           ),
-          actions:  [
+          actions: [
             Padding(
               padding: EdgeInsets.only(right: size.width * 0.05),
               child: const Icon(Icons.filter_list),
@@ -59,19 +51,29 @@ class TransactionHistoryPage extends StatelessWidget {
           ],
         ),
         body: Padding(
-          padding:  EdgeInsets.symmetric(horizontal: size.width * 0.04),
+          padding: EdgeInsets.only(left: size.width * 0.02),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CustomTextFormField(
-                controller: transactionController,
-                keybordType: TextInputType.text,
-                hintText: 'See your financial report',
-                suffixIcon: const Icon(Icons.arrow_forward_ios),
-                textValidator: (value) {
-                  return value;
-                },
-                obscureText: false,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: size.width * 0.03),
+                child: CustomTextFormField(
+                  controller: transactionController,
+                  keybordType: TextInputType.text,
+                  hintText: 'Search your transaction history',
+                  hintColor: kgrey,
+                  suffixIcon: const Icon(
+                    Icons.search_rounded,
+                  ),
+                  onChanged: (value) {
+                    // Trigger search when the text field content changes
+                    transactionHistoryProvider.searchTransactions(value);
+                  },
+                  textValidator: (value) {
+                    return value;
+                  },
+                  obscureText: false,
+                ),
               ),
               Expanded(
                 child: groupedTransactions.isEmpty
@@ -89,9 +91,7 @@ class TransactionHistoryPage extends StatelessWidget {
                           String dateCategory = dateCategories[categoryIndex];
                           List<TransactionDetailsModel> transactions =
                               groupedTransactions[dateCategory] ?? [];
-
                           return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Align(
                                 alignment: Alignment.topLeft,
@@ -102,7 +102,7 @@ class TransactionHistoryPage extends StatelessWidget {
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: transactions.length,
                                 separatorBuilder: (context, index) {
-                                  return  SizedBox(
+                                  return SizedBox(
                                     height: size.height * 0.01,
                                   );
                                 },
@@ -115,48 +115,152 @@ class TransactionHistoryPage extends StatelessWidget {
                                           ? incomeColor
                                           : expenseColor;
 
-                                  return ListTile(
-                                    leading: Container(
-                                      height: size.height * 0.06,
-                                      width: size.width * 0.15,
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey.shade200,
-                                        borderRadius: BorderRadius.circular(15),
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/${transaction.Category}.png'),
+                                  return Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      ListTile(
+                                        leading: Container(
+                                          height: size.height * 0.06,
+                                          width: size.width * 0.15,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.shade200,
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            image: DecorationImage(
+                                              image: AssetImage(
+                                                  'assets/${transaction.Category}.png'),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    title: DispalyText(
-                                      title: transaction.Category.toString(),
-                                      textSize: 16,
-                                      textFont: FontWeight.w500,
-                                    ),
-                                    subtitle: DispalyText(
-                                      title: transaction.Discription.toString(),
-                                      textSize: 13,
-                                      textFont: FontWeight.w500,
-                                      textColor: kgrey,
-                                    ),
-                                    trailing: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        DispalyText(
-                                          title: "- \$${transaction.Amount}",
+                                        title: DispalyText(
+                                          title:
+                                              transaction.Category.toString(),
                                           textSize: 16,
-                                          textFont: FontWeight.w600,
-                                          textColor: textColor,
+                                          textFont: FontWeight.w500,
                                         ),
-                                        DispalyText(
-                                          title: transaction.Time.toString(),
+                                        subtitle: DispalyText(
+                                          title: transaction.Discription
+                                              .toString(),
                                           textSize: 13,
                                           textFont: FontWeight.w500,
                                           textColor: kgrey,
                                         ),
-                                      ],
-                                    ),
+                                        trailing: Row(
+                                          // Use Row to add multiple widgets to the trailing property
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                DispalyText(
+                                                  title:
+                                                      "- \$${transaction.Amount}",
+                                                  textSize: 16,
+                                                  textFont: FontWeight.w600,
+                                                  textColor: textColor,
+                                                ),
+                                                DispalyText(
+                                                  title: transaction.Time
+                                                      .toString(),
+                                                  textSize: 13,
+                                                  textFont: FontWeight.w500,
+                                                  textColor: kgrey,
+                                                ),
+                                              ],
+                                            ),
+                                            PopupMenuButton(
+                                              itemBuilder:
+                                                  (BuildContext context) {
+                                                return [
+                                                  PopupMenuItem(
+                                                    child: ListTile(
+                                                      leading: const Icon(
+                                                          Icons.edit),
+                                                      title: const Text('Edit'),
+                                                      onTap: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        transactionUpdateDialogBox(
+                                                          transaction.Amount
+                                                              .toString(),
+                                                          transaction.Category
+                                                              .toString(),
+                                                          transaction
+                                                                  .Discription
+                                                              .toString(),
+                                                          transaction.Status
+                                                              .toString(),
+                                                          transaction.Date
+                                                              .toString(),
+                                                          transaction.Time
+                                                              .toString(),
+                                                          transaction.AmountType
+                                                              .toString(),
+                                                          transactionHistoryProvider,
+                                                          transaction.Id!,
+                                                          context,
+                                                        );
+                                                        print(
+                                                            "${transaction.Id.toString()}......1");
+                                                      },
+                                                    ),
+                                                  ),
+                                                  PopupMenuItem(
+                                                    child: ListTile(
+                                                      leading: const Icon(
+                                                          Icons.delete),
+                                                      title:
+                                                          const Text('Delete'),
+                                                      onTap: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        transactionDeleteDialogBox(
+                                                            transactionHistoryProvider,
+                                                            transaction.Id!,
+                                                            context);
+                                                      },
+                                                    ),
+                                                  ),
+                                                ];
+                                              },
+                                              child: const Icon(
+                                                Icons.more_vert,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              DispalyText(
+                                                title:
+                                                    transaction.Date.toString(),
+                                                textSize: 13,
+                                                textFont: FontWeight.w500,
+                                                textColor: kgrey,
+                                              ),
+                                              DispalyText(
+                                                title:
+                                                    transaction.Id.toString(),
+                                                textSize: 13,
+                                                textFont: FontWeight.w500,
+                                                textColor: kgrey,
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            width: size.width * 0.06,
+                                          )
+                                        ],
+                                      ),
+                                    ],
                                   );
                                 },
                               ),
@@ -169,6 +273,124 @@ class TransactionHistoryPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> transactionDeleteDialogBox(
+    TransactionProvider provider,
+    int transactionId,
+    BuildContext context,
+  ) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Delete"),
+          content: const SizedBox(
+            height: 50,
+            child: Text("Are you sure you wanna remove this transaction?"),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                provider.deleteTransaction(transactionId);
+                Navigator.of(context).pop();
+              },
+              child: const Text("delete"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> transactionUpdateDialogBox(
+    String amount,
+    String title,
+    String subTitle,
+    String status,
+    String date,
+    String time,
+    String amoutType,
+    TransactionProvider provider,
+    int transactionId,
+    BuildContext context,
+  ) async {
+    final TextEditingController _amountEditController =
+        TextEditingController(text: amount);
+    final TextEditingController _subTitleEditController =
+        TextEditingController(text: subTitle);
+
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Update"),
+          content: SizedBox(
+            height: 180,
+            child: Column(
+              children: [
+                CustomTextFormField(
+                  controller: _amountEditController,
+                  keybordType: TextInputType.number,
+                  hintText: "Edit amount",
+                  textValidator: (p0) {
+                    return null;
+                  },
+                  obscureText: false,
+                ),
+                CustomTextFormField(
+                  controller: _subTitleEditController,
+                  keybordType: TextInputType.text,
+                  hintText: "Edit subTitle",
+                  textValidator: (p0) {
+                    return null;
+                  },
+                  obscureText: false,
+                )
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                String updatedAmount = _amountEditController.text;
+                String updatedSubtitle = _subTitleEditController.text;
+
+                TransactionDetailsModel updatedTransaction =
+                    TransactionDetailsModel(
+                  Id: transactionId,
+                  Category: title,
+                  Discription: updatedSubtitle,
+                  Amount: int.tryParse(updatedAmount) ?? 0,
+                  Date: date,
+                  Time: time,
+                  Status: status,
+                  AmountType: amoutType,
+                );
+
+                provider.updateTransaction(transactionId, updatedAmount, title,
+                    updatedSubtitle, status, date, time, amoutType);
+
+                Navigator.of(context).pop();
+              },
+              child: const Text("Update"),
+            ),
+          ],
+        );
+      },
     );
   }
 }

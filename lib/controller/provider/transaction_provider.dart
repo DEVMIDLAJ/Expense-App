@@ -1,4 +1,4 @@
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: constant_identifier_names, unrelated_type_equality_checks
 
 // Import necessary packages and modules
 import 'dart:convert';
@@ -15,6 +15,9 @@ class TransactionProvider with ChangeNotifier {
 
   // List to store transaction details models (assuming it's a global list)
   List<TransactionDetailsModel> transactionDetailsList = [];
+
+  // List to store filtered transactions based on search query
+  List<TransactionDetailsModel> filteredTransactions = [];
 
   // Constructor to load stored values when the provider is initialized
   TransactionProvider() {
@@ -86,6 +89,7 @@ class TransactionProvider with ChangeNotifier {
         finalIncome += transaction.Amount ?? 0;
       }
     }
+
     saveValuesToStorage();
     return finalIncome;
   }
@@ -165,6 +169,131 @@ class TransactionProvider with ChangeNotifier {
     } else {
       return 'Older';
     }
+  }
+
+//Inside the getTransactionByDateCategory method of TransactionProvider class
+
+  List<TransactionDetailsModel> getTransactionByDateCategory(
+      DateCategory dateCategory) {
+    DateTime now = DateTime.now();
+    DateTime startDate;
+    DateTime endDate;
+
+    switch (dateCategory) {
+      case DateCategory.Today:
+        startDate = DateTime(now.year, now.month, now.day, 0, 0, 0);
+        endDate = DateTime(now.year, now.month, now.day, 23, 59, 59);
+        break;
+      case DateCategory.ThisWeek:
+        // Calculate the start and end of the week based on the current date
+        int daysUntilMonday = (now.weekday - 1 + 7) % 7;
+        startDate =
+            DateTime(now.year, now.month, now.day - daysUntilMonday, 0, 0, 0);
+        endDate = DateTime(
+            now.year, now.month, now.day + (7 - daysUntilMonday), 23, 59, 59);
+        break;
+      case DateCategory.ThisMonth:
+        startDate = DateTime(now.year, now.month, 1, 0, 0, 0);
+        endDate = DateTime(now.year, now.month + 1, 0, 23, 59, 59);
+        break;
+      case DateCategory.ThisYear:
+        startDate = DateTime(now.year, 1, 1, 0, 0, 0);
+        endDate = DateTime(now.year, 12, 31, 23, 59, 59);
+        break;
+      default:
+        startDate = DateTime(now.year, now.month, now.day, 0, 0, 0);
+        endDate = DateTime(now.year, now.month, now.day, 23, 59, 59);
+    }
+
+    print('Date Category: $dateCategory');
+    print('Start Date: $startDate');
+    print('End Date: $endDate');
+
+    // Ensure transactions have valid dates before filtering
+    List<TransactionDetailsModel> validTransactions = transactionDetailsList
+        .where((transaction) => transaction.Date != null)
+        .toList();
+
+    filteredTransactions = validTransactions.where((transaction) {
+      DateTime transactionDate = DateTime.parse(transaction.Date!);
+      return transactionDate.isAtSameMomentAs(startDate) &&
+          transactionDate.isBefore(endDate);
+    }).toList();
+
+    print('Filtered Transactions: $filteredTransactions');
+
+    // Reverse the list to display transactions in reverse order
+    return filteredTransactions.reversed.toList();
+  }
+
+  // Method to search transactions based on a query string
+  void searchTransactions(String query) {
+    filteredTransactions = transactionDetailsList
+        .where((transaction) =>
+            transaction.Category!.toLowerCase().contains(query.toLowerCase()) ||
+            transaction.Discription!
+                .toLowerCase()
+                .contains(query.toLowerCase()))
+        .toList();
+    notifyListeners();
+  }
+
+  void deleteTransaction(int id) {
+    // Find the index of the transaction in the main list
+    int index = transactionDetailsList
+        .indexWhere((transaction) => transaction.Id == id);
+    if (index != -1) {
+      // Remove the transaction from the main list
+      transactionDetailsList.removeAt(index);
+      // Find the index of the transaction in the filtered list
+      index = filteredTransactions
+          .indexWhere((transaction) => transaction.Id == id);
+      if (index != -1) {
+        // Remove the transaction from the filtered list if it exists
+        filteredTransactions.removeAt(index);
+      }
+      // Notify listeners to update the UI
+      notifyListeners();
+    }
+  }
+
+  void updateTransaction(
+      int transactionId,
+      String updatedAmount,
+      String title,
+      String updatedSubtitle,
+      String status,
+      String date,
+      String time,
+      String amoutType) {
+    // Create an updated TransactionDetailsModel
+    TransactionDetailsModel updatedTransaction = TransactionDetailsModel(
+      Id: transactionId,
+      Category: title,
+      Discription: updatedSubtitle,
+      Amount: double.parse(updatedAmount).toInt(),
+      Date: date,
+      Time: time,
+      Status: status,
+      AmountType: amoutType,
+    );
+
+    // Find the index of the transaction in the main list
+    int index = transactionDetailsList
+        .indexWhere((transaction) => transaction.Id == transactionId);
+    if (index != -1) {
+      // Update the transaction in the main list
+      transactionDetailsList[index] = updatedTransaction;
+    }
+    // Find the index of the transaction in the filtered list
+    index = filteredTransactions
+        .indexWhere((transaction) => transaction.Id == transactionId);
+    if (index != -1) {
+      // Update the transaction in the filtered list if it exists
+      filteredTransactions[index] = updatedTransaction;
+    }
+    // Notify listeners to update the UI
+    notifyListeners();
   }
 }
 

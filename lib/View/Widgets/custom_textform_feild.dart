@@ -9,7 +9,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputType? keybordType;
   final String? hintText;
   final String? Function(String?)? textValidator;
-  void Function()? buttonAction = () {};
+  void Function(dynamic query)? onChanged;
   String? helperText;
   double? textFontSize;
   Color? textFontColor;
@@ -21,7 +21,7 @@ class CustomTextFormField extends StatelessWidget {
   Color? hintColor;
   double? textfieldWidth;
   bool obscureText;
-  bool hasBorder; // New parameter to indicate whether the border is needed
+  bool hasBorder;
 
   CustomTextFormField({
     super.key,
@@ -30,7 +30,7 @@ class CustomTextFormField extends StatelessWidget {
     required this.hintText,
     required this.textValidator,
     this.helperText,
-    this.buttonAction,
+    this.onChanged,
     this.textFontSize,
     this.textFontColor,
     this.prefixIcon,
@@ -41,7 +41,7 @@ class CustomTextFormField extends StatelessWidget {
     this.hintColor,
     this.textfieldWidth,
     this.obscureText = true,
-    this.hasBorder = true, // Default is to have a border
+    this.hasBorder = true,
   });
 
   @override
@@ -60,6 +60,7 @@ class CustomTextFormField extends StatelessWidget {
               color: textFontColor,
               fontWeight: FontWeight.bold,
             ),
+            onChanged: onChanged,
             decoration: InputDecoration(
               prefixIcon: prefixIcon,
               prefixStyle: GoogleFonts.inter(
@@ -109,7 +110,7 @@ class CustomTextFormField extends StatelessWidget {
             validator: textValidator,
           ),
         ),
-         SizedBox(
+        SizedBox(
           height: size.height * 0.03,
         ),
       ],
