@@ -89,7 +89,6 @@ class TransactionProvider with ChangeNotifier {
         finalIncome += transaction.Amount ?? 0;
       }
     }
-
     saveValuesToStorage();
     return finalIncome;
   }
@@ -172,7 +171,6 @@ class TransactionProvider with ChangeNotifier {
   }
 
 //Inside the getTransactionByDateCategory method of TransactionProvider class
-
   List<TransactionDetailsModel> getTransactionByDateCategory(
       DateCategory dateCategory) {
     DateTime now = DateTime.now();
@@ -185,15 +183,13 @@ class TransactionProvider with ChangeNotifier {
         endDate = DateTime(now.year, now.month, now.day, 23, 59, 59);
         break;
       case DateCategory.ThisWeek:
-        // Calculate the start and end of the week based on the current date
-        int daysUntilMonday = (now.weekday - 1 + 7) % 7;
-        startDate =
-            DateTime(now.year, now.month, now.day - daysUntilMonday, 0, 0, 0);
-        endDate = DateTime(
-            now.year, now.month, now.day + (7 - daysUntilMonday), 23, 59, 59);
+        startDate = DateTime(now.year, now.month, now.day, 0, 0, 0)
+            .subtract(const Duration(days: 1));
+        endDate = DateTime(now.year, now.month, now.day, 23, 59, 59);
         break;
       case DateCategory.ThisMonth:
-        startDate = DateTime(now.year, now.month, 1, 0, 0, 0);
+        startDate = DateTime(now.year, now.month, 1, 0, 0, 0)
+            .subtract(const Duration(days: 7));
         endDate = DateTime(now.year, now.month + 1, 0, 23, 59, 59);
         break;
       case DateCategory.ThisYear:
@@ -204,10 +200,6 @@ class TransactionProvider with ChangeNotifier {
         startDate = DateTime(now.year, now.month, now.day, 0, 0, 0);
         endDate = DateTime(now.year, now.month, now.day, 23, 59, 59);
     }
-
-    print('Date Category: $dateCategory');
-    print('Start Date: $startDate');
-    print('End Date: $endDate');
 
     // Ensure transactions have valid dates before filtering
     List<TransactionDetailsModel> validTransactions = transactionDetailsList
@@ -220,13 +212,14 @@ class TransactionProvider with ChangeNotifier {
           transactionDate.isBefore(endDate);
     }).toList();
 
-    print('Filtered Transactions: $filteredTransactions');
-
-    // Reverse the list to display transactions in reverse order
     return filteredTransactions.reversed.toList();
   }
 
+  //  (transactionDate.isAfter(startDate) &&
+  //                 transactionDate.isBefore(endDate))
+
   // Method to search transactions based on a query string
+
   void searchTransactions(String query) {
     filteredTransactions = transactionDetailsList
         .where((transaction) =>

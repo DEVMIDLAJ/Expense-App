@@ -288,7 +288,7 @@ class TransactionHistoryPage extends StatelessWidget {
           title: const Text("Delete"),
           content: const SizedBox(
             height: 50,
-            child: Text("Are you sure you wanna remove this transaction?"),
+            child: Text("Are you sure you wanna remove this transaction ?"),
           ),
           actions: [
             TextButton(
@@ -383,6 +383,14 @@ class TransactionHistoryPage extends StatelessWidget {
 
                 provider.updateTransaction(transactionId, updatedAmount, title,
                     updatedSubtitle, status, date, time, amoutType);
+
+                int kAmount = int.parse(amount);
+                int kUpdatedAmount = int.parse(updatedAmount);
+
+                // Update the main balance
+                kAmount > kUpdatedAmount
+                    ? provider.mainBalance -= kAmount - kUpdatedAmount
+                    : provider.mainBalance += kAmount - kUpdatedAmount;
 
                 Navigator.of(context).pop();
               },
