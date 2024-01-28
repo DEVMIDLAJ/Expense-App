@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable, unused_local_variable, unnecessary_null_comparison
 
+import 'package:expence_app/Model/budget_section_model.dart';
 import 'package:expence_app/View/Widgets/custom_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +14,13 @@ import 'package:provider/provider.dart';
 import 'package:wave_linear_progress_indicator/wave_linear_progress_indicator.dart';
 
 class CreateBudgetPage extends StatelessWidget {
-  CreateBudgetPage({super.key});
+  CreateBudgetPage({Key? key});
 
   final TextEditingController budgetController = TextEditingController();
 
-  String? createBudgetSectionDropdownValue;
+  String? budgetDropdownValue;
+
+  List<BudgetSectionModel> BudgetList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,7 @@ class CreateBudgetPage extends StatelessWidget {
         builder: (BuildContext context, data, Widget? _) {
       return Scaffold(
         appBar: AppBar(
-          title: const DispalyText(
+          title: const DisplayText(
             title: 'Create Budget',
             textSize: 20,
             textColor: kWhite,
@@ -73,7 +76,7 @@ class CreateBudgetPage extends StatelessWidget {
                   keybordType: TextInputType.number,
                   textFontSize: 64,
                   textFontColor: kWhite,
-                  prefixIcon: const DispalyText(
+                  prefixIcon: const DisplayText(
                     title: '\$',
                     textSize: 64,
                     textFont: FontWeight.w600,
@@ -119,10 +122,9 @@ class CreateBudgetPage extends StatelessWidget {
                         "Education",
                         "Bills"
                       ],
-                      hintText: 'Select Category',
                       onValueChanged: (newvalue) {
-                        createBudgetSectionDropdownValue =
-                            createBudgetSectionProvider.updateDropdownValue;
+                        budgetDropdownValue = createBudgetSectionProvider
+                            .updateDropdown(newvalue);
                       },
                     ),
                     SizedBox(height: size.height * 0.03),
@@ -166,10 +168,28 @@ class CreateBudgetPage extends StatelessWidget {
                     const SizedBox(height: 20),
                     CustomElevatedButton(
                       onpressed: () {
-                        if (budgetController.text.isEmpty) {
+                        if (budgetController.text.isEmpty ||
+                            budgetDropdownValue == null) {
                           CustomSnackBar.show(
                             context,
                             'Please fill all the details',
+                          );
+                          return;
+                        }
+
+                        try {
+                          int amount = int.parse(budgetController.text);
+                          BudgetSectionModel newBudget = BudgetSectionModel(
+                            Amount: amount,
+                            Category: budgetDropdownValue,
+                          );
+                          BudgetList.add(newBudget);
+
+                          Navigator.of(context).pop(BudgetList);
+                        } catch (e) {
+                          CustomSnackBar.show(
+                            context,
+                            'Invalid input. Please enter a valid number.',
                           );
                         }
                       },
@@ -194,17 +214,17 @@ class CreateBudgetPage extends StatelessWidget {
       0.2,
       0.3,
       0.4,
-      0.45,
-      0.7,
-      0.85,
-      0.9,
-      0.95,
-      0.99,
-      1.0
+      0.5,
+      0.6,
+      // 0.7,
+      // 0.8,
+      // 0.9,
+      // 0.99,
+      // 1.0
     ];
     for (final p in values) {
       yield p;
-      await Future.delayed(const Duration(milliseconds: 1800));
+      await Future.delayed(const Duration(milliseconds: 500));
     }
   }
 }

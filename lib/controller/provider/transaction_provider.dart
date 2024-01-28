@@ -17,7 +17,7 @@ class TransactionProvider with ChangeNotifier {
   List<TransactionDetailsModel> transactionDetailsList = [];
 
   // List to store filtered transactions based on search query
-  List<TransactionDetailsModel> filteredTransactions = [];
+  List<TransactionDetailsModel> filteredTransactionsList = [];
 
   // Constructor to load stored values when the provider is initialized
   TransactionProvider() {
@@ -206,13 +206,13 @@ class TransactionProvider with ChangeNotifier {
         .where((transaction) => transaction.Date != null)
         .toList();
 
-    filteredTransactions = validTransactions.where((transaction) {
+    filteredTransactionsList = validTransactions.where((transaction) {
       DateTime transactionDate = DateTime.parse(transaction.Date!);
       return transactionDate.isAtSameMomentAs(startDate) &&
           transactionDate.isBefore(endDate);
     }).toList();
 
-    return filteredTransactions.reversed.toList();
+    return filteredTransactionsList.reversed.toList();
   }
 
   //  (transactionDate.isAfter(startDate) &&
@@ -221,7 +221,7 @@ class TransactionProvider with ChangeNotifier {
   // Method to search transactions based on a query string
 
   void searchTransactions(String query) {
-    filteredTransactions = transactionDetailsList
+    filteredTransactionsList = transactionDetailsList
         .where((transaction) =>
             transaction.Category!.toLowerCase().contains(query.toLowerCase()) ||
             transaction.Discription!
@@ -239,11 +239,11 @@ class TransactionProvider with ChangeNotifier {
       // Remove the transaction from the main list
       transactionDetailsList.removeAt(index);
       // Find the index of the transaction in the filtered list
-      index = filteredTransactions
+      index = filteredTransactionsList
           .indexWhere((transaction) => transaction.Id == id);
       if (index != -1) {
         // Remove the transaction from the filtered list if it exists
-        filteredTransactions.removeAt(index);
+        filteredTransactionsList.removeAt(index);
       }
       // Notify listeners to update the UI
       notifyListeners();
@@ -279,11 +279,11 @@ class TransactionProvider with ChangeNotifier {
       transactionDetailsList[index] = updatedTransaction;
     }
     // Find the index of the transaction in the filtered list
-    index = filteredTransactions
+    index = filteredTransactionsList
         .indexWhere((transaction) => transaction.Id == transactionId);
     if (index != -1) {
       // Update the transaction in the filtered list if it exists
-      filteredTransactions[index] = updatedTransaction;
+      filteredTransactionsList[index] = updatedTransaction;
     }
     // Notify listeners to update the UI
     notifyListeners();

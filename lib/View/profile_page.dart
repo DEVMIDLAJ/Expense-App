@@ -27,7 +27,7 @@ class ProfilePage extends StatelessWidget {
                 radiusTwo: 25,
                 buttonAction: () {},
               ),
-              title: const DispalyText(
+              title: const DisplayText(
                 title: 'USER NAME',
                 textSize: 14,
                 textFont: FontWeight.w500,
@@ -100,7 +100,7 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
         ),
-        title: DispalyText(
+        title: DisplayText(
           title: title,
           textSize: 16,
           textFont: FontWeight.w500,

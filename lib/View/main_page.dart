@@ -21,13 +21,15 @@ class MainPage extends StatelessWidget {
         // IndexedStack to efficiently manage the visibility of different screens
         child: IndexedStack(
           index: Provider.of<AuthProvider>(context).selectedIndex,
-          children:  [
+          children: [
             // Home page
             HomePage(),
             // Transaction history page
             TransactionHistoryPage(),
             // Budget page
-             const BudgetPage(),
+            const BudgetPage(
+              displayedBudget: [],
+            ),
             // Profile page
             ProfilePage(),
           ],

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // A custom text widget with Google Fonts styling
-class DispalyText extends StatelessWidget {
+class DisplayText extends StatelessWidget {
   // Text content
   final String title;
   // Color of the text (nullable)
@@ -13,7 +13,7 @@ class DispalyText extends StatelessWidget {
   final FontWeight? textFont;
 
   // Constructor to initialize the text and optional styling parameters
-  const DispalyText(
+  const DisplayText(
       {super.key,
       required this.title,
       this.textColor,

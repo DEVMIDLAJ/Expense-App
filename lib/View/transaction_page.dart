@@ -34,7 +34,7 @@ class TransactionPage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-          leading: IconButton(
+        leading: IconButton(
             onPressed: () => Navigator.of(context).pop(),
             icon: const Icon(
               Icons.arrow_back_ios,
@@ -45,14 +45,14 @@ class TransactionPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             SizedBox(
+            SizedBox(
               height: size.height * 0.15,
             ),
-             Padding(
+            Padding(
               padding: EdgeInsets.only(
                 left: size.width * 0.08,
               ),
-              child:const Text(
+              child: const Text(
                 'How Much?',
                 style: TextStyle(
                   color: Colors.white70,
@@ -61,14 +61,14 @@ class TransactionPage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding:  EdgeInsets.symmetric(horizontal: size.width * 0.04),
+              padding: EdgeInsets.symmetric(horizontal: size.width * 0.04),
               child: CustomTextFormField(
                 textfieldHight: 80,
                 controller: transferController,
                 keybordType: TextInputType.number,
                 textFontSize: 64,
                 textFontColor: kWhite,
-                prefixIcon: const DispalyText(
+                prefixIcon: const DisplayText(
                   title: '\$',
                   textSize: 64,
                   textFont: FontWeight.w600,
@@ -78,13 +78,14 @@ class TransactionPage extends StatelessWidget {
                 textValidator: (p0) {
                   return null;
                 },
+                cursorColor: kWhite,
                 obscureText: false,
               ),
             ),
             Container(
               height: size.height * 0.58,
               width: double.infinity,
-              padding:  EdgeInsets.symmetric(horizontal: size.width * 0.04),
+              padding: EdgeInsets.symmetric(horizontal: size.width * 0.04),
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(30),
@@ -170,7 +171,7 @@ class TransactionPage extends StatelessWidget {
                           : Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>const MainPage(),
+                                builder: (context) => const MainPage(),
                               ),
                             );
                     },

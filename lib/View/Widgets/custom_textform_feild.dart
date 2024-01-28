@@ -10,9 +10,9 @@ class CustomTextFormField extends StatelessWidget {
   final String? Function(String?)? textValidator;
   void Function(dynamic query)? onChanged;
   String? helperText;
-
   String? labelText;
   String? hintText;
+
   double? textFontSize;
   Color? textFontColor;
   Widget? prefixIcon;
@@ -23,6 +23,7 @@ class CustomTextFormField extends StatelessWidget {
   Color? hintColor;
   double? textfieldWidth;
   double? textfieldHight;
+  Color? cursorColor;
   bool obscureText;
   bool hasBorder;
 
@@ -45,6 +46,7 @@ class CustomTextFormField extends StatelessWidget {
     this.hintColor,
     this.textfieldWidth,
     this.textfieldHight,
+    this.cursorColor,
     this.obscureText = true,
     this.hasBorder = true,
   });
@@ -73,6 +75,7 @@ class CustomTextFormField extends StatelessWidget {
                 fontSize: prefixIconSize,
                 color: prefixIconColor,
               ),
+              
               labelText: labelText,
               labelStyle: GoogleFonts.inter(
                 fontSize: hintFontsize,
@@ -88,6 +91,7 @@ class CustomTextFormField extends StatelessWidget {
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),
+            
               suffixIcon: suffixIcon,
               border: hasBorder
                   ? OutlineInputBorder(
@@ -117,6 +121,7 @@ class CustomTextFormField extends StatelessWidget {
                     )
                   : InputBorder.none,
             ),
+            cursorColor: cursorColor,
             //validator
             validator: textValidator,
           ),

@@ -56,7 +56,7 @@ class VerificationPage extends StatelessWidget {
                   SizedBox(
                     height: size.height * 0.15,
                   ),
-                  const DispalyText(
+                  const DisplayText(
                     title: 'Enter your Verification Code',
                     textSize: 36,
                     textFont: FontWeight.w500,

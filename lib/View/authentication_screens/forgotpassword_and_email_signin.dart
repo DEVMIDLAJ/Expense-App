@@ -36,7 +36,7 @@ class ForgotPasswordAndEmailSignin extends StatelessWidget {
               ),
             ),
             // DisplayText widget with the confirmation message
-            const DispalyText(
+            const DisplayText(
               title: 'Your email is on the way',
               textSize: 24,
               textFont: FontWeight.w600,
@@ -47,7 +47,7 @@ class ForgotPasswordAndEmailSignin extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 30),
               // DisplayText widget with instructions for password reset
-              child: DispalyText(
+              child: DisplayText(
                 title:
                     'Check your $email  and follow the instructions to reset your password',
                 textSize: 16,

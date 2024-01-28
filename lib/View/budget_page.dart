@@ -1,12 +1,16 @@
 // ignore_for_file: must_be_immutable, unused_local_variable
+import 'package:expence_app/Model/budget_section_model.dart';
 import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
 import 'package:expence_app/View/Widgets/display_text.dart';
 import 'package:expence_app/View/create_budget_page.dart';
 import 'package:expence_app/const/colors.dart';
 import 'package:flutter/material.dart';
 
+// BudgetPage
 class BudgetPage extends StatelessWidget {
-  const BudgetPage({super.key});
+  const BudgetPage({Key? key, required this.displayedBudget}) : super(key: key);
+
+  final List<BudgetSectionModel> displayedBudget;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,7 @@ class BudgetPage extends StatelessWidget {
                     color: kWhite,
                   ),
                 ),
-                const DispalyText(
+                const DisplayText(
                   title: 'January',
                   textSize: 20,
                   textColor: kWhite,
@@ -62,10 +66,33 @@ class BudgetPage extends StatelessWidget {
                   SizedBox(
                     height: size.height * 0.15,
                   ),
-                  const Center(
-                    child: DispalyText(
-                        title:
-                            "     You don't have a budget. \n Let's make one so you in control"),
+                  Expanded(
+                    child: displayedBudget.isEmpty
+                        ? const Center(
+                            child: DisplayText(
+                                title:
+                                    "You don't have a budget. Let's make one so you're in control"))
+                        : ListView.separated(
+                            shrinkWrap: true,
+                            itemCount: displayedBudget.length,
+                            separatorBuilder: (context, index) {
+                              return SizedBox(
+                                height: size.height * 0.01,
+                              );
+                            },
+                            itemBuilder: (context, index) {
+                              final budget = displayedBudget[index];
+                              return Column(
+                                children: [
+                                  ListTile(
+                                    title: DisplayText(title: '${budget.Amount}'),
+                                    subtitle: DisplayText(
+                                        title: '${budget.Category}'),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
                   ),
                   SizedBox(
                     height: size.height * 0.15,
@@ -73,7 +100,7 @@ class BudgetPage extends StatelessWidget {
                   CustomElevatedButton(
                     onpressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>  CreateBudgetPage()));
+                          builder: (context) => CreateBudgetPage()));
                     },
                     buttonText: 'Create a budget',
                     buttonColor: kfirstColor,

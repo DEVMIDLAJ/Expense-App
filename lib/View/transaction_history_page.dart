@@ -24,8 +24,8 @@ class TransactionHistoryPage extends StatelessWidget {
         Provider.of<TransactionProvider>(context);
 
     List<TransactionDetailsModel> displayedTransactions =
-        transactionHistoryProvider.filteredTransactions.isNotEmpty
-            ? transactionHistoryProvider.filteredTransactions
+        transactionHistoryProvider.filteredTransactionsList.isNotEmpty
+            ? transactionHistoryProvider.filteredTransactionsList
             : transactionHistoryProvider.transactionDetailsList.toList();
 
     // Group transactions by date
@@ -44,7 +44,7 @@ class TransactionHistoryPage extends StatelessWidget {
             //   Icons.arrow_back_ios,
             //   color: kblack,
             // )),
-          title: const DispalyText(
+          title: const DisplayText(
             title: "Transaction History",
             textSize: 18,
             textFont: FontWeight.bold,
@@ -84,7 +84,7 @@ class TransactionHistoryPage extends StatelessWidget {
               Expanded(
                 child: groupedTransactions.isEmpty
                     ? const Center(
-                        child: DispalyText(
+                        child: DisplayText(
                           title: 'No transactions available.',
                           textSize: 16,
                           textFont: FontWeight.bold,
@@ -101,7 +101,7 @@ class TransactionHistoryPage extends StatelessWidget {
                             children: [
                               Align(
                                 alignment: Alignment.topLeft,
-                                child: DispalyText(title: dateCategory),
+                                child: DisplayText(title: dateCategory),
                               ),
                               ListView.separated(
                                 shrinkWrap: true,
@@ -138,13 +138,13 @@ class TransactionHistoryPage extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        title: DispalyText(
+                                        title: DisplayText(
                                           title:
                                               transaction.Category.toString(),
                                           textSize: 16,
                                           textFont: FontWeight.w500,
                                         ),
-                                        subtitle: DispalyText(
+                                        subtitle: DisplayText(
                                           title: transaction.Discription
                                               .toString(),
                                           textSize: 13,
@@ -159,14 +159,14 @@ class TransactionHistoryPage extends StatelessWidget {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                DispalyText(
+                                                DisplayText(
                                                   title:
                                                       "- \$${transaction.Amount}",
                                                   textSize: 16,
                                                   textFont: FontWeight.w600,
                                                   textColor: textColor,
                                                 ),
-                                                DispalyText(
+                                                DisplayText(
                                                   title: transaction.Time
                                                       .toString(),
                                                   textSize: 13,
@@ -245,14 +245,14 @@ class TransactionHistoryPage extends StatelessWidget {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.end,
                                             children: [
-                                              DispalyText(
+                                              DisplayText(
                                                 title:
                                                     transaction.Date.toString(),
                                                 textSize: 13,
                                                 textFont: FontWeight.w500,
                                                 textColor: kgrey,
                                               ),
-                                              DispalyText(
+                                              DisplayText(
                                                 title:
                                                     transaction.Id.toString(),
                                                 textSize: 13,

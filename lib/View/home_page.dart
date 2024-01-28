@@ -76,7 +76,7 @@ class HomePage extends StatelessWidget {
             ],
             title: CustomDropDownButton(
               listype: month,
-              hintText: '',
+              // hintText: 'Months',
               buttonWidth: size.width * 0.3,
               hasBorder: false,
               onValueChanged: (newvalue) {},
@@ -89,13 +89,13 @@ class HomePage extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.topCenter,
-                  child: DispalyText(
+                  child: DisplayText(
                     title: 'Account Balance',
                     textColor: Colors.grey[600],
                     textFont: FontWeight.w500,
                   ),
                 ),
-                DispalyText(
+                DisplayText(
                   title: '\$${homeTransactionProvider.mainBalance}',
                   textSize: 35,
                   textFont: FontWeight.bold,
@@ -119,7 +119,7 @@ class HomePage extends StatelessWidget {
                 ),
                 const Align(
                   alignment: Alignment.bottomLeft,
-                  child: DispalyText(
+                  child: DisplayText(
                     title: 'Spended Frequency',
                     textSize: 22,
                     textFont: FontWeight.bold,
@@ -129,11 +129,11 @@ class HomePage extends StatelessWidget {
                 TabBar(
                   dividerColor: Colors.transparent,
                   splashBorderRadius: const BorderRadius.all(
-                    Radius.circular(120),
+                    Radius.circular(100),
                   ),
                   splashFactory: NoSplash.splashFactory,
                   indicatorSize: TabBarIndicatorSize.tab,
-                  indicatorPadding: const EdgeInsets.all(7),
+                  indicatorPadding: const EdgeInsets.all(6),
                   indicator: BoxDecoration(
                     color: const Color.fromARGB(255, 237, 219, 191),
                     borderRadius: BorderRadius.circular(20),
@@ -142,15 +142,15 @@ class HomePage extends StatelessWidget {
                   unselectedLabelColor: Colors.black45,
                   tabs: const [
                     Tab(text: 'Today'),
+                    Tab(text: 'Yesterday'),
                     Tab(text: 'Week'),
                     Tab(text: 'Month'),
-                    Tab(text: 'Year'),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const DispalyText(
+                    const DisplayText(
                       title: 'Recent Frequency',
                       textSize: 22,
                       textFont: FontWeight.bold,
@@ -195,7 +195,7 @@ class HomePage extends StatelessWidget {
         ? SizedBox(
             height: MediaQuery.of(context).size.height * 0.23,
             child: const Center(
-              child: DispalyText(
+              child: DisplayText(
                 title: 'No transactions available.',
                 textSize: 16,
                 textFont: FontWeight.bold,
@@ -233,12 +233,12 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  title: DispalyText(
+                  title: DisplayText(
                     title: transaction.Category.toString(),
                     textSize: 16,
                     textFont: FontWeight.w500,
                   ),
-                  subtitle: DispalyText(
+                  subtitle: DisplayText(
                     title: transaction.Discription.toString(),
                     textSize: 13,
                     textFont: FontWeight.w500,
@@ -247,13 +247,13 @@ class HomePage extends StatelessWidget {
                   trailing: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      DispalyText(
+                      DisplayText(
                         title: "- \$${transaction.Amount}",
                         textSize: 16,
                         textFont: FontWeight.w600,
                         textColor: textColor,
                       ),
-                      DispalyText(
+                      DisplayText(
                         title: transaction.Time.toString(),
                         textSize: 13,
                         textFont: FontWeight.w500,

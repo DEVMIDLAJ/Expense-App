@@ -47,13 +47,13 @@ class IncomeAndExpenseStatusCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                DispalyText(
+                DisplayText(
                   title: statusName,
                   textColor: Colors.white,
                   textSize: 16,
                   textFont: FontWeight.w500,
                 ),
-                DispalyText(
+                DisplayText(
                   title: statusAmount,
                   textColor: Colors.white,
                   textSize: 25,

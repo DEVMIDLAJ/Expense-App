@@ -30,7 +30,7 @@ class ForgotPasswordPage extends StatelessWidget {
             backgroundColor: Colors.transparent,
             elevation: 0,
             title: const Center(
-              child: DispalyText(
+              child: DisplayText(
                 title: 'Forgot Password',
                 textSize: 18,
                 textFont: FontWeight.w600,
@@ -49,7 +49,7 @@ class ForgotPasswordPage extends StatelessWidget {
                       height: size.height * 0.1,
                     ),
                     // DisplayText widget with welcome message
-                    const DispalyText(
+                    const DisplayText(
                       title:
                           'Don’t worry.\nEnter your email and we’ll\nsend you a link to reset your\n password',
                       textSize: 24,

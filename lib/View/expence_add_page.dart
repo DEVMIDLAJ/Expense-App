@@ -75,27 +75,27 @@ class ExpensePage extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.04),
-              child:  CustomTextFormField(
-                  textfieldHight: 80,
-                  controller: ExpenseController,
-                  keybordType: TextInputType.number,
-                  textFontSize: 64,
-                  textFontColor: kWhite,
-                  prefixIcon: const DispalyText(
-                    title: '\$',
-                    textSize: 64,
-                    textFont: FontWeight.w600,
-                    textColor: kWhite,
-                  ),
-                 
-                  hintFontsize: 64,
-                  hintColor: kWhite,
-                  hasBorder: false,
-                  textValidator: (p0) {
-                    return null;
-                  },
-                  obscureText: false,
+              child: CustomTextFormField(
+                textfieldHight: 80,
+                controller: ExpenseController,
+                keybordType: TextInputType.number,
+                textFontSize: 64,
+                textFontColor: kWhite,
+                prefixIcon: const DisplayText(
+                  title: '\$',
+                  textSize: 64,
+                  textFont: FontWeight.w600,
+                  textColor: kWhite,
                 ),
+                hintFontsize: 64,
+                hintColor: kWhite,
+                hasBorder: false,
+                textValidator: (p0) {
+                  return null;
+                },
+                cursorColor: kWhite,
+                obscureText: false,
+              ),
             ),
             Container(
               height: size.height * 0.65,
@@ -127,7 +127,6 @@ class ExpensePage extends StatelessWidget {
                       "Education",
                       "Bills"
                     ],
-                    hintText: 'Select category',
                     onValueChanged: (newvalue) {
                       categoryDropdownValue =
                           expenseProvider.updateDropdown(newvalue);
@@ -147,7 +146,6 @@ class ExpensePage extends StatelessWidget {
                       'Wallet',
                       'Gpay',
                     ],
-                    hintText: 'Select Payment',
                     onValueChanged: (newvalue) {
                       amountTypeDropdownValue =
                           expenseProvider.updateDropdown(newvalue);
