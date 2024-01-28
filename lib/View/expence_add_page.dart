@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, unnecessary_null_comparison, unused_local_variable, must_be_immutable
 import 'package:expence_app/Model/transaction_datails_model.dart';
+import 'package:expence_app/View/Widgets/display_text.dart';
 import 'package:expence_app/View/main_page.dart';
 import 'package:expence_app/View/Widgets/attachment.dart';
 import 'package:expence_app/View/Widgets/custom_drop_down_button.dart';
@@ -46,13 +47,19 @@ class ExpensePage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        leading: IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: kWhite,
+            )),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: size.height * 0.03,
+              height: size.height * 0.08,
             ),
             Padding(
               padding: EdgeInsets.only(
@@ -68,25 +75,27 @@ class ExpensePage extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.04),
-              child: CustomTextFormField(
-                controller: ExpenseController,
-                keybordType: TextInputType.number,
-                textFontSize: 64,
-                textFontColor: kWhite,
-                prefixIcon: const Icon(
-                  Icons.currency_rupee,
-                  size: 64,
-                  color: kWhite,
+              child:  CustomTextFormField(
+                  textfieldHight: 80,
+                  controller: ExpenseController,
+                  keybordType: TextInputType.number,
+                  textFontSize: 64,
+                  textFontColor: kWhite,
+                  prefixIcon: const DispalyText(
+                    title: '\$',
+                    textSize: 64,
+                    textFont: FontWeight.w600,
+                    textColor: kWhite,
+                  ),
+                 
+                  hintFontsize: 64,
+                  hintColor: kWhite,
+                  hasBorder: false,
+                  textValidator: (p0) {
+                    return null;
+                  },
+                  obscureText: false,
                 ),
-                hintText: '${0}',
-                hintFontsize: 64,
-                hintColor: kWhite,
-                hasBorder: false,
-                textValidator: (p0) {
-                  return null;
-                },
-                obscureText: false,
-              ),
             ),
             Container(
               height: size.height * 0.65,
@@ -110,8 +119,15 @@ class ExpensePage extends StatelessWidget {
                       'transpotation',
                       'food',
                       'fuel',
-                      'rent'
+                      'rent',
+                      'Groceries',
+                      'gifts',
+                      "pharmacy",
+                      "Kids",
+                      "Education",
+                      "Bills"
                     ],
+                    hintText: 'Select category',
                     onValueChanged: (newvalue) {
                       categoryDropdownValue =
                           expenseProvider.updateDropdown(newvalue);
@@ -131,6 +147,7 @@ class ExpensePage extends StatelessWidget {
                       'Wallet',
                       'Gpay',
                     ],
+                    hintText: 'Select Payment',
                     onValueChanged: (newvalue) {
                       amountTypeDropdownValue =
                           expenseProvider.updateDropdown(newvalue);
@@ -147,7 +164,7 @@ class ExpensePage extends StatelessWidget {
                           subtitle: const Text('Repeat Transaction'),
                           trailing: CupertinoSwitch(
                             thumbColor: kWhite,
-                            trackColor: Colors.black38,
+                            trackColor: ksecondColor,
                             activeColor: kfirstColor,
                             value: data.isChecked,
                             onChanged: (value) {

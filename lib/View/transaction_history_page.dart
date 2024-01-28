@@ -38,6 +38,12 @@ class TransactionHistoryPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+            // leading: IconButton(
+            // onPressed: () => Navigator.of(context).canPop(),
+            // icon: const Icon(
+            //   Icons.arrow_back_ios,
+            //   color: kblack,
+            // )),
           title: const DispalyText(
             title: "Transaction History",
             textSize: 18,
@@ -336,10 +342,14 @@ class TransactionHistoryPage extends StatelessWidget {
             height: 180,
             child: Column(
               children: [
+                // const SizedBox(
+                //   height: 10,
+                // ),
                 CustomTextFormField(
                   controller: _amountEditController,
                   keybordType: TextInputType.number,
-                  hintText: "Edit amount",
+                  labelText: "Edit Transaction Amount",
+                  hintColor: kgrey,
                   textValidator: (p0) {
                     return null;
                   },
@@ -348,7 +358,8 @@ class TransactionHistoryPage extends StatelessWidget {
                 CustomTextFormField(
                   controller: _subTitleEditController,
                   keybordType: TextInputType.text,
-                  hintText: "Edit subTitle",
+                  labelText: "Edit Transaction subTitle",
+                  hintColor: kgrey,
                   textValidator: (p0) {
                     return null;
                   },
@@ -390,7 +401,10 @@ class TransactionHistoryPage extends StatelessWidget {
                 // Update the main balance
                 kAmount > kUpdatedAmount
                     ? provider.mainBalance -= kAmount - kUpdatedAmount
-                    : provider.mainBalance += kAmount - kUpdatedAmount;
+                    : provider.mainBalance += kUpdatedAmount - kAmount;
+                print('${kAmount.toString()}....kamount');
+                print('${kUpdatedAmount.toString()}.....kUpdateAmout');
+                print("${provider.mainBalance.toString()}......mainbalance");
 
                 Navigator.of(context).pop();
               },

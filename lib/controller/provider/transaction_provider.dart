@@ -288,6 +288,8 @@ class TransactionProvider with ChangeNotifier {
     // Notify listeners to update the UI
     notifyListeners();
   }
+
+  void boolLoading() {}
 }
 
 // Enum to represent different date categories

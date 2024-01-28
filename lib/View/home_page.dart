@@ -76,6 +76,7 @@ class HomePage extends StatelessWidget {
             ],
             title: CustomDropDownButton(
               listype: month,
+              hintText: '',
               buttonWidth: size.width * 0.3,
               hasBorder: false,
               onValueChanged: (newvalue) {},
@@ -266,4 +267,3 @@ class HomePage extends StatelessWidget {
           );
   }
 }
-

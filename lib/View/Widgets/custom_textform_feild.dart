@@ -7,10 +7,12 @@ import 'package:google_fonts/google_fonts.dart';
 class CustomTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType? keybordType;
-  final String? hintText;
   final String? Function(String?)? textValidator;
   void Function(dynamic query)? onChanged;
   String? helperText;
+
+  String? labelText;
+  String? hintText;
   double? textFontSize;
   Color? textFontColor;
   Widget? prefixIcon;
@@ -20,6 +22,7 @@ class CustomTextFormField extends StatelessWidget {
   double? hintFontsize;
   Color? hintColor;
   double? textfieldWidth;
+  double? textfieldHight;
   bool obscureText;
   bool hasBorder;
 
@@ -27,9 +30,10 @@ class CustomTextFormField extends StatelessWidget {
     super.key,
     required this.controller,
     required this.keybordType,
-    required this.hintText,
     required this.textValidator,
+    this.labelText,
     this.helperText,
+    this.hintText,
     this.onChanged,
     this.textFontSize,
     this.textFontColor,
@@ -40,6 +44,7 @@ class CustomTextFormField extends StatelessWidget {
     this.hintFontsize,
     this.hintColor,
     this.textfieldWidth,
+    this.textfieldHight,
     this.obscureText = true,
     this.hasBorder = true,
   });
@@ -51,6 +56,7 @@ class CustomTextFormField extends StatelessWidget {
       children: [
         SizedBox(
           width: textfieldWidth,
+          height: textfieldHight,
           child: TextFormField(
             controller: controller,
             obscureText: obscureText,
@@ -66,6 +72,11 @@ class CustomTextFormField extends StatelessWidget {
               prefixStyle: GoogleFonts.inter(
                 fontSize: prefixIconSize,
                 color: prefixIconColor,
+              ),
+              labelText: labelText,
+              labelStyle: GoogleFonts.inter(
+                fontSize: hintFontsize,
+                color: hintColor,
               ),
               hintText: hintText,
               hintStyle: GoogleFonts.inter(

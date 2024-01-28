@@ -1,3 +1,4 @@
+import 'package:expence_app/View/Widgets/display_text.dart';
 import 'package:expence_app/View/main_page.dart';
 import 'package:expence_app/View/Widgets/attachment.dart';
 import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
@@ -33,13 +34,19 @@ class TransactionPage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+          leading: IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: kWhite,
+            )),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
              SizedBox(
-              height: size.height * 0.14,
+              height: size.height * 0.15,
             ),
              Padding(
               padding: EdgeInsets.only(
@@ -56,18 +63,17 @@ class TransactionPage extends StatelessWidget {
             Padding(
               padding:  EdgeInsets.symmetric(horizontal: size.width * 0.04),
               child: CustomTextFormField(
+                textfieldHight: 80,
                 controller: transferController,
                 keybordType: TextInputType.number,
                 textFontSize: 64,
                 textFontColor: kWhite,
-                prefixIcon: const Icon(
-                  Icons.currency_rupee,
-                  size: 64,
-                  color: kWhite,
+                prefixIcon: const DispalyText(
+                  title: '\$',
+                  textSize: 64,
+                  textFont: FontWeight.w600,
+                  textColor: kWhite,
                 ),
-                hintText: '${0}',
-                hintFontsize: 64,
-                hintColor: kWhite,
                 hasBorder: false,
                 textValidator: (p0) {
                   return null;
@@ -76,7 +82,7 @@ class TransactionPage extends StatelessWidget {
               ),
             ),
             Container(
-              height: size.height * 0.53,
+              height: size.height * 0.58,
               width: double.infinity,
               padding:  EdgeInsets.symmetric(horizontal: size.width * 0.04),
               decoration: const BoxDecoration(

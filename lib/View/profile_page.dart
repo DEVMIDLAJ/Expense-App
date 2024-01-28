@@ -36,7 +36,7 @@ class ProfilePage extends StatelessWidget {
               subtitle: CustomTextFormField(
                 controller: UsernameController,
                 keybordType: TextInputType.name,
-                hintText: 'Username',
+                helperText: 'Username',
                 obscureText: false,
                 hasBorder: false,
                 suffixIcon: IconButton(
