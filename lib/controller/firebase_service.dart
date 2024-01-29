@@ -50,8 +50,8 @@ class FirebaseService implements AuthMethod {
     )
         .then((value) {
       // Navigate to the main page on successful sign-in
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const MainPage()));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const MainPage()));
       CustomSnackBar.show(context, 'Login successfully');
     }).onError((error, stackTrace) {
       // Show an error message if sign-in fails

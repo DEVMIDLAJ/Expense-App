@@ -7,10 +7,12 @@ class CustomElevatedButton extends StatelessWidget {
   final String? buttonText;
   Color? buttonColor;
   Color? textColor;
+  double? buttonWidth;
   CustomElevatedButton({
     super.key,
     this.buttonColor,
     this.textColor,
+    this.buttonWidth,
     required this.onpressed,
     required this.buttonText,
   });
@@ -20,7 +22,7 @@ class CustomElevatedButton extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return SizedBox(
       height: size.height * 0.06,
-      width: size.width,
+      width: buttonWidth,
       child: ElevatedButton(
         style: ButtonStyle(
           backgroundColor: MaterialStatePropertyAll(buttonColor),

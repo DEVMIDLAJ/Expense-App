@@ -27,9 +27,7 @@ class MainPage extends StatelessWidget {
             // Transaction history page
             TransactionHistoryPage(),
             // Budget page
-            const BudgetPage(
-              displayedBudget: [],
-            ),
+            const BudgetPage(),
             // Profile page
             ProfilePage(),
           ],

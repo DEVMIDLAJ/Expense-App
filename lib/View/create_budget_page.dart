@@ -1,7 +1,8 @@
-// ignore_for_file: must_be_immutable, unused_local_variable, unnecessary_null_comparison
+// ignore_for_file: must_be_immutable, unused_local_variable, unnecessary_null_comparison, non_constant_identifier_names, unnecessary_string_interpolations, avoid_print
 
 import 'package:expence_app/Model/budget_section_model.dart';
 import 'package:expence_app/View/Widgets/custom_snackbar.dart';
+import 'package:expence_app/controller/provider/budget_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:expence_app/View/Widgets/custom_drop_down_button.dart';
@@ -9,26 +10,30 @@ import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
 import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
 import 'package:expence_app/View/Widgets/display_text.dart';
 import 'package:expence_app/const/colors.dart';
-import 'package:expence_app/controller/provider/auh_provider.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:wave_linear_progress_indicator/wave_linear_progress_indicator.dart';
 
 class CreateBudgetPage extends StatelessWidget {
-  CreateBudgetPage({Key? key});
+  int? Amount;
+  String? Category;
+  CreateBudgetPage({
+    super.key,
+    this.Amount,
+    this.Category,
+  });
 
   final TextEditingController budgetController = TextEditingController();
 
   String? budgetDropdownValue;
 
-  List<BudgetSectionModel> BudgetList = [];
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    AuthProvider createBudgetSectionProvider =
-        Provider.of<AuthProvider>(context);
+    BudgetProvider createBudgetSectionProvider =
+        Provider.of<BudgetProvider>(context);
 
-    return Consumer<AuthProvider>(
+    return Consumer<BudgetProvider>(
         builder: (BuildContext context, data, Widget? _) {
       return Scaffold(
         appBar: AppBar(
@@ -88,6 +93,7 @@ class CreateBudgetPage extends StatelessWidget {
                   textValidator: (p0) {
                     return null;
                   },
+                  cursorColor: kWhite,
                   obscureText: false,
                 ),
               ),
@@ -141,13 +147,13 @@ class CreateBudgetPage extends StatelessWidget {
                           activeColor: kfirstColor,
                           value: data.isLoading,
                           onChanged: (value) {
-                            data.boolLoading();
+                            createBudgetSectionProvider.boolLoading();
                           },
                         ),
                       ),
                     ),
                     SizedBox(height: size.height * 0.05),
-                    data.isLoading
+                    createBudgetSectionProvider.isLoading
                         ? StreamBuilder<double>(
                             stream: _getDownloadProgress(),
                             builder: (context, snapshot) {
@@ -176,16 +182,19 @@ class CreateBudgetPage extends StatelessWidget {
                           );
                           return;
                         }
-
                         try {
                           int amount = int.parse(budgetController.text);
+                          String currentMonth =
+                              DateFormat('MMMM').format(DateTime.now());
                           BudgetSectionModel newBudget = BudgetSectionModel(
                             Amount: amount,
                             Category: budgetDropdownValue,
+                            Month: currentMonth,
+                            Id: DateTime.now().microsecondsSinceEpoch,
                           );
-                          BudgetList.add(newBudget);
+                          print('${newBudget.Month.toString()}');
 
-                          Navigator.of(context).pop(BudgetList);
+                          Navigator.of(context).pop({'newBudget': newBudget});
                         } catch (e) {
                           CustomSnackBar.show(
                             context,

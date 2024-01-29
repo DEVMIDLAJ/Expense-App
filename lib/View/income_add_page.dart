@@ -44,19 +44,17 @@ class IncomePage extends StatelessWidget {
           elevation: 0,
           centerTitle: true,
           backgroundColor: incomeColor,
-          title: const Text(
-            'Income',
-            style: TextStyle(
+          leading: IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            icon: const Icon(
+              Icons.arrow_back_ios,
               color: kWhite,
-              fontWeight: FontWeight.bold,
             ),
           ),
-          leading: IconButton(
-              onPressed: () => Navigator.of(context).pop(),
-              icon: const Icon(
-                Icons.arrow_back_ios,
-                color: kWhite,
-              )),
+          title: const DisplayText(
+            title: 'Income',
+            textFont: FontWeight.w600,
+          ),
         ),
         body: SingleChildScrollView(
           child: Column(
