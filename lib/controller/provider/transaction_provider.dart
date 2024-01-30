@@ -289,7 +289,35 @@ class TransactionProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void boolLoading() {}
+  // Method to get total expenses for a given category
+  int getTotalExpensesForCategory(String category) {
+    print("getTotalExpensesForCategory is opened");
+    List<TransactionDetailsModel> expensesForCategory = transactionDetailsList
+        .where((transaction) =>
+            transaction.Status == 'Expense' && transaction.Category == category)
+        .toList();
+    print("$expensesForCategory");
+
+    int totalExpenseForCategory =
+        expensesForCategory.fold(0, (sum, transaction) {
+      return sum + (transaction.Amount ?? 0);
+    });
+    print("$totalExpenseForCategory");
+    print("totalExpenseForCategory is closed");
+    return totalExpenseForCategory;
+  }
+
+  // Method to get transactions for a given category
+  List<TransactionDetailsModel> getTransactionByCategory(String category) {
+    print("getTransactionByCategory is opened");
+    List<TransactionDetailsModel> transactionsForCategory =
+        transactionDetailsList
+            .where((transaction) => transaction.Category == category)
+            .toList();
+    print("$transactionsForCategory");
+    print("transactionsForCategory is closed");
+    return transactionsForCategory;
+  }
 }
 
 // Enum to represent different date categories

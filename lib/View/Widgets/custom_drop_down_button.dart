@@ -8,12 +8,14 @@ class CustomDropDownButton extends StatelessWidget {
   final void Function(String?) onValueChanged;
   double? buttonWidth;
   bool? hasBorder;
+  Color? itemColor;
 
   CustomDropDownButton({
     Key? key,
     required this.listype,
     required this.onValueChanged,
     this.buttonWidth,
+    this.itemColor,
     this.hasBorder = true,
   }) : super(key: key);
 

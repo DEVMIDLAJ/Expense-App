@@ -47,16 +47,18 @@ class BudgetDetailsPage extends StatelessWidget {
                           bottom: MediaQuery.of(context).viewInsets.bottom,
                         ),
                         child: SizedBox(
-                          height: size.height * 0.3,
+                          height: size.height * 0.23,
                           width: size.width,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               const DisplayText(
                                 title: "Remove this budget?",
                                 textSize: 18,
                                 textFont: FontWeight.w600,
                               ),
+
                               const DisplayText(
                                 title:
                                     "Are you sure do you wanna remove this\n                              budget?",
@@ -68,19 +70,22 @@ class BudgetDetailsPage extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  CustomElevatedButton(
-                                    buttonWidth: size.width * 0.4,
-                                    onpressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    buttonText: 'No',
+                                  Flexible(
+                                    child: CustomElevatedButton(
+                                      onpressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      buttonText: 'No',
+                                    ),
                                   ),
-                                  CustomElevatedButton(
-                                    buttonWidth: size.width * 0.4,
-                                    onpressed: () {},
-                                    buttonText: 'Yes',
-                                    textColor: kWhite,
-                                    buttonColor: kfirstColor,
+                                  SizedBox(width: size.width * 0.02,),
+                                  Flexible(
+                                    child: CustomElevatedButton(
+                                      onpressed: () {},
+                                      buttonText: 'Yes',
+                                      textColor: kWhite,
+                                      buttonColor: kfirstColor,
+                                    ),
                                   ),
                                 ],
                               )

@@ -128,6 +128,21 @@ class CreateBudgetPage extends StatelessWidget {
                         "Education",
                         "Bills"
                       ],
+                      //   final List<Color> categoryColors = [
+                      //   Colors.blue,
+                      //   Colors.green,
+                      //   Colors.orange,
+                      //   Colors.purple,
+                      //   Colors.red,
+                      //   Colors.teal,
+                      //   Colors.indigo,
+                      //   Colors.brown,
+                      //   Colors.amber,
+                      //   Colors.deepOrange,
+                      //   Colors.lightBlue,
+                      //   Colors.pink,
+                      //   Colors.cyan,
+                      // ];
                       onValueChanged: (newvalue) {
                         budgetDropdownValue = createBudgetSectionProvider
                             .updateDropdown(newvalue);

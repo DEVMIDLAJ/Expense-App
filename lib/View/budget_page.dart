@@ -39,7 +39,7 @@ class BudgetPage extends StatelessWidget {
                     children: [
                       IconButton(
                         onPressed: () {
-                          budgetPageProvider.decrementMonths(-1);
+                          budgetPageProvider.monthChanger(-1);
                         },
                         icon: const Icon(
                           Icons.arrow_back_ios_new,
@@ -53,7 +53,7 @@ class BudgetPage extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () {
-                          budgetPageProvider.incrementMonths(1);
+                          budgetPageProvider.monthChanger(1);
                         },
                         icon: const Icon(
                           Icons.arrow_forward_ios,
@@ -95,6 +95,14 @@ class BudgetPage extends StatelessWidget {
                                       budgetPageProvider.BudgetList[index];
                                   if (budget.Month ==
                                       budgetPageProvider.currentMonth) {
+                                    int difference = budgetPageProvider
+                                        .getExpenseDifferenceForCategory(
+                                            context, budget.Category!);
+                                    int totalExpenseForCategory =
+                                        budgetPageProvider
+                                            .getTotalExpensesForCategory(
+                                                context, budget.Category!);
+
                                     return GestureDetector(
                                       onTap: () {
                                         Navigator.of(context).push(
@@ -142,8 +150,7 @@ class BudgetPage extends StatelessWidget {
                                             ],
                                           ),
                                           DisplayText(
-                                            title:
-                                                'Remaining \$${budget.Amount}',
+                                            title: 'Remaining \$$difference',
                                             textColor: kblack,
                                             textSize: 29,
                                             textFont: FontWeight.bold,
@@ -155,7 +162,7 @@ class BudgetPage extends StatelessWidget {
                                           ),
                                           DisplayText(
                                             title:
-                                                '\$${budget.Amount} of \$${budget.Amount}',
+                                                '\$$totalExpenseForCategory of \$${budget.Amount}',
                                             textColor: kgrey,
                                             textSize: 19,
                                             textFont: FontWeight.bold,
