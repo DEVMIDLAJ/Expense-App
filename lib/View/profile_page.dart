@@ -72,7 +72,7 @@ class ProfilePage extends StatelessWidget {
               'assets/logout.png',
               'Logout',
               () {
-                FirebaseService().signOut(context);
+                // FirebaseService().signOut(context);
               },
             ),
           ],

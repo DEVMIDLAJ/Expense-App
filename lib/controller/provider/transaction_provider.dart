@@ -4,6 +4,7 @@
 import 'dart:convert';
 import 'package:expence_app/Model/transaction_datails_model.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Define a Provider class for managing transaction-related state
@@ -18,6 +19,9 @@ class TransactionProvider with ChangeNotifier {
 
   // List to store filtered transactions based on search query
   List<TransactionDetailsModel> filteredTransactionsList = [];
+
+        String formattedMonthDay = DateFormat('MMMM d').format(DateTime.now());
+
 
   // Constructor to load stored values when the provider is initialized
   TransactionProvider() {
@@ -85,8 +89,8 @@ class TransactionProvider with ChangeNotifier {
   int calculateIncome() {
     finalIncome = 0;
     for (TransactionDetailsModel transaction in transactionDetailsList) {
-      if (transaction.Status == 'Income') {
-        finalIncome += transaction.Amount ?? 0;
+      if (transaction.status == 'Income') {
+        finalIncome += transaction.amount ?? 0;
       }
     }
     saveValuesToStorage();
@@ -97,8 +101,8 @@ class TransactionProvider with ChangeNotifier {
   int calculateExpense() {
     finalExpense = 0;
     for (TransactionDetailsModel transaction in transactionDetailsList) {
-      if (transaction.Status == 'Expense') {
-        finalExpense += transaction.Amount ?? 0;
+      if (transaction.status == 'Expense') {
+        finalExpense += transaction.amount ?? 0;
       }
     }
     saveValuesToStorage();
@@ -110,10 +114,10 @@ class TransactionProvider with ChangeNotifier {
     finalExpense = 0;
 
     for (TransactionDetailsModel transaction in transactionDetailsList) {
-      if (transaction.Status == 'Income') {
-        finalIncome += transaction.Amount ?? 0;
-      } else if (transaction.Status == 'Expense') {
-        finalExpense += transaction.Amount ?? 0;
+      if (transaction.status == 'Income') {
+        finalIncome += transaction.amount ?? 0;
+      } else if (transaction.status == 'Expense') {
+        finalExpense += transaction.amount ?? 0;
       }
     }
     mainBalance = finalIncome - finalExpense;
@@ -127,7 +131,7 @@ class TransactionProvider with ChangeNotifier {
     Map<String, List<TransactionDetailsModel>> groupedTransactions = {};
 
     for (TransactionDetailsModel transaction in transactions) {
-      String dateCategory = getDateCategory(transaction.Date);
+      String dateCategory = getDateCategory(transaction.date);
       groupedTransactions.putIfAbsent(dateCategory, () => []);
       groupedTransactions[dateCategory]!.add(transaction);
     }
@@ -203,11 +207,11 @@ class TransactionProvider with ChangeNotifier {
 
     // Ensure transactions have valid dates before filtering
     List<TransactionDetailsModel> validTransactions = transactionDetailsList
-        .where((transaction) => transaction.Date != null)
+        .where((transaction) => transaction.date != null)
         .toList();
 
     filteredTransactionsList = validTransactions.where((transaction) {
-      DateTime transactionDate = DateTime.parse(transaction.Date!);
+      DateTime transactionDate = DateTime.parse(transaction.date!);
       return transactionDate.isAtSameMomentAs(startDate) &&
           transactionDate.isBefore(endDate);
     }).toList();
@@ -215,16 +219,11 @@ class TransactionProvider with ChangeNotifier {
     return filteredTransactionsList.reversed.toList();
   }
 
-  //  (transactionDate.isAfter(startDate) &&
-  //                 transactionDate.isBefore(endDate))
-
-  // Method to search transactions based on a query string
-
   void searchTransactions(String query) {
     filteredTransactionsList = transactionDetailsList
         .where((transaction) =>
-            transaction.Category!.toLowerCase().contains(query.toLowerCase()) ||
-            transaction.Discription!
+            transaction.category!.toLowerCase().contains(query.toLowerCase()) ||
+            transaction.discription!
                 .toLowerCase()
                 .contains(query.toLowerCase()))
         .toList();
@@ -234,13 +233,13 @@ class TransactionProvider with ChangeNotifier {
   void deleteTransaction(int id) {
     // Find the index of the transaction in the main list
     int index = transactionDetailsList
-        .indexWhere((transaction) => transaction.Id == id);
+        .indexWhere((transaction) => transaction.id == id);
     if (index != -1) {
       // Remove the transaction from the main list
       transactionDetailsList.removeAt(index);
       // Find the index of the transaction in the filtered list
       index = filteredTransactionsList
-          .indexWhere((transaction) => transaction.Id == id);
+          .indexWhere((transaction) => transaction.id == id);
       if (index != -1) {
         // Remove the transaction from the filtered list if it exists
         filteredTransactionsList.removeAt(index);
@@ -261,26 +260,26 @@ class TransactionProvider with ChangeNotifier {
       String amoutType) {
     // Create an updated TransactionDetailsModel
     TransactionDetailsModel updatedTransaction = TransactionDetailsModel(
-      Id: transactionId,
-      Category: title,
-      Discription: updatedSubtitle,
-      Amount: double.parse(updatedAmount).toInt(),
-      Date: date,
-      Time: time,
-      Status: status,
-      AmountType: amoutType,
+      id: transactionId,
+      category: title,
+      discription: updatedSubtitle,
+      amount: double.parse(updatedAmount).toInt(),
+      date: date,
+      time: time,
+      status: status,
+      amountType: amoutType,
     );
 
     // Find the index of the transaction in the main list
     int index = transactionDetailsList
-        .indexWhere((transaction) => transaction.Id == transactionId);
+        .indexWhere((transaction) => transaction.id == transactionId);
     if (index != -1) {
       // Update the transaction in the main list
       transactionDetailsList[index] = updatedTransaction;
     }
     // Find the index of the transaction in the filtered list
     index = filteredTransactionsList
-        .indexWhere((transaction) => transaction.Id == transactionId);
+        .indexWhere((transaction) => transaction.id == transactionId);
     if (index != -1) {
       // Update the transaction in the filtered list if it exists
       filteredTransactionsList[index] = updatedTransaction;
@@ -290,33 +289,42 @@ class TransactionProvider with ChangeNotifier {
   }
 
   // Method to get total expenses for a given category
-  int getTotalExpensesForCategory(String category) {
-    print("getTotalExpensesForCategory is opened");
+  int getTotalExpensesForCategory(
+    String category,
+    String month,
+  ) {
     List<TransactionDetailsModel> expensesForCategory = transactionDetailsList
         .where((transaction) =>
-            transaction.Status == 'Expense' && transaction.Category == category)
+            transaction.status == 'Expense' &&
+            transaction.category == category &&
+            getMonthFromDate(transaction.date!) == month)
         .toList();
-    print("$expensesForCategory");
 
     int totalExpenseForCategory =
         expensesForCategory.fold(0, (sum, transaction) {
-      return sum + (transaction.Amount ?? 0);
+
+      return sum + (transaction.amount ?? 0);
     });
-    print("$totalExpenseForCategory");
-    print("totalExpenseForCategory is closed");
     return totalExpenseForCategory;
   }
 
   // Method to get transactions for a given category
-  List<TransactionDetailsModel> getTransactionByCategory(String category) {
-    print("getTransactionByCategory is opened");
+  List<TransactionDetailsModel> getTransactionByCategory(String category, String month) {
     List<TransactionDetailsModel> transactionsForCategory =
         transactionDetailsList
-            .where((transaction) => transaction.Category == category)
+            .where((transaction) => transaction.category == category  &&
+            getMonthFromDate(transaction.date!) == month)
             .toList();
-    print("$transactionsForCategory");
-    print("transactionsForCategory is closed");
+  
     return transactionsForCategory;
+  }
+
+  String getMonthFromDate(String date) {
+    // Parse the date string into a DateTime object
+    DateTime dateTime = DateTime.parse(date);
+    // Use the intl package to format the DateTime object to a month
+    String month = DateFormat.LLLL().format(dateTime);
+    return month;
   }
 }
 

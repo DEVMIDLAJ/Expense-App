@@ -1,59 +1,57 @@
-// A class representing details of a financial transaction
-// ignore_for_file: non_constant_identifier_names, constant_identifier_names, prefer_typing_uninitialized_variables
 
 class TransactionDetailsModel {
   // Attributes of the transaction
   // Amount of the transaction
-  late final int? Amount;
+  late final int? amount;
   // Category of the transaction (e.g., Salary, Expense)
-  late final String? Category;
+  late final String? category;
   // Description of the transaction
-  late final String? Discription;
+  late final String? discription;
   // Type of amount (e.g., Income, Expense)
-  final String? AmountType;
+  final String? amountType;
   // Time of the transaction
-  final String? Time;
+  final String? time;
   // Status of the transaction (e.g., Income, Expense)
-  final String? Status;
+  final String? status;
   // Date of transaction
-  final String? Date;
+  final String? date;
   // transaction id
-  late final int? Id;
+  late final int? id;
 
   // Constructor to initialize the attributes when creating an instance
   TransactionDetailsModel({
-    required this.Amount,
-    required this.Category,
-    required this.Discription,
-    required this.AmountType,
-    required this.Time,
-    required this.Status,
-    required this.Date,
-    required this.Id,
+    required this.amount,
+    required this.category,
+    required this.discription,
+    required this.amountType,
+    required this.time,
+    required this.status,
+    required this.date,
+    required this.id,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'Amount': Amount,
-      'Category': Category,
-      'Discription': Discription,
-      'AmountType': AmountType,
-      'Time': Time,
-      'Status': Status,
-      'Date': Date,
-      'Id': Id,
+      'Amount': amount,
+      'Category': category,
+      'Discription': discription,
+      'AmountType': amountType,
+      'Time': time,
+      'Status': status,
+      'Date': date,
+      'Id': id,
     };
   }
 
   factory TransactionDetailsModel.fromMap(Map<String, dynamic> map) {
     return TransactionDetailsModel(
-        Amount: map['Amount'],
-        Category: map['Category'],
-        Discription: map['Discription'],
-        AmountType: map['AmountType'],
-        Time: map['Time'],
-        Status: map['Status'],
-        Date: map['Date'],
-        Id: map['Id']);
+        amount: map['Amount'],
+        category: map['Category'],
+        discription: map['Discription'],
+        amountType: map['AmountType'],
+        time: map['Time'],
+        status: map['Status'],
+        date: map['Date'],
+        id: map['Id']);
   }
 }

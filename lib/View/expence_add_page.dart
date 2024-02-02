@@ -1,4 +1,5 @@
-// ignore_for_file: non_constant_identifier_names, unnecessary_null_comparison, unused_local_variable, must_be_immutable
+// ignore_for_file: must_be_immutable
+
 import 'package:expence_app/Model/transaction_datails_model.dart';
 import 'package:expence_app/View/Widgets/display_text.dart';
 import 'package:expence_app/View/main_page.dart';
@@ -19,7 +20,7 @@ class ExpensePage extends StatelessWidget {
   ExpensePage({
     super.key,
   });
-  final TextEditingController ExpenseController = TextEditingController();
+  final TextEditingController expenseController = TextEditingController();
 
   final TextEditingController discriptionController = TextEditingController();
 
@@ -77,7 +78,7 @@ class ExpensePage extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.04),
               child: CustomTextFormField(
                 textfieldHight: 80,
-                controller: ExpenseController,
+                controller: expenseController,
                 keybordType: TextInputType.number,
                 textFontSize: 64,
                 textFontColor: kWhite,
@@ -112,7 +113,7 @@ class ExpensePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   CustomDropDownButton(
-                    listype: const [
+                    categories: const [
                       'transaction',
                       'shopping',
                       'substription',
@@ -142,7 +143,7 @@ class ExpensePage extends StatelessWidget {
                     obscureText: false,
                   ),
                   CustomDropDownButton(
-                    listype: const [
+                    categories: const [
                       'Wallet',
                       'Gpay',
                     ],
@@ -178,7 +179,7 @@ class ExpensePage extends StatelessWidget {
                   ),
                   CustomElevatedButton(
                     onpressed: () {
-                      if (ExpenseController.text.isEmpty ||
+                      if (expenseController.text.isEmpty ||
                           discriptionController.text.isEmpty ||
                           categoryDropdownValue == null ||
                           amountTypeDropdownValue == null) {
@@ -187,20 +188,19 @@ class ExpensePage extends StatelessWidget {
                       } else {
                         TransactionDetailsModel newTransaction =
                             TransactionDetailsModel(
-                          Amount: int.parse(ExpenseController.text),
-                          Category: categoryDropdownValue.toString(),
-                          Discription: discriptionController.text,
-                          AmountType: amountTypeDropdownValue.toString(),
-                          Time: DateFormat.jm().format(DateTime.now()),
-                          Status: 'Expense',
-                          Date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
-                          Id: DateTime.now().microsecondsSinceEpoch,
+                          amount: int.parse(expenseController.text),
+                          category: categoryDropdownValue.toString(),
+                          discription: discriptionController.text,
+                          amountType: amountTypeDropdownValue.toString(),
+                          time: DateFormat.jm().format(DateTime.now()),
+                          status: 'Expense',
+                          date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                          id: DateTime.now().microsecondsSinceEpoch,
                         );
-                        print('${newTransaction.Id.toString()}.....Expence id');
                         expenseTransactionProvider.transactionDetailsList
                             .add(newTransaction);
                         expenseTransactionProvider
-                            .expenseCarrier(newTransaction.Amount!);
+                            .expenseCarrier(newTransaction.amount!);
 
                         Navigator.pushReplacement(
                           context,

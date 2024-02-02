@@ -38,12 +38,12 @@ class TransactionHistoryPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-            // leading: IconButton(
-            // onPressed: () => Navigator.of(context).canPop(),
-            // icon: const Icon(
-            //   Icons.arrow_back_ios,
-            //   color: kblack,
-            // )),
+          // leading: IconButton(
+          // onPressed: () => Navigator.of(context).canPop(),
+          // icon: const Icon(
+          //   Icons.arrow_back_ios,
+          //   color: kblack,
+          // )),
           title: const DisplayText(
             title: "Transaction History",
             textSize: 18,
@@ -117,7 +117,7 @@ class TransactionHistoryPage extends StatelessWidget {
                                       transactions[index];
 
                                   Color textColor =
-                                      transaction.Status == 'Income'
+                                      transaction.status == 'Income'
                                           ? incomeColor
                                           : expenseColor;
 
@@ -134,18 +134,18 @@ class TransactionHistoryPage extends StatelessWidget {
                                                 BorderRadius.circular(15),
                                             image: DecorationImage(
                                               image: AssetImage(
-                                                  'assets/${transaction.Category}.png'),
+                                                  'assets/${transaction.category}.png'),
                                             ),
                                           ),
                                         ),
                                         title: DisplayText(
                                           title:
-                                              transaction.Category.toString(),
+                                              transaction.category.toString(),
                                           textSize: 16,
                                           textFont: FontWeight.w500,
                                         ),
                                         subtitle: DisplayText(
-                                          title: transaction.Discription
+                                          title: transaction.discription
                                               .toString(),
                                           textSize: 13,
                                           textFont: FontWeight.w500,
@@ -161,13 +161,13 @@ class TransactionHistoryPage extends StatelessWidget {
                                               children: [
                                                 DisplayText(
                                                   title:
-                                                      "- \$${transaction.Amount}",
+                                                      "- \$${transaction.amount}",
                                                   textSize: 16,
                                                   textFont: FontWeight.w600,
                                                   textColor: textColor,
                                                 ),
                                                 DisplayText(
-                                                  title: transaction.Time
+                                                  title: transaction.time
                                                       .toString(),
                                                   textSize: 13,
                                                   textFont: FontWeight.w500,
@@ -188,27 +188,27 @@ class TransactionHistoryPage extends StatelessWidget {
                                                         Navigator.of(context)
                                                             .pop();
                                                         transactionUpdateDialogBox(
-                                                          transaction.Amount
+                                                          transaction.amount
                                                               .toString(),
-                                                          transaction.Category
+                                                          transaction.category
                                                               .toString(),
                                                           transaction
-                                                                  .Discription
+                                                                  .discription
                                                               .toString(),
-                                                          transaction.Status
+                                                          transaction.status
                                                               .toString(),
-                                                          transaction.Date
+                                                          transaction.date
                                                               .toString(),
-                                                          transaction.Time
+                                                          transaction.time
                                                               .toString(),
-                                                          transaction.AmountType
+                                                          transaction.amountType
                                                               .toString(),
                                                           transactionHistoryProvider,
-                                                          transaction.Id!,
+                                                          transaction.id!,
                                                           context,
                                                         );
                                                         print(
-                                                            "${transaction.Id.toString()}......1");
+                                                            "${transaction.id.toString()}......1");
                                                       },
                                                     ),
                                                   ),
@@ -223,7 +223,7 @@ class TransactionHistoryPage extends StatelessWidget {
                                                             .pop();
                                                         transactionDeleteDialogBox(
                                                             transactionHistoryProvider,
-                                                            transaction.Id!,
+                                                            transaction.id!,
                                                             context);
                                                       },
                                                     ),
@@ -247,14 +247,14 @@ class TransactionHistoryPage extends StatelessWidget {
                                             children: [
                                               DisplayText(
                                                 title:
-                                                    transaction.Date.toString(),
+                                                    transaction.date.toString(),
                                                 textSize: 13,
                                                 textFont: FontWeight.w500,
                                                 textColor: kgrey,
                                               ),
                                               DisplayText(
                                                 title:
-                                                    transaction.Id.toString(),
+                                                    transaction.id.toString(),
                                                 textSize: 13,
                                                 textFont: FontWeight.w500,
                                                 textColor: kgrey,
@@ -282,39 +282,7 @@ class TransactionHistoryPage extends StatelessWidget {
     );
   }
 
-  Future<void> transactionDeleteDialogBox(
-    TransactionProvider provider,
-    int transactionId,
-    BuildContext context,
-  ) {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Delete"),
-          content: const SizedBox(
-            height: 50,
-            child: Text("Are you sure you wanna remove this transaction ?"),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("cancel"),
-            ),
-            TextButton(
-              onPressed: () {
-                provider.deleteTransaction(transactionId);
-                Navigator.of(context).pop();
-              },
-              child: const Text("delete"),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  
 
   Future<void> transactionUpdateDialogBox(
     String amount,
@@ -382,14 +350,14 @@ class TransactionHistoryPage extends StatelessWidget {
 
                 TransactionDetailsModel updatedTransaction =
                     TransactionDetailsModel(
-                  Id: transactionId,
-                  Category: title,
-                  Discription: updatedSubtitle,
-                  Amount: int.tryParse(updatedAmount) ?? 0,
-                  Date: date,
-                  Time: time,
-                  Status: status,
-                  AmountType: amoutType,
+                  id: transactionId,
+                  category: title,
+                  discription: updatedSubtitle,
+                  amount: int.tryParse(updatedAmount) ?? 0,
+                  date: date,
+                  time: time,
+                  status: status,
+                  amountType: amoutType,
                 );
 
                 provider.updateTransaction(transactionId, updatedAmount, title,
@@ -409,6 +377,39 @@ class TransactionHistoryPage extends StatelessWidget {
                 Navigator.of(context).pop();
               },
               child: const Text("Update"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+  Future<void> transactionDeleteDialogBox(
+    TransactionProvider provider,
+    int transactionId,
+    BuildContext context,
+  ) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Delete"),
+          content: const SizedBox(
+            height: 50,
+            child: Text("Are you sure you wanna remove this transaction ?"),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                provider.deleteTransaction(transactionId);
+                Navigator.of(context).pop();
+              },
+              child: const Text("delete"),
             ),
           ],
         );

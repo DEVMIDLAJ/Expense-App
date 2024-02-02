@@ -1,7 +1,7 @@
-// ignore_for_file: must_be_immutable, unused_local_variable
+// ignore_for_file: unused_local_variable
 
 import 'package:expence_app/Model/budget_section_model.dart';
-import 'package:expence_app/View/Widgets/custom_snackbar.dart';
+import 'package:expence_app/View/budget_page.dart';
 import 'package:expence_app/controller/provider/budget_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,27 +10,29 @@ import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
 import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
 import 'package:expence_app/View/Widgets/display_text.dart';
 import 'package:expence_app/const/colors.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:wave_linear_progress_indicator/wave_linear_progress_indicator.dart';
 
-class CreateBudgetPage extends StatelessWidget {
-  int? amount;
-  String? category;
-  CreateBudgetPage({
+class EditBudgetPage extends StatelessWidget {
+  final String amount;
+  final String category;
+  final String month;
+  final int id;
+  EditBudgetPage({
     super.key,
-    this.amount,
-    this.category,
+    required this.amount,
+    required this.category,
+    required this.month,
+    required this.id,
   });
 
-  final TextEditingController budgetController = TextEditingController();
-
-  String? budgetDropdownValue;
+  late final TextEditingController _editBudgetAmountController =
+      TextEditingController(text: amount);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    BudgetProvider createBudgetPageProvider =
+    final BudgetProvider editBudgetSectionProvider =
         Provider.of<BudgetProvider>(context);
 
     return Consumer<BudgetProvider>(
@@ -38,7 +40,7 @@ class CreateBudgetPage extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(
           title: const DisplayText(
-            title: 'Create Budget',
+            title: 'Edit Budget',
             textSize: 20,
             textColor: kWhite,
           ),
@@ -74,10 +76,10 @@ class CreateBudgetPage extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width * 0.04),
+                padding: EdgeInsets.symmetric(horizontal: size.width * 0.08),
                 child: CustomTextFormField(
                   textfieldHight: 82,
-                  controller: budgetController,
+                  controller: _editBudgetAmountController,
                   keybordType: TextInputType.number,
                   textFontSize: 64,
                   textFontColor: kWhite,
@@ -113,26 +115,10 @@ class CreateBudgetPage extends StatelessWidget {
                   children: [
                     SizedBox(height: size.height * 0.02),
                     CustomDropDownButton(
-                      categories: const [
-                        'transaction',
-                        'shopping',
-                        'substription',
-                        'transpotation',
-                        'food',
-                        'fuel',
-                        'rent',
-                        'Groceries',
-                        'gifts',
-                        "pharmacy",
-                        "Kids",
-                        "Education",
-                        "Bills"
+                      categories: [
+                        category,
                       ],
-                      currentMonth: data.currentMonth,
-                      onValueChanged: (newvalue) {
-                        budgetDropdownValue = data.updateDropdown(newvalue);
-                        data.removeCategoryForCurrentMonth(newvalue!);
-                      },
+                      onValueChanged: (newvalue) {},
                     ),
                     SizedBox(height: size.height * 0.03),
                     SizedBox(
@@ -175,31 +161,23 @@ class CreateBudgetPage extends StatelessWidget {
                     const SizedBox(height: 20),
                     CustomElevatedButton(
                       onpressed: () {
-                        if (budgetController.text.isEmpty ||
-                            budgetDropdownValue == null) {
-                          CustomSnackBar.show(
-                            context,
-                            'Please fill all the details',
-                          );
-                          return;
-                        }
-                        try {
-                          int amount = int.parse(budgetController.text);
-                          String currentMonth =
-                              DateFormat('MMMM').format(DateTime.now());
-                          BudgetSectionModel newBudget = BudgetSectionModel(
-                            amount: amount,
-                            category: budgetDropdownValue,
-                            month: currentMonth,
-                            id: DateTime.now().microsecondsSinceEpoch,
-                          );
-                          Navigator.of(context).pop({'newBudget': newBudget});
-                        } catch (e) {
-                          CustomSnackBar.show(
-                            context,
-                            'Invalid input. Please enter a valid number.',
-                          );
-                        }
+                        int updateBudgetAmount =
+                            int.parse(_editBudgetAmountController.text);
+                        BudgetSectionModel updateBudgetListamount =
+                            BudgetSectionModel(
+                                amount: updateBudgetAmount,
+                                category: category,
+                                month: month,
+                                id: id);
+
+                        data.updateBudgetAmount(
+                            id: id,
+                            newAmount: updateBudgetAmount,
+                            category: category,
+                            month: month);
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const BudgetPage(),
+                        ));
                       },
                       buttonText: 'Continue',
                       buttonColor: kfirstColor,
@@ -232,9 +210,7 @@ class CreateBudgetPage extends StatelessWidget {
     ];
     for (final p in values) {
       yield p;
-      await Future.delayed(
-        const Duration(milliseconds: 500),
-      );
+      await Future.delayed(const Duration(milliseconds: 500));
     }
   }
 }

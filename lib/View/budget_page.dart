@@ -1,6 +1,7 @@
-// ignore_for_file: unused_local_variable, avoid_unnecessary_containers
+// ignore_for_file: unused_local_variable
 
 import 'package:expence_app/Model/budget_section_model.dart';
+import 'package:expence_app/View/Widgets/custom_wavw_linear_progress_indicator.dart';
 import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
 import 'package:expence_app/View/Widgets/display_text.dart';
 import 'package:expence_app/View/budget_details_page.dart';
@@ -9,7 +10,6 @@ import 'package:expence_app/const/colors.dart';
 import 'package:expence_app/controller/provider/budget_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wave_linear_progress_indicator/wave_linear_progress_indicator.dart';
 
 class BudgetPage extends StatelessWidget {
   const BudgetPage({
@@ -18,12 +18,10 @@ class BudgetPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BudgetProvider budgetPageProvider =
-        Provider.of<BudgetProvider>(context, listen: false);
     Size size = MediaQuery.of(context).size;
 
     return Consumer<BudgetProvider>(
-      builder: (BuildContext context, BudgetProvider data, Widget? child) {
+      builder: (BuildContext context, BudgetProvider data, Widget? _) {
         return Scaffold(
           backgroundColor: kfirstColor,
           body: Stack(
@@ -39,7 +37,7 @@ class BudgetPage extends StatelessWidget {
                     children: [
                       IconButton(
                         onPressed: () {
-                          budgetPageProvider.monthChanger(-1);
+                          data.monthChanger(-1);
                         },
                         icon: const Icon(
                           Icons.arrow_back_ios_new,
@@ -47,13 +45,13 @@ class BudgetPage extends StatelessWidget {
                         ),
                       ),
                       DisplayText(
-                        title: budgetPageProvider.currentMonth,
+                        title: data.currentMonth,
                         textSize: 20,
                         textColor: kWhite,
                       ),
                       IconButton(
                         onPressed: () {
-                          budgetPageProvider.monthChanger(1);
+                          data.monthChanger(1);
                         },
                         icon: const Icon(
                           Icons.arrow_forward_ios,
@@ -79,7 +77,7 @@ class BudgetPage extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          if (budgetPageProvider.BudgetList.isEmpty)
+                          if (data.budgetList.isEmpty)
                             const Center(
                               child: DisplayText(
                                 title:
@@ -89,26 +87,36 @@ class BudgetPage extends StatelessWidget {
                           else
                             Expanded(
                               child: ListView.builder(
-                                itemCount: budgetPageProvider.BudgetList.length,
+                                itemCount: data.budgetList.length,
                                 itemBuilder: (context, index) {
                                   BudgetSectionModel budget =
-                                      budgetPageProvider.BudgetList[index];
-                                  if (budget.Month ==
-                                      budgetPageProvider.currentMonth) {
-                                    int difference = budgetPageProvider
-                                        .getExpenseDifferenceForCategory(
-                                            context, budget.Category!);
-                                    int totalExpenseForCategory =
-                                        budgetPageProvider
-                                            .getTotalExpensesForCategory(
-                                                context, budget.Category!);
+                                      data.budgetList[index];
+                                  int totalExpenseForCategory =
+                                      data.getTotalExpensesForCategory(context,
+                                          budget.category!, data.currentMonth);
+                                  int difference =
+                                      data.getExpenseDifferenceForCategory(
+                                          context,
+                                          budget.category!,
+                                          data.currentMonth);
+                                  bool exceededLimit =
+                                      budget.amount! > totalExpenseForCategory;
 
+                                  if (budget.month == data.currentMonth) {
                                     return GestureDetector(
                                       onTap: () {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                const BudgetDetailsPage(),
+                                                BudgetDetailsPage(
+                                              amount: budget.amount,
+                                              category: budget.category,
+                                              month: budget.month,
+                                              id: budget.id,
+                                              totalExpence:
+                                                  totalExpenseForCategory,
+                                              remaining: difference,
+                                            ),
                                           ),
                                         );
                                       },
@@ -116,7 +124,9 @@ class BudgetPage extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          SizedBox(height: size.height * 0.03),
+                                          SizedBox(
+                                            height: size.height * 0.03,
+                                          ),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
@@ -125,28 +135,30 @@ class BudgetPage extends StatelessWidget {
                                                 onPressed: () {},
                                                 icon: const CircleAvatar(
                                                   radius: 10,
-                                                  backgroundColor: Colors.blue,
+                                                  backgroundColor: kfirstColor,
                                                 ),
                                                 style: ButtonStyle(
                                                   side:
                                                       MaterialStateProperty.all(
                                                     BorderSide(
                                                       color:
-                                                          Colors.grey.shade200,
+                                                          Colors.grey.shade300,
                                                     ),
                                                   ),
                                                 ),
                                                 label: Text(
-                                                  '${budget.Category?.toUpperCase()}',
+                                                  '${budget.category?.toUpperCase()}',
                                                   style: const TextStyle(
                                                     color: kblack,
                                                   ),
                                                 ),
                                               ),
-                                              const Icon(
-                                                Icons.error,
-                                                color: expenseColor,
-                                              )
+                                              exceededLimit
+                                                  ? const SizedBox.shrink()
+                                                  : const Icon(
+                                                      Icons.error,
+                                                      color: expenseColor,
+                                                    ),
                                             ],
                                           ),
                                           DisplayText(
@@ -155,24 +167,29 @@ class BudgetPage extends StatelessWidget {
                                             textSize: 29,
                                             textFont: FontWeight.bold,
                                           ),
-                                          const WaveLinearProgressIndicator(
-                                            value: 0.1,
-                                            waveBackgroundColor: expenseColor,
-                                            enableBounceAnimation: true,
+                                          CustomLinearProgressIndicator(
+                                            value: totalExpenseForCategory /
+                                                budget.amount!,
+                                            backgroundColor:
+                                                Colors.grey.shade300,
+                                            waveColor: expenseColor,
                                           ),
                                           DisplayText(
                                             title:
-                                                '\$$totalExpenseForCategory of \$${budget.Amount}',
+                                                '\$$totalExpenseForCategory of \$${budget.amount}',
                                             textColor: kgrey,
                                             textSize: 19,
                                             textFont: FontWeight.bold,
                                           ),
-                                          const DisplayText(
-                                            title: 'youve exceed the limit',
-                                            textColor: expenseColor,
-                                            textSize: 14,
-                                            textFont: FontWeight.bold,
-                                          ),
+                                          exceededLimit
+                                              ? const SizedBox.shrink()
+                                              : const DisplayText(
+                                                  title:
+                                                      'youve exceed the limit',
+                                                  textColor: expenseColor,
+                                                  textSize: 14,
+                                                  textFont: FontWeight.bold,
+                                                ),
                                           SizedBox(
                                             height: size.height * 0.1,
                                           )
@@ -207,7 +224,7 @@ class BudgetPage extends StatelessWidget {
                             result.containsKey('newBudget') &&
                             result['newBudget'] is BudgetSectionModel) {
                           BudgetSectionModel newBudget = result['newBudget'];
-                          budgetPageProvider.addBudget(newBudget);
+                          data.addBudget(newBudget);
                         }
                       },
                     );

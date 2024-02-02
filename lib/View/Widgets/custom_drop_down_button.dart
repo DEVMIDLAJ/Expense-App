@@ -4,16 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CustomDropDownButton extends StatelessWidget {
-  final List<String> listype;
+  final List<String> categories;
   final void Function(String?) onValueChanged;
+  String? currentMonth;
+
   double? buttonWidth;
   bool? hasBorder;
   Color? itemColor;
 
   CustomDropDownButton({
     Key? key,
-    required this.listype,
+    required this.categories,
     required this.onValueChanged,
+    this.currentMonth,
     this.buttonWidth,
     this.itemColor,
     this.hasBorder = true,
@@ -22,8 +25,9 @@ class CustomDropDownButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthProvider dropdownProvider = Provider.of<AuthProvider>(context);
-    String? currentValue =
-        listype.isEmpty ? dropdownProvider.updateDropdownValue : listype[0];
+    String? currentValue = categories.isEmpty
+        ? dropdownProvider.updateDropdownValue
+        : categories[0];
 
     return SizedBox(
       width: buttonWidth,
@@ -34,10 +38,10 @@ class CustomDropDownButton extends StatelessWidget {
               : InputBorder.none,
         ),
         value: currentValue,
-        items: listype.map((String listype) {
+        items: categories.map((String value) {
           return DropdownMenuItem(
-            value: listype,
-            child: Text(listype),
+            value: value,
+            child: Text(value),
           );
         }).toList(),
         onChanged: onValueChanged,
