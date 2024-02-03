@@ -22,7 +22,6 @@ class TransactionProvider with ChangeNotifier {
 
   String formattedMonthDay = DateFormat('MMMM d').format(DateTime.now());
 
-
   // Constructor to load stored values when the provider is initialized
   TransactionProvider() {
     loadStoredValues();
@@ -108,7 +107,6 @@ class TransactionProvider with ChangeNotifier {
     saveValuesToStorage();
     return finalExpense;
   }
-
 
   int calculateIncomeExpenseBalance() {
     finalIncome = 0;
@@ -220,8 +218,6 @@ class TransactionProvider with ChangeNotifier {
     return filteredTransactionsList.reversed.toList();
   }
 
-
-
   void searchTransactions(String query) {
     filteredTransactionsList = transactionDetailsList
         .where((transaction) =>
@@ -232,8 +228,6 @@ class TransactionProvider with ChangeNotifier {
         .toList();
     notifyListeners();
   }
-
-
 
   void deleteTransaction(int id) {
     // Find the index of the transaction in the main list
@@ -249,11 +243,11 @@ class TransactionProvider with ChangeNotifier {
         // Remove the transaction from the filtered list if it exists
         filteredTransactionsList.removeAt(index);
       }
+      saveValuesToStorage();
       // Notify listeners to update the UI
       notifyListeners();
     }
   }
-
 
   void updateTransaction(
       int transactionId,
@@ -290,6 +284,7 @@ class TransactionProvider with ChangeNotifier {
       // Update the transaction in the filtered list if it exists
       filteredTransactionsList[index] = updatedTransaction;
     }
+    saveValuesToStorage();
     // Notify listeners to update the UI
     notifyListeners();
   }
@@ -308,20 +303,21 @@ class TransactionProvider with ChangeNotifier {
 
     int totalExpenseForCategory =
         expensesForCategory.fold(0, (sum, transaction) {
-
       return sum + (transaction.amount ?? 0);
     });
     return totalExpenseForCategory;
   }
 
   // Method to get transactions for a given category
-  List<TransactionDetailsModel> getTransactionByCategory(String category, String month) {
+  List<TransactionDetailsModel> getTransactionByCategory(
+      String category, String month) {
     List<TransactionDetailsModel> transactionsForCategory =
         transactionDetailsList
-            .where((transaction) => transaction.category == category  &&
-            getMonthFromDate(transaction.date!) == month)
+            .where((transaction) =>
+                transaction.category == category &&
+                getMonthFromDate(transaction.date!) == month)
             .toList();
-  
+
     return transactionsForCategory;
   }
 

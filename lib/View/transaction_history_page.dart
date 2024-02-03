@@ -1,3 +1,4 @@
+// ignore_for_file: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
 
 import 'package:expence_app/Model/transaction_datails_model.dart';
 import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
