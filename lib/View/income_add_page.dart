@@ -53,6 +53,8 @@ class IncomePage extends StatelessWidget {
             ),
             title: const DisplayText(
               title: 'Income',
+              textColor: kWhite,
+              textSize: 18,
               textFont: FontWeight.w600,
             ),
           ),

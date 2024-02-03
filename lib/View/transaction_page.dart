@@ -27,19 +27,19 @@ class TransactionPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: transactionColor,
-        title: const Text(
-          'Transfer',
-          style: TextStyle(
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: const Icon(
+            Icons.arrow_back,
             color: kWhite,
-            fontWeight: FontWeight.bold,
           ),
         ),
-        leading: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: kWhite,
-            )),
+        title: const DisplayText(
+          title: 'Transaction',
+          textColor: kWhite,
+          textSize: 18,
+          textFont: FontWeight.w600,
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(

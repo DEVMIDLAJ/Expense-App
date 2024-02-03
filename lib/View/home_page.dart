@@ -150,11 +150,26 @@ class HomePage extends StatelessWidget {
                     Expanded(
                       child: TabBarView(
                         children: [
-                          buildTabContent(context, data, DateCategory.Today),
-                          buildTabContent(context, data, DateCategory.ThisWeek),
                           buildTabContent(
-                              context, data, DateCategory.ThisMonth),
-                          buildTabContent(context, data, DateCategory.ThisYear),
+                            context,
+                            data,
+                            DateCategory.Today,
+                          ),
+                          buildTabContent(
+                            context,
+                            data,
+                            DateCategory.ThisWeek,
+                          ),
+                          buildTabContent(
+                            context,
+                            data,
+                            DateCategory.ThisMonth,
+                          ),
+                          buildTabContent(
+                            context,
+                            data,
+                            DateCategory.ThisYear,
+                          ),
                         ],
                       ),
                     ),

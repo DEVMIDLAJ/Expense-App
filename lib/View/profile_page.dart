@@ -1,8 +1,11 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
+import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
 import 'package:expence_app/View/Widgets/display_text.dart';
 import 'package:expence_app/View/Widgets/profile_url_display.dart';
+import 'package:expence_app/View/explore_data_page.dart';
+import 'package:expence_app/View/settings_page.dart';
 import 'package:expence_app/const/colors.dart';
 import 'package:expence_app/controller/firebase_service.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +53,7 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
             ),
-             SizedBox(
+            SizedBox(
               height: size.height * 0.03,
             ),
             profileOptions(
@@ -61,18 +64,91 @@ class ProfilePage extends StatelessWidget {
             profileOptions(
               'assets/settings.png',
               'settings',
-              () {},
+              () {
+                  Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const SettingsPage(),
+                  ),
+                );
+              },
             ),
             profileOptions(
               'assets/upload.png',
               'Export Data',
-              () {},
+              () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const ExploreDataPage(),
+                  ),
+                );
+              },
             ),
             profileOptions(
               'assets/logout.png',
               'Logout',
               () {
-                // FirebaseService().signOut(context);
+                showModalBottomSheet(
+                  isScrollControlled: true,
+                  context: context,
+                  builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                        ),
+                        child: SizedBox(
+                          height: size.height * 0.26,
+                          width: size.width,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const DisplayText(
+                                title: "Logout?",
+                                textSize: 18,
+                                textFont: FontWeight.w600,
+                              ),
+                              const DisplayText(
+                                title: "Are you sure do you wanna logout?",
+                                textColor: kgrey,
+                                textSize: 16,
+                                textFont: FontWeight.w500,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Flexible(
+                                    child: CustomElevatedButton(
+                                      onpressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      buttonText: 'No',
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: size.width * 0.02,
+                                  ),
+                                  Flexible(
+                                    child: CustomElevatedButton(
+                                      onpressed: () {
+                                        FirebaseService().signOut(context);
+                                      },
+                                      buttonText: 'Yes',
+                                      textColor: kWhite,
+                                      buttonColor: kfirstColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
               },
             ),
           ],

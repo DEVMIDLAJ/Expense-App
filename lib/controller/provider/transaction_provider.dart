@@ -20,7 +20,7 @@ class TransactionProvider with ChangeNotifier {
   // List to store filtered transactions based on search query
   List<TransactionDetailsModel> filteredTransactionsList = [];
 
-        String formattedMonthDay = DateFormat('MMMM d').format(DateTime.now());
+  String formattedMonthDay = DateFormat('MMMM d').format(DateTime.now());
 
 
   // Constructor to load stored values when the provider is initialized
@@ -108,6 +108,7 @@ class TransactionProvider with ChangeNotifier {
     saveValuesToStorage();
     return finalExpense;
   }
+
 
   int calculateIncomeExpenseBalance() {
     finalIncome = 0;
@@ -219,6 +220,8 @@ class TransactionProvider with ChangeNotifier {
     return filteredTransactionsList.reversed.toList();
   }
 
+
+
   void searchTransactions(String query) {
     filteredTransactionsList = transactionDetailsList
         .where((transaction) =>
@@ -229,6 +232,8 @@ class TransactionProvider with ChangeNotifier {
         .toList();
     notifyListeners();
   }
+
+
 
   void deleteTransaction(int id) {
     // Find the index of the transaction in the main list
@@ -248,6 +253,7 @@ class TransactionProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
 
   void updateTransaction(
       int transactionId,

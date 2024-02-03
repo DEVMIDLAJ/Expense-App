@@ -1,8 +1,9 @@
-// ignore_for_file: unused_field, unused_local_variable, no_leading_underscores_for_local_identifiers, avoid_print
 
 import 'package:expence_app/Model/transaction_datails_model.dart';
 import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
 import 'package:expence_app/View/Widgets/display_text.dart';
+import 'package:expence_app/View/Widgets/transaction_delete_dialog_box.dart';
+import 'package:expence_app/View/Widgets/transaction_update_dialog_box.dart';
 import 'package:expence_app/const/colors.dart';
 import 'package:expence_app/controller/provider/transaction_provider.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +13,9 @@ class TransactionHistoryPage extends StatelessWidget {
   TransactionHistoryPage({super.key});
 
   final TextEditingController transactionController = TextEditingController();
-  final TextEditingController _titleEditController = TextEditingController();
-  final TextEditingController _subTitleEditController = TextEditingController();
-  final TextEditingController _amountEditController = TextEditingController();
+  final TextEditingController titleEditController = TextEditingController();
+  final TextEditingController subTitleEditController = TextEditingController();
+  final TextEditingController amountEditController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +39,6 @@ class TransactionHistoryPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          // leading: IconButton(
-          // onPressed: () => Navigator.of(context).canPop(),
-          // icon: const Icon(
-          //   Icons.arrow_back_ios,
-          //   color: kblack,
-          // )),
           title: const DisplayText(
             title: "Transaction History",
             textSize: 18,
@@ -120,7 +115,6 @@ class TransactionHistoryPage extends StatelessWidget {
                                       transaction.status == 'Income'
                                           ? incomeColor
                                           : expenseColor;
-
                                   return Column(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
@@ -193,7 +187,7 @@ class TransactionHistoryPage extends StatelessWidget {
                                                           transaction.category
                                                               .toString(),
                                                           transaction
-                                                                  .discription
+                                                              .discription
                                                               .toString(),
                                                           transaction.status
                                                               .toString(),
@@ -207,8 +201,6 @@ class TransactionHistoryPage extends StatelessWidget {
                                                           transaction.id!,
                                                           context,
                                                         );
-                                                        print(
-                                                            "${transaction.id.toString()}......1");
                                                       },
                                                     ),
                                                   ),
@@ -222,9 +214,10 @@ class TransactionHistoryPage extends StatelessWidget {
                                                         Navigator.of(context)
                                                             .pop();
                                                         transactionDeleteDialogBox(
-                                                            transactionHistoryProvider,
-                                                            transaction.id!,
-                                                            context);
+                                                          transactionHistoryProvider,
+                                                          transaction.id!,
+                                                          context,
+                                                        );
                                                       },
                                                     ),
                                                   ),
@@ -282,8 +275,6 @@ class TransactionHistoryPage extends StatelessWidget {
     );
   }
 
-  
-
   Future<void> transactionUpdateDialogBox(
     String amount,
     String title,
@@ -291,129 +282,62 @@ class TransactionHistoryPage extends StatelessWidget {
     String status,
     String date,
     String time,
-    String amoutType,
+    String amountType,
     TransactionProvider provider,
     int transactionId,
     BuildContext context,
   ) async {
-    final TextEditingController _amountEditController =
-        TextEditingController(text: amount);
-    final TextEditingController _subTitleEditController =
-        TextEditingController(text: subTitle);
-
-    return showDialog(
+    showDialog(
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Update"),
-          content: SizedBox(
-            height: 180,
-            child: Column(
-              children: [
-                // const SizedBox(
-                //   height: 10,
-                // ),
-                CustomTextFormField(
-                  controller: _amountEditController,
-                  keybordType: TextInputType.number,
-                  labelText: "Edit Transaction Amount",
-                  hintColor: kgrey,
-                  textValidator: (p0) {
-                    return null;
-                  },
-                  obscureText: false,
-                ),
-                CustomTextFormField(
-                  controller: _subTitleEditController,
-                  keybordType: TextInputType.text,
-                  labelText: "Edit Transaction subTitle",
-                  hintColor: kgrey,
-                  textValidator: (p0) {
-                    return null;
-                  },
-                  obscureText: false,
-                )
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("cancel"),
-            ),
-            TextButton(
-              onPressed: () {
-                String updatedAmount = _amountEditController.text;
-                String updatedSubtitle = _subTitleEditController.text;
+      builder: (context) => TransactionUpdateDialog(
+        amount: amount,
+        subTitle: subTitle,
+        transactionId: transactionId,
+        onUpdate: (updatedAmount, updatedSubtitle) {
+          // Update your transaction here
+          provider.updateTransaction(
+            transactionId,
+            updatedAmount,
+            title,
+            updatedSubtitle,
+            status,
+            date,
+            time,
+            amountType,
+          );
 
-                TransactionDetailsModel updatedTransaction =
-                    TransactionDetailsModel(
-                  id: transactionId,
-                  category: title,
-                  discription: updatedSubtitle,
-                  amount: int.tryParse(updatedAmount) ?? 0,
-                  date: date,
-                  time: time,
-                  status: status,
-                  amountType: amoutType,
-                );
+          int kAmount = int.parse(amount);
+          int kUpdatedAmount = int.parse(updatedAmount);
 
-                provider.updateTransaction(transactionId, updatedAmount, title,
-                    updatedSubtitle, status, date, time, amoutType);
-
-                int kAmount = int.parse(amount);
-                int kUpdatedAmount = int.parse(updatedAmount);
-
-                // Update the main balance
-                kAmount > kUpdatedAmount
-                    ? provider.mainBalance -= kAmount - kUpdatedAmount
-                    : provider.mainBalance += kUpdatedAmount - kAmount;
-                print('${kAmount.toString()}....kamount');
-                print('${kUpdatedAmount.toString()}.....kUpdateAmout');
-                print("${provider.mainBalance.toString()}......mainbalance");
-
-                Navigator.of(context).pop();
-              },
-              child: const Text("Update"),
-            ),
-          ],
-        );
-      },
+          // Update the main balance
+          if (kAmount > kUpdatedAmount && status == "Income") {
+            provider.mainBalance -= kAmount - kUpdatedAmount;
+          } else if (kUpdatedAmount > kAmount && status == "Income") {
+            provider.mainBalance += kUpdatedAmount - kAmount;
+          } else if (kAmount > kUpdatedAmount && status == "Expense") {
+            provider.mainBalance += kAmount - kUpdatedAmount;
+          } else {
+            provider.mainBalance -= kUpdatedAmount - kAmount;
+          }
+        },
+      ),
     );
   }
+
   Future<void> transactionDeleteDialogBox(
     TransactionProvider provider,
     int transactionId,
     BuildContext context,
-  ) {
-    return showDialog(
+  ) async {
+    showDialog(
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Delete"),
-          content: const SizedBox(
-            height: 50,
-            child: Text("Are you sure you wanna remove this transaction ?"),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("cancel"),
-            ),
-            TextButton(
-              onPressed: () {
-                provider.deleteTransaction(transactionId);
-                Navigator.of(context).pop();
-              },
-              child: const Text("delete"),
-            ),
-          ],
-        );
-      },
+      builder: (context) => TransactionDeleteDialog(
+        transactionId: transactionId,
+        onDelete: (deletedTransactionId) {
+          // Delete your transaction here
+          provider.deleteTransaction(deletedTransactionId);
+        },
+      ),
     );
   }
 }

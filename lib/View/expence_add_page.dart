@@ -41,19 +41,19 @@ class ExpensePage extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         backgroundColor: expenseColor,
-        title: const Text(
-          'Expense',
-          style: TextStyle(
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: const Icon(
+            Icons.arrow_back,
             color: kWhite,
-            fontWeight: FontWeight.bold,
           ),
         ),
-        leading: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: kWhite,
-            )),
+        title: const DisplayText(
+          title: 'Expence',
+          textColor: kWhite,
+          textSize: 18,
+          textFont: FontWeight.w600,
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
