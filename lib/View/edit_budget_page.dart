@@ -1,9 +1,9 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:expence_app/Model/budget_section_model.dart';
+import 'package:expence_app/View/Widgets/build_toggle_switch_section.dart';
 import 'package:expence_app/View/budget_page.dart';
 import 'package:expence_app/controller/provider/budget_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:expence_app/View/Widgets/custom_drop_down_button.dart';
 import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
@@ -36,161 +36,157 @@ class EditBudgetPage extends StatelessWidget {
         Provider.of<BudgetProvider>(context);
 
     return Consumer<BudgetProvider>(
-        builder: (BuildContext context, data, Widget? _) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const DisplayText(
-            title: 'Edit Budget',
-            textSize: 20,
-            textColor: kWhite,
-          ),
-          leading: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: kWhite,
+      builder: (BuildContext context, data, Widget? _) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const DisplayText(
+              title: 'Edit Budget',
+              textSize: 20,
+              textColor: kWhite,
             ),
+            leading: IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: kWhite,
+              ),
+            ),
+            centerTitle: true,
+            backgroundColor: kfirstColor,
           ),
-          centerTitle: true,
           backgroundColor: kfirstColor,
-        ),
-        backgroundColor: kfirstColor,
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              SizedBox(
-                height: size.height * 0.33,
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: size.width * 0.08,
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SizedBox(
+                  height: size.height * 0.33,
                 ),
-                child: const Text(
-                  'How Much do you want to spend ?',
-                  style: TextStyle(
-                    color: kgrey,
-                    fontWeight: FontWeight.bold,
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: size.width * 0.08,
                   ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width * 0.08),
-                child: CustomTextFormField(
-                  textfieldHight: 82,
-                  controller: _editBudgetAmountController,
-                  keybordType: TextInputType.number,
-                  textFontSize: 64,
-                  textFontColor: kWhite,
-                  prefixIcon: const DisplayText(
-                    title: '\$',
-                    textSize: 64,
-                    textFont: FontWeight.w600,
-                    textColor: kWhite,
-                  ),
-                  hintFontsize: 64,
-                  hintColor: kWhite,
-                  hasBorder: false,
-                  textValidator: (p0) {
-                    return null;
-                  },
-                  cursorColor: kWhite,
-                  obscureText: false,
-                ),
-              ),
-              Container(
-                height: size.height * 0.4,
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: size.width * 0.04),
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
-                  color: kWhite,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: size.height * 0.02),
-                    CustomDropDownButton(
-                      categories: [
-                        category,
-                      ],
-                      onValueChanged: (newvalue) {},
+                  child: const Text(
+                    'How Much do you want to spend ?',
+                    style: TextStyle(
+                      color: kgrey,
+                      fontWeight: FontWeight.bold,
                     ),
-                    SizedBox(height: size.height * 0.03),
-                    SizedBox(
-                      height: size.height * 0.05,
-                      width: size.width,
-                      child: ListTile(
-                        title: const Text('Receive Alert'),
-                        subtitle: const Text(
-                            'Receive alert when it reaches\n some point'),
-                        trailing: CupertinoSwitch(
-                          thumbColor: kWhite,
-                          trackColor: ksecondColor,
-                          activeColor: kfirstColor,
-                          value: data.isLoading,
-                          onChanged: (value) {
-                            data.boolLoading();
-                          },
-                        ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: size.width * 0.08),
+                  child: CustomTextFormField(
+                    textfieldHight: 82,
+                    controller: _editBudgetAmountController,
+                    keybordType: TextInputType.number,
+                    textFontSize: 64,
+                    textFontColor: kWhite,
+                    prefixIcon: const DisplayText(
+                      title: '\$',
+                      textSize: 64,
+                      textFont: FontWeight.w600,
+                      textColor: kWhite,
+                    ),
+                    hintFontsize: 64,
+                    hintColor: kWhite,
+                    hasBorder: false,
+                    textValidator: (p0) {
+                      return null;
+                    },
+                    cursorColor: kWhite,
+                    obscureText: false,
+                  ),
+                ),
+                Container(
+                  height: size.height * 0.4,
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: size.width * 0.04),
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
+                    color: kWhite,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: size.height * 0.02),
+                      CustomDropDownButton(
+                        categories: [
+                          category,
+                        ],
+                        hintText: category,
+                        onValueChanged: (newvalue) {},
                       ),
-                    ),
-                    SizedBox(height: size.height * 0.05),
-                    data.isLoading
-                        ? StreamBuilder<double>(
-                            stream: _getDownloadProgress(),
-                            builder: (context, snapshot) {
-                              double progress = 0.05;
-                              if (snapshot.hasData) {
-                                progress = snapshot.data!;
-                              }
-                              return WaveLinearProgressIndicator(
-                                value: progress,
-                                waveWidth: 8,
-                                color: kfirstColor,
-                                waveColor: kfirstColor,
-                                waveBackgroundColor: kfirstColor,
-                              );
-                            },
-                          )
-                        : const SizedBox.shrink(),
-                    const SizedBox(height: 20),
-                    CustomElevatedButton(
-                      onpressed: () {
-                        int updateBudgetAmount =
-                            int.parse(_editBudgetAmountController.text);
-                        BudgetSectionModel updateBudgetListamount =
-                            BudgetSectionModel(
-                                amount: updateBudgetAmount,
-                                category: category,
-                                month: month,
-                                id: id);
+                      SizedBox(height: size.height * 0.03),
+                      BuildToggleSwitch(
+                        title: "Receive Alert",
+                        subTitle: "Receive alert when it reaches some point.",
+                        value: data.isLoading,
+                        toggleChanged: (bool value) {
+                          data.boolLoading();
+                        },
+                      ),
+                      SizedBox(height: size.height * 0.05),
+                      data.isLoading
+                          ? StreamBuilder<double>(
+                              stream: _getDownloadProgress(),
+                              builder: (context, snapshot) {
+                                double progress = 0.05;
+                                if (snapshot.hasData) {
+                                  progress = snapshot.data!;
+                                }
+                                return WaveLinearProgressIndicator(
+                                  value: progress,
+                                  waveWidth: 8,
+                                  color: kfirstColor,
+                                  waveColor: kfirstColor,
+                                  waveBackgroundColor: kfirstColor,
+                                );
+                              },
+                            )
+                          : const SizedBox.shrink(),
+                      const SizedBox(height: 20),
+                      CustomElevatedButton(
+                        onpressed: () {
+                          int updateBudgetAmount =
+                              int.parse(_editBudgetAmountController.text);
+                          BudgetSectionModel updateBudgetListamount =
+                              BudgetSectionModel(
+                            amount: updateBudgetAmount,
+                            category: category,
+                            month: month,
+                            id: id,
+                          );
 
-                        data.updateBudgetAmount(
+                          data.updateBudgetAmount(
                             id: id,
                             newAmount: updateBudgetAmount,
                             category: category,
-                            month: month);
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => const BudgetPage(),
-                        ));
-                      },
-                      buttonText: 'Continue',
-                      buttonColor: kfirstColor,
-                      textColor: kWhite,
-                    ),
-                  ],
+                            month: month,
+                          );
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => const BudgetPage(),
+                            ),
+                          );
+                        },
+                        buttonText: 'Continue',
+                        buttonColor: kfirstColor,
+                        textColor: kWhite,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 
   Stream<double> _getDownloadProgress() async* {

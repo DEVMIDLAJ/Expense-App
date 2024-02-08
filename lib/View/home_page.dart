@@ -19,8 +19,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    TransactionProvider homeTransactionProvider =
-        Provider.of<TransactionProvider>(context);
 
     return Consumer(
       builder: (BuildContext context, TransactionProvider data, Widget? _) {

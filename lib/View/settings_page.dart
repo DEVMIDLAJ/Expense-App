@@ -2,6 +2,10 @@
 
 import 'package:expence_app/View/Widgets/display_text.dart';
 import 'package:expence_app/View/currency_page.dart';
+import 'package:expence_app/View/language_page.dart';
+import 'package:expence_app/View/notification_page.dart';
+import 'package:expence_app/View/security_page.dart';
+import 'package:expence_app/View/theme_page.dart';
 import 'package:expence_app/const/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -25,33 +29,48 @@ class SettingsPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: size.width * 0.03),
         child: Column(
           children: [
+            SizedBox(
+              height: size.height * 0.02,
+            ),
             buildSettingsOptions(
               "Currency",
               "USD",
               () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const CurrencyPage()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => CurrencyPage()));
               },
             ),
             buildSettingsOptions(
               "Language",
               "English",
-              () {},
+              () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => LanguagePage()));
+              },
             ),
             buildSettingsOptions(
               "Theme",
               "Light",
-              () {},
+              () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => ThemePage()));
+              },
             ),
             buildSettingsOptions(
               "Security",
               "Fingerprint",
-              () {},
+              () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => SecurityPage()));
+              },
             ),
             buildSettingsOptions(
               "Notification",
               "",
-              () {},
+              () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) =>  const NotificationPage()));
+              },
             ),
             SizedBox(
               height: size.height * 0.04,

@@ -65,7 +65,7 @@ class ProfilePage extends StatelessWidget {
               'assets/settings.png',
               'settings',
               () {
-                  Navigator.of(context).push(
+                Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const SettingsPage(),
                   ),
@@ -157,31 +157,38 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  GestureDetector profileOptions(
+  profileOptions(
     String imageUrl,
     String title,
     void Function() buttonAction,
   ) {
-    return GestureDetector(
-      onTap: buttonAction,
-      child: ListTile(
-        leading: Container(
-          height: 50,
-          width: 50,
-          decoration: BoxDecoration(
-            color: Colors.purple.shade50,
-            borderRadius: BorderRadius.circular(15),
-            image: DecorationImage(
-              image: AssetImage(imageUrl),
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: buttonAction,
+          child: ListTile(
+            leading: Container(
+              height: 50,
+              width: 50,
+              decoration: BoxDecoration(
+                color: Colors.purple.shade50,
+                borderRadius: BorderRadius.circular(15),
+                image: DecorationImage(
+                  image: AssetImage(imageUrl),
+                ),
+              ),
+            ),
+            title: DisplayText(
+              title: title,
+              textSize: 16,
+              textFont: FontWeight.w500,
             ),
           ),
         ),
-        title: DisplayText(
-          title: title,
-          textSize: 16,
-          textFont: FontWeight.w500,
+        const SizedBox(
+          height: 20,
         ),
-      ),
+      ],
     );
   }
 }

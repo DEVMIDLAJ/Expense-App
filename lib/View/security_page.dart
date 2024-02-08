@@ -1,5 +1,3 @@
-// ignore_for_file: unused_local_variable
-
 import 'package:expence_app/Model/checkbox_listtile_model.dart';
 import 'package:expence_app/View/Widgets/build_checkbox_listtile.dart';
 import 'package:expence_app/View/Widgets/display_text.dart';
@@ -7,28 +5,23 @@ import 'package:expence_app/controller/provider/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CurrencyPage extends StatelessWidget {
-  CurrencyPage({super.key});
+class SecurityPage extends StatelessWidget {
+  SecurityPage({super.key});
 
-  final List<CheckboxListTileModel> currencyList = [
-    CheckboxListTileModel(title: "United State", subTitle: "(USD)"),
-    CheckboxListTileModel(title: "Indonesia", subTitle: "(IDR)"),
-    CheckboxListTileModel(title: "Japan", subTitle: "(JYP)"),
-    CheckboxListTileModel(title: "Russia", subTitle: "(RUB)"),
-    CheckboxListTileModel(title: "Germany", subTitle: "(EUR)"),
-    CheckboxListTileModel(title: "Korea", subTitle: "(WON)"),
+  final List<CheckboxListTileModel> securityList = [
+    CheckboxListTileModel(title: "Pin", subTitle: ""),
+    CheckboxListTileModel(title: "FingerPrint", subTitle: ""),
+    CheckboxListTileModel(title: "Face Id", subTitle: ""),
   ];
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Consumer(
       builder: (BuildContext context, ProfileProvider data, Widget? _) {
         return Scaffold(
           appBar: AppBar(
             title: const DisplayText(
-              title: "Currency",
+              title: "Security",
               textSize: 20,
               textFont: FontWeight.bold,
             ),
@@ -41,9 +34,7 @@ class CurrencyPage extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                BuildCheckboxListTile(
-                  newCheckList: currencyList,
-                ),
+               BuildCheckboxListTile(newCheckList: securityList)
               ],
             ),
           ),

@@ -27,7 +27,7 @@ class ExploreDataPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             SizedBox(
-              height: size.height * 0.05,
+              height: size.height * 0.07,
             ),
             const DisplayText(
               title: "What data do your want to explore?",
@@ -39,6 +39,7 @@ class ExploreDataPage extends StatelessWidget {
             ),
             CustomDropDownButton(
               categories: const ["All"],
+              hintText: "All",
               onValueChanged: (value) {},
             ),
             SizedBox(
@@ -54,6 +55,7 @@ class ExploreDataPage extends StatelessWidget {
             ),
             CustomDropDownButton(
               categories: const ["Last 30 Days"],
+              hintText: "Last 30 Days",
               onValueChanged: (value) {},
             ),
             SizedBox(
@@ -69,6 +71,7 @@ class ExploreDataPage extends StatelessWidget {
             ),
             CustomDropDownButton(
               categories: const ["CSV"],
+              hintText: "CSV",
               onValueChanged: (value) {},
             ),
             const Spacer(),

@@ -91,6 +91,7 @@ class BudgetProvider with ChangeNotifier {
     List<String> serializedList =
         budgetList.map((budget) => json.encode(budget.toMap())).toList();
     prefs.setStringList('budgetList', serializedList);
+    
   }
 
   void addBudget(BudgetSectionModel newBudget) {

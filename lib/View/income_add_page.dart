@@ -1,6 +1,6 @@
-// ignore_for_file: must_be_immutable
-
+// ignore_for_file: must_be_immutable,
 import 'package:expence_app/Model/transaction_datails_model.dart';
+import 'package:expence_app/View/Widgets/build_toggle_switch_section.dart';
 import 'package:expence_app/View/Widgets/display_text.dart';
 import 'package:expence_app/View/main_page.dart';
 import 'package:expence_app/View/Widgets/attachment.dart';
@@ -11,7 +11,6 @@ import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
 import 'package:expence_app/const/colors.dart';
 import 'package:expence_app/controller/provider/auh_provider.dart';
 import 'package:expence_app/controller/provider/transaction_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -120,6 +119,7 @@ class IncomePage extends StatelessWidget {
                           'salary',
                           'freelance Work',
                         ],
+                        hintText: "Select Category",
                         onValueChanged: (newvalue) {
                           categoryDropdownValue =
                               incomeProvider.updateDropdown(newvalue);
@@ -139,28 +139,20 @@ class IncomePage extends StatelessWidget {
                           'Wallet',
                           'Gpay',
                         ],
+                        hintText: "Select Payment",
                         onValueChanged: (newvalue) {
                           amountTypeDropdownValue =
                               incomeProvider.updateDropdown(newvalue!);
                         },
                       ),
                       const Attachment(),
-                      SizedBox(
-                        height: size.height * 0.05,
-                        width: size.width,
-                        child: ListTile(
-                          title: const Text('Repeat'),
-                          subtitle: const Text('Repeat Transaction'),
-                          trailing: CupertinoSwitch(
-                            thumbColor: kWhite,
-                            trackColor: ksecondColor,
-                            activeColor: kfirstColor,
-                            value: data.isLoading,
-                            onChanged: (value) {
-                              data.boolLoading();
-                            },
-                          ),
-                        ),
+                      BuildToggleSwitch(
+                        title: "Repeat",
+                        subTitle: "Repeat Transaction",
+                        value: data.isLoading,
+                        toggleChanged: (bool value) {
+                          data.boolLoading();
+                        },
                       ),
                       SizedBox(
                         height: size.height * 0.01,

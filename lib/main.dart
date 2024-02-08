@@ -1,6 +1,7 @@
 import 'package:expence_app/View/splash_screen.dart';
 import 'package:expence_app/controller/provider/auh_provider.dart';
 import 'package:expence_app/controller/provider/budget_provider.dart';
+import 'package:expence_app/controller/provider/profile_provider.dart';
 import 'package:expence_app/controller/provider/transaction_provider.dart';
 import 'package:expence_app/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => TransactionProvider()),
         ChangeNotifierProvider(create: (context) => BudgetProvider()),
+        ChangeNotifierProvider(create: (context) => ProfileProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

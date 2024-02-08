@@ -1,4 +1,3 @@
-// ignore_for_file: unused_local_variable
 
 import 'package:expence_app/Model/checkbox_listtile_model.dart';
 import 'package:expence_app/View/Widgets/build_checkbox_listtile.dart';
@@ -7,28 +6,23 @@ import 'package:expence_app/controller/provider/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CurrencyPage extends StatelessWidget {
-  CurrencyPage({super.key});
+class ThemePage extends StatelessWidget {
+  ThemePage({super.key});
 
-  final List<CheckboxListTileModel> currencyList = [
-    CheckboxListTileModel(title: "United State", subTitle: "(USD)"),
-    CheckboxListTileModel(title: "Indonesia", subTitle: "(IDR)"),
-    CheckboxListTileModel(title: "Japan", subTitle: "(JYP)"),
-    CheckboxListTileModel(title: "Russia", subTitle: "(RUB)"),
-    CheckboxListTileModel(title: "Germany", subTitle: "(EUR)"),
-    CheckboxListTileModel(title: "Korea", subTitle: "(WON)"),
+  final List<CheckboxListTileModel> themeList = [
+    CheckboxListTileModel(title: "Light", subTitle: ""),
+    CheckboxListTileModel(title: "Dart", subTitle: ""),
+    CheckboxListTileModel(title: "Use device theme", subTitle: ""),
   ];
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Consumer(
       builder: (BuildContext context, ProfileProvider data, Widget? _) {
         return Scaffold(
           appBar: AppBar(
             title: const DisplayText(
-              title: "Currency",
+              title: "Theme",
               textSize: 20,
               textFont: FontWeight.bold,
             ),
@@ -41,9 +35,7 @@ class CurrencyPage extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                BuildCheckboxListTile(
-                  newCheckList: currencyList,
-                ),
+               BuildCheckboxListTile(newCheckList: themeList)
               ],
             ),
           ),

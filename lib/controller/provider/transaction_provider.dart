@@ -82,6 +82,7 @@ class TransactionProvider with ChangeNotifier {
   void addTransaction(TransactionDetailsModel newTransaction) {
     transactionDetailsList.add(newTransaction);
     calculateIncomeExpenseBalance();
+    notifyListeners();
   }
 
   // Methods to calculate income, expense, and overall balance
@@ -243,7 +244,6 @@ class TransactionProvider with ChangeNotifier {
         // Remove the transaction from the filtered list if it exists
         filteredTransactionsList.removeAt(index);
       }
-      saveValuesToStorage();
       // Notify listeners to update the UI
       notifyListeners();
     }
@@ -290,10 +290,7 @@ class TransactionProvider with ChangeNotifier {
   }
 
   // Method to get total expenses for a given category
-  int getTotalExpensesForCategory(
-    String category,
-    String month,
-  ) {
+  int getTotalExpensesForCategory(String category, String month) {
     List<TransactionDetailsModel> expensesForCategory = transactionDetailsList
         .where((transaction) =>
             transaction.status == 'Expense' &&

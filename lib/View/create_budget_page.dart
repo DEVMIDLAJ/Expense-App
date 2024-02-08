@@ -1,9 +1,9 @@
 // ignore_for_file: must_be_immutable, unused_local_variable
 
 import 'package:expence_app/Model/budget_section_model.dart';
+import 'package:expence_app/View/Widgets/build_toggle_switch_section.dart';
 import 'package:expence_app/View/Widgets/custom_snackbar.dart';
 import 'package:expence_app/controller/provider/budget_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:expence_app/View/Widgets/custom_drop_down_button.dart';
 import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
@@ -128,6 +128,7 @@ class CreateBudgetPage extends StatelessWidget {
                         "Education",
                         "Bills"
                       ],
+                      hintText: "Select Category",
                       currentMonth: data.currentMonth,
                       onValueChanged: (newvalue) {
                         budgetDropdownValue = data.updateDropdown(newvalue);
@@ -135,23 +136,13 @@ class CreateBudgetPage extends StatelessWidget {
                       },
                     ),
                     SizedBox(height: size.height * 0.03),
-                    SizedBox(
-                      height: size.height * 0.05,
-                      width: size.width,
-                      child: ListTile(
-                        title: const Text('Receive Alert'),
-                        subtitle: const Text(
-                            'Receive alert when it reaches\n some point'),
-                        trailing: CupertinoSwitch(
-                          thumbColor: kWhite,
-                          trackColor: ksecondColor,
-                          activeColor: kfirstColor,
-                          value: data.isLoading,
-                          onChanged: (value) {
-                            data.boolLoading();
-                          },
-                        ),
-                      ),
+                    BuildToggleSwitch(
+                      title: "Receive Alert",
+                      subTitle: "Receive alert when it reaches some point.",
+                      value: data.isLoading,
+                      toggleChanged: (bool value) {
+                        data.boolLoading();
+                      },
                     ),
                     SizedBox(height: size.height * 0.05),
                     data.isLoading
