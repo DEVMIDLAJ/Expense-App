@@ -30,7 +30,7 @@ class CustomDropDownButton extends StatelessWidget {
     AuthProvider dropdownButtonProvider = Provider.of<AuthProvider>(context);
     String? currentValue = categories.isEmpty
         ? hintText
-        : dropdownButtonProvider.updateDropdownValue;
+        : dropdownButtonProvider.dropdownValue;
 
     return SizedBox(
       width: buttonWidth,

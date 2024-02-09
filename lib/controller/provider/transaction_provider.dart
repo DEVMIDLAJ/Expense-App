@@ -1,6 +1,3 @@
-// ignore_for_file: constant_identifier_names, unrelated_type_equality_checks
-
-// Import necessary packages and modules
 import 'dart:convert';
 import 'package:expence_app/Model/transaction_datails_model.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +79,6 @@ class TransactionProvider with ChangeNotifier {
   void addTransaction(TransactionDetailsModel newTransaction) {
     transactionDetailsList.add(newTransaction);
     calculateIncomeExpenseBalance();
-    notifyListeners();
   }
 
   // Methods to calculate income, expense, and overall balance
@@ -257,18 +253,17 @@ class TransactionProvider with ChangeNotifier {
       String status,
       String date,
       String time,
-      String amoutType) {
+      String amoutType) async {
     // Create an updated TransactionDetailsModel
     TransactionDetailsModel updatedTransaction = TransactionDetailsModel(
-      id: transactionId,
-      category: title,
-      discription: updatedSubtitle,
-      amount: double.parse(updatedAmount).toInt(),
-      date: date,
-      time: time,
-      status: status,
-      amountType: amoutType,
-    );
+        id: transactionId,
+        category: title,
+        discription: updatedSubtitle,
+        amount: double.parse(updatedAmount).toInt(),
+        date: date,
+        time: time,
+        status: status,
+        amountType: amoutType);
 
     // Find the index of the transaction in the main list
     int index = transactionDetailsList
@@ -287,10 +282,14 @@ class TransactionProvider with ChangeNotifier {
     saveValuesToStorage();
     // Notify listeners to update the UI
     notifyListeners();
+
   }
 
   // Method to get total expenses for a given category
-  int getTotalExpensesForCategory(String category, String month) {
+  int getTotalExpensesForCategory(
+    String category,
+    String month,
+  ) {
     List<TransactionDetailsModel> expensesForCategory = transactionDetailsList
         .where((transaction) =>
             transaction.status == 'Expense' &&

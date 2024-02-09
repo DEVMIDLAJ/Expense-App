@@ -17,7 +17,9 @@ class AuthProvider with ChangeNotifier {
   int selectedIndex = 0;
 
   // Variable to hold the current value of a dropdown; initially set to null
-  String? updateDropdownValue;
+  String? dropdownValue;
+
+  String? updateDropdownValue1;
 
   // Toggles the visibility of the password in a text field
   void boolObscure() {
@@ -51,8 +53,8 @@ class AuthProvider with ChangeNotifier {
 
   // Method to update the dropdown value and notify listeners of the change
   String? updateDropdown(String? newValue) {
-    updateDropdownValue = newValue;
+    updateDropdownValue1 = newValue;
     notifyListeners();
-    return updateDropdownValue;
+    return updateDropdownValue1;
   }
 }
