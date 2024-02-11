@@ -296,16 +296,8 @@ class TransactionHistoryPage extends StatelessWidget {
         transactionId: transactionId,
         onUpdate: (updatedAmount, updatedSubtitle) {
           // Update your transaction here
-          provider.updateTransaction(
-            transactionId,
-            updatedAmount,
-            title,
-            updatedSubtitle,
-            status,
-            date,
-            time,
-            amountType,
-          );
+          provider.updateTransaction(transactionId, updatedAmount, title,
+              updatedSubtitle, status, date, time, amountType, context);
 
           int kAmount = int.parse(amount);
           int kUpdatedAmount = int.parse(updatedAmount);

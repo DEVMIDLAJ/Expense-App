@@ -1,7 +1,11 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:convert';
 import 'package:expence_app/Model/transaction_datails_model.dart';
+import 'package:expence_app/controller/provider/budget_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Define a Provider class for managing transaction-related state
@@ -55,6 +59,7 @@ class TransactionProvider with ChangeNotifier {
         .map((transaction) => json.encode(transaction.toMap()))
         .toList();
     prefs.setStringList('transactionDetailsList', stringList);
+    notifyListeners();
   }
 
   // Method to handle income updates
@@ -78,6 +83,7 @@ class TransactionProvider with ChangeNotifier {
   // Method to add a new transaction
   void addTransaction(TransactionDetailsModel newTransaction) {
     transactionDetailsList.add(newTransaction);
+    notifyListeners();
     calculateIncomeExpenseBalance();
   }
 
@@ -253,7 +259,8 @@ class TransactionProvider with ChangeNotifier {
       String status,
       String date,
       String time,
-      String amoutType) async {
+      String amoutType,
+      BuildContext context)  {
     // Create an updated TransactionDetailsModel
     TransactionDetailsModel updatedTransaction = TransactionDetailsModel(
         id: transactionId,
@@ -280,16 +287,38 @@ class TransactionProvider with ChangeNotifier {
       filteredTransactionsList[index] = updatedTransaction;
     }
     saveValuesToStorage();
+    updateBudgetDataForTransaction(updatedTransaction, context);
     // Notify listeners to update the UI
-    notifyListeners();
+  }
+
+  // Method to update budget data based on the updated transaction
+  void updateBudgetDataForTransaction(
+      TransactionDetailsModel transaction, BuildContext context) {
+    // Get the category and month of the updated transaction
+    String category = transaction.category ?? "";
+    String month = getMonthFromDate(transaction.date ?? "");
+    // Get the BudgetProvider instance using Provider.of
+    BudgetProvider budgetProvider =
+        Provider.of<BudgetProvider>(context,listen: false);
+    // Call the getTotalExpensesForCategory method in BudgetProvider
+    budgetProvider.getTotalExpensesForCategory(context, category, month);
 
   }
 
+  // Method to get transactions for a given category
+  List<TransactionDetailsModel> getTransactionByCategory(
+      String category, String month) {
+    List<TransactionDetailsModel> transactionsForCategory =
+        transactionDetailsList
+            .where((transaction) =>
+                transaction.category == category &&
+                getMonthFromDate(transaction.date!) == month)
+            .toList();
+    return transactionsForCategory;
+  }
+
   // Method to get total expenses for a given category
-  int getTotalExpensesForCategory(
-    String category,
-    String month,
-  ) {
+  int getTotalExpensesForCategory(String category, String month) {
     List<TransactionDetailsModel> expensesForCategory = transactionDetailsList
         .where((transaction) =>
             transaction.status == 'Expense' &&
@@ -304,24 +333,12 @@ class TransactionProvider with ChangeNotifier {
     return totalExpenseForCategory;
   }
 
-  // Method to get transactions for a given category
-  List<TransactionDetailsModel> getTransactionByCategory(
-      String category, String month) {
-    List<TransactionDetailsModel> transactionsForCategory =
-        transactionDetailsList
-            .where((transaction) =>
-                transaction.category == category &&
-                getMonthFromDate(transaction.date!) == month)
-            .toList();
-
-    return transactionsForCategory;
-  }
-
   String getMonthFromDate(String date) {
     // Parse the date string into a DateTime object
     DateTime dateTime = DateTime.parse(date);
     // Use the intl package to format the DateTime object to a month
     String month = DateFormat.LLLL().format(dateTime);
+
     return month;
   }
 }

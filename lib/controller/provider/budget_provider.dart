@@ -99,17 +99,6 @@ class BudgetProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  int getExpenseDifferenceForCategory(
-      BuildContext context, String category, String month) {
-    TransactionProvider transactionProvider =
-        Provider.of<TransactionProvider>(context, listen: false);
-    int totalExpenseForCategory =
-        transactionProvider.getTotalExpensesForCategory(category, month);
-    BudgetSectionModel budget = getBudgetForCategory(category, month);
-    int difference = budget.amount! - totalExpenseForCategory;
-    return difference;
-  }
-
   int getTotalExpensesForCategory(
       BuildContext context, String category, String month) {
     TransactionProvider transactionProvider =
@@ -122,6 +111,18 @@ class BudgetProvider with ChangeNotifier {
       return sum + (transaction.amount ?? 0);
     });
     return totalExpenseForCategory;
+  }
+
+  int getExpenseDifferenceForCategory(
+      BuildContext context, String category, String month) {
+    TransactionProvider transactionProvider =
+        Provider.of<TransactionProvider>(context, listen: false);
+    int totalExpenseForCategory =
+        transactionProvider.getTotalExpensesForCategory(category, month);
+
+    BudgetSectionModel budget = getBudgetForCategory(category, month);
+    int difference = budget.amount! - totalExpenseForCategory;
+    return difference;
   }
 
   BudgetSectionModel getBudgetForCategory(String category, String month) {

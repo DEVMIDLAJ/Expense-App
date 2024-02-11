@@ -23,7 +23,7 @@ class MainPage extends StatelessWidget {
           index: Provider.of<AuthProvider>(context).selectedIndex,
           children: [
             // Home page
-            HomePage(),
+            const HomePage(),
             // Transaction history page
             TransactionHistoryPage(),
             // Budget page
