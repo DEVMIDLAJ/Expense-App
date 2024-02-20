@@ -122,9 +122,9 @@ class HomePage extends StatelessWidget {
                       unselectedLabelColor: Colors.black45,
                       tabs: const [
                         Tab(text: 'Today'),
-                        Tab(text: 'Yesterday'),
                         Tab(text: 'Week'),
                         Tab(text: 'Month'),
+                        Tab(text: 'Year'),
                       ],
                     ),
                     Row(

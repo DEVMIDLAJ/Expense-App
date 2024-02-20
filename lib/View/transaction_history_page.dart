@@ -8,6 +8,7 @@ import 'package:expence_app/View/Widgets/transaction_update_dialog_box.dart';
 import 'package:expence_app/const/colors.dart';
 import 'package:expence_app/controller/provider/transaction_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class TransactionHistoryPage extends StatelessWidget {
@@ -226,6 +227,7 @@ class TransactionHistoryPage extends StatelessWidget {
                                               },
                                               child: const Icon(
                                                 Icons.more_vert,
+                                                size: 30,
                                               ),
                                             ),
                                           ],
@@ -240,15 +242,9 @@ class TransactionHistoryPage extends StatelessWidget {
                                                 CrossAxisAlignment.end,
                                             children: [
                                               DisplayText(
-                                                title:
-                                                    transaction.date.toString(),
-                                                textSize: 13,
-                                                textFont: FontWeight.w500,
-                                                textColor: kgrey,
-                                              ),
-                                              DisplayText(
-                                                title:
-                                                    transaction.id.toString(),
+                                                title: DateFormat('d MMMM yyyy')
+                                                    .format(DateTime.parse(
+                                                        transaction.date!)),
                                                 textSize: 13,
                                                 textFont: FontWeight.w500,
                                                 textColor: kgrey,

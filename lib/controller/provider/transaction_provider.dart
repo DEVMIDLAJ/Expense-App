@@ -164,8 +164,7 @@ class TransactionProvider with ChangeNotifier {
     } else if (difference.inDays <= 7) {
       return 'This Week';
       // If the transaction date is in the same month as today, it's 'This Month'
-    } else if (transactionDate.year == today.year &&
-        transactionDate.month == today.month) {
+    } else if (difference.inDays <= 29) {
       return 'This Month';
       // If the transaction date is in the same year as today, it's 'This Year'
     } else if (transactionDate.year == today.year) {
@@ -190,16 +189,17 @@ class TransactionProvider with ChangeNotifier {
         break;
       case DateCategory.ThisWeek:
         startDate = DateTime(now.year, now.month, now.day, 0, 0, 0)
-            .subtract(const Duration(days: 1));
+            .subtract(const Duration(days: 2));
         endDate = DateTime(now.year, now.month, now.day, 23, 59, 59);
         break;
       case DateCategory.ThisMonth:
-        startDate = DateTime(now.year, now.month, 1, 0, 0, 0)
-            .subtract(const Duration(days: 7));
+        startDate = DateTime(now.year, now.month, now.day, 0, 0, 0)
+            .subtract(const Duration(days: 8));
         endDate = DateTime(now.year, now.month + 1, 0, 23, 59, 59);
         break;
       case DateCategory.ThisYear:
-        startDate = DateTime(now.year, 1, 1, 0, 0, 0);
+        startDate = DateTime(now.year, now.month, now.day)
+            .subtract(const Duration(days: 30));
         endDate = DateTime(now.year, 12, 31, 23, 59, 59);
         break;
       default:
@@ -212,7 +212,8 @@ class TransactionProvider with ChangeNotifier {
         .where((transaction) => transaction.date != null)
         .toList();
 
-    filteredTransactionsList = validTransactions.where((transaction) {
+    List<TransactionDetailsModel> filteredTransactionsList =
+        validTransactions.where((transaction) {
       DateTime transactionDate = DateTime.parse(transaction.date!);
       return transactionDate.isAtSameMomentAs(startDate) &&
           transactionDate.isBefore(endDate);
@@ -260,7 +261,7 @@ class TransactionProvider with ChangeNotifier {
       String date,
       String time,
       String amoutType,
-      BuildContext context)  {
+      BuildContext context) {
     // Create an updated TransactionDetailsModel
     TransactionDetailsModel updatedTransaction = TransactionDetailsModel(
         id: transactionId,
@@ -288,6 +289,7 @@ class TransactionProvider with ChangeNotifier {
     }
     saveValuesToStorage();
     updateBudgetDataForTransaction(updatedTransaction, context);
+    notifyListeners();
     // Notify listeners to update the UI
   }
 
@@ -299,10 +301,9 @@ class TransactionProvider with ChangeNotifier {
     String month = getMonthFromDate(transaction.date ?? "");
     // Get the BudgetProvider instance using Provider.of
     BudgetProvider budgetProvider =
-        Provider.of<BudgetProvider>(context,listen: false);
+        Provider.of<BudgetProvider>(context, listen: false);
     // Call the getTotalExpensesForCategory method in BudgetProvider
     budgetProvider.getTotalExpensesForCategory(context, category, month);
-
   }
 
   // Method to get transactions for a given category

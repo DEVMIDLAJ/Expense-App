@@ -114,19 +114,19 @@ class ExpensePage extends StatelessWidget {
                 children: [
                   CustomDropDownButton(
                     categories: const [
-                      'transaction',
-                      'shopping',
-                      'substription',
-                      'transpotation',
                       'food',
                       'fuel',
                       'rent',
-                      'Groceries',
+                      'Kids',
+                      'Bills',
                       'gifts',
-                      "pharmacy",
-                      "Kids",
-                      "Education",
-                      "Bills"
+                      'shopping',
+                      'pharmacy',
+                      'Groceries',
+                      'Education',
+                      'transaction',
+                      'substription',
+                      'transpotation',
                     ],
                     hintText: "Select Category",
                     onValueChanged: (newvalue) {
