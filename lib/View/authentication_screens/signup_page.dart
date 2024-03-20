@@ -1,8 +1,5 @@
 // ignore_for_file: use_build_context_synchronously, override_on_non_overriding_member
-
-import 'package:expence_app/Model/email_otp.dart';
 import 'package:expence_app/View/authentication_screens/login_page.dart';
-import 'package:expence_app/View/authentication_screens/verification_page.dart';
 import 'package:expence_app/View/Widgets/custom_textform_feild.dart';
 import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
 import 'package:expence_app/const/colors.dart';
@@ -18,16 +15,8 @@ class SignUpPage extends StatelessWidget {
 
   @override
   final signupNamecontroller = TextEditingController();
-
   final signupEmailcontroller = TextEditingController();
-
   final signupPasswordcontroller = TextEditingController();
-
-  // //create current user object
-  // User? currentUser = FirebaseAuth.instance.currentUser;
-
-  // //create firebase instanse
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
 
   //create formKey
   final _formKey = GlobalKey<FormState>();
@@ -167,23 +156,12 @@ class SignUpPage extends StatelessWidget {
                     ),
                     CustomElevatedButton(
                       onpressed: () async {
-                        String userName = signupNamecontroller.text.trim();
                         String userEmail = signupEmailcontroller.text.trim();
                         String userPassword =
                             signupPasswordcontroller.text.trim();
                         if (_formKey.currentState!.validate()) {
-                          var id = await EmailOTP().sendOtp(userEmail);
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => VerificationPage(
-                                name: userName,
-                                email: userEmail,
-                                password: userPassword,
-                                id: id.toString(),
-                              ),
-                            ),
-                          );
+                          await FirebaseService()
+                              .signUp(userEmail, userPassword, context);
                         }
                       },
                       buttonText: 'Sign Up',

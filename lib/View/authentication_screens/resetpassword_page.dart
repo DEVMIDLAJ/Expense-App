@@ -18,11 +18,11 @@ class ResetPasswordPage extends StatelessWidget {
   });
 
   final TextEditingController resetPasswordController = TextEditingController();
-  final TextEditingController conformResetPasswordController = TextEditingController();
-  
+  final TextEditingController conformResetPasswordController =
+      TextEditingController();
+
   //create formKey
   final _formKey = GlobalKey<FormState>();
-
 
   @override
   Widget build(BuildContext context) {

@@ -12,7 +12,7 @@ class CustomSnackBar {
             fontWeight: FontWeight.bold,
           ),
         ),
-        duration: const Duration(seconds: 2),
+        duration: const Duration(seconds: 5),
         behavior: SnackBarBehavior.fixed,
         backgroundColor: ksecondColor,
       ),

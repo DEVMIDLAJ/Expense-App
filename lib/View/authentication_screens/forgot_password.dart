@@ -85,7 +85,7 @@ class ForgotPasswordPage extends StatelessWidget {
                             ForgotPasswordEmailController.text.trim();
                         if (_formKey.currentState!.validate()) {
                           await FirebaseService()
-                              .ForgotPassword(context, email);
+                              .forgotPassword(context, email);
                         }
                       },
                       buttonText: 'Continue',

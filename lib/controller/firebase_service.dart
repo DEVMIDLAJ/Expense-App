@@ -1,9 +1,9 @@
-// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names, unrelated_type_equality_checks
+// ignore_for_file: use_build_context_synchronously
 
 import 'dart:async';
 import 'package:expence_app/View/authentication_screens/forgotpassword_and_email_signin.dart';
 import 'package:expence_app/View/authentication_screens/login_page.dart';
-import 'package:expence_app/View/authentication_screens/resetpassword_page.dart';
+import 'package:expence_app/View/authentication_screens/valid_email_verification_page.dart';
 import 'package:expence_app/View/main_page.dart';
 import 'package:expence_app/View/Widgets/custom_snackbar.dart';
 import 'package:expence_app/View/welcome_page.dart';
@@ -22,20 +22,15 @@ class FirebaseService implements AuthMethod {
 
   // Sign up method
   @override
-  Future<String?> signUp(name, email, password, id, context) async {
+  Future<String?> signUp(email, password, context) async {
     await _auth
-        .createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    )
-        .then((value) async {
-      // Navigate to the main page on successful sign-up
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const MainPage()));
-      CustomSnackBar.show(context, 'Account Created successfully');
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .then((value) {
+      value.user?.sendEmailVerification().whenComplete(() =>
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => const EmailVerificationPage())));
     }).onError((error, stackTrace) {
-      // Show an error message if sign-up fails
-      CustomSnackBar.show(context, 'Error: ${error.toString()}');
+      //CustomSnackBar.show(context, error.toString());
     });
     return null;
   }
@@ -55,7 +50,7 @@ class FirebaseService implements AuthMethod {
       CustomSnackBar.show(context, 'Login successfully');
     }).onError((error, stackTrace) {
       // Show an error message if sign-in fails
-      CustomSnackBar.show(context, 'Error: ${error.toString()}');
+      CustomSnackBar.show(context, 'Please fill valid email and password');
     });
     return null;
   }
@@ -63,19 +58,19 @@ class FirebaseService implements AuthMethod {
   // Forgot password method
   @override
   // ForgotPassword method in FirebaseService class
-  Future<void> ForgotPassword(BuildContext context, String email) async {
+  Future<void> forgotPassword(BuildContext context, String email) async {
     await _auth.sendPasswordResetEmail(email: email).then((value) {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ResetPasswordPage(
+            builder: (context) => ForgotPasswordAndEmailSignin(
                   email: email,
                 )),
       );
       CustomSnackBar.show(context, 'check your email then set new password');
     }).onError((error, stackTrace) {
       //  Handle password reset failure
-      CustomSnackBar.show(context, 'Error: ${error.toString()}');
+      CustomSnackBar.show(context, 'Please enter valid email');
     });
   }
 
@@ -86,12 +81,14 @@ class FirebaseService implements AuthMethod {
     await _auth
         .signInWithEmailAndPassword(email: email, password: newPassword)
         .then((value) {
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => ForgotPasswordAndEmailSignin(email: email),
-      ));
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => LoginPage(),
+          ),
+          (route) => false);
       CustomSnackBar.show(context, 'Password reset successful');
     }).onError((error, stackTrace) {
-      CustomSnackBar.show(context, 'Error: ${error.toString()}');
+      CustomSnackBar.show(context, 'check your email then set new password');
     });
   }
 

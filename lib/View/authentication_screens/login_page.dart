@@ -100,7 +100,7 @@ class LoginPage extends StatelessWidget {
                         String password = loginpasswordcontroller.text.trim();
 
                         if (_formKey.currentState!.validate()) {
-                          String? loginResult = await FirebaseService()
+                         await FirebaseService()
                               .signIn(email, password, context);
                         }
                       },

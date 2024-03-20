@@ -1,4 +1,3 @@
-// ignore_for_file: non_constant_identifier_names
 
 import 'dart:async';
 import 'package:flutter/widgets.dart';
@@ -6,7 +5,7 @@ import 'package:flutter/widgets.dart';
 // Abstract class representing authentication methods
 abstract class AuthMethod {
   // Method for user sign-up
-  Future<void> signUp(String name, String email, String password, String id, BuildContext context);
+  Future<void> signUp(String email, String password, BuildContext context);
 
   // Method for user sign-in
   Future<void> signIn(String email, String password, BuildContext context);
@@ -15,10 +14,11 @@ abstract class AuthMethod {
   Future<void> signInWithGoogle(String email, BuildContext context);
 
   // Method for resetting the user's password
-  Future<void> ForgotPassword(BuildContext context, String email);
+  Future<void> forgotPassword(BuildContext context, String email);
 
-  // Methord for reset password 
-  Future<void> resetPassword(BuildContext context, String email, String newPassword);
+  // Methord for reset password
+  Future<void> resetPassword(
+      BuildContext context, String email, String newPassword);
 
   // Method for user sign-out
   Future<void> signOut(BuildContext context);

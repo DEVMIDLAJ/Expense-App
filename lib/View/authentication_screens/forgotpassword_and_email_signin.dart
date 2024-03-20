@@ -1,6 +1,6 @@
-import 'package:expence_app/View/authentication_screens/login_page.dart';
 import 'package:expence_app/View/Widgets/custome_elevated_button.dart';
 import 'package:expence_app/View/Widgets/display_text.dart';
+import 'package:expence_app/View/authentication_screens/resetpassword_page.dart';
 import 'package:expence_app/const/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -61,9 +61,9 @@ class ForgotPasswordAndEmailSignin extends StatelessWidget {
             CustomElevatedButton(
               onpressed: () {
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) =>  LoginPage()));
+                    MaterialPageRoute(builder: (context) =>  ResetPasswordPage(email: email)));
               },
-              buttonText: 'Back to Login',
+              buttonText: 'Continue',
               buttonColor: kfirstColor,
               textColor: kWhite,
             ),
